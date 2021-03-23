@@ -9,5 +9,7 @@ public class Main
         System.out.println(test.getName());
 
         String a1 = "Stratos";
+
+        double dd = 7.999;
     }
 }
