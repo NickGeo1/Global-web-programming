@@ -10,5 +10,7 @@ public class Main
         System.out.println(test.getGrade());
 
         System.out.println("wfw");
+
+        //Stratos s = new Stratos();
     }
 }
