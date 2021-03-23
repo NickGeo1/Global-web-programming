@@ -8,5 +8,7 @@ public class Main
         System.out.println(test.getAge());
         System.out.println(test.getName());
         System.out.println(test.getGrade());
+
+        System.out.println("wfw");
     }
 }
