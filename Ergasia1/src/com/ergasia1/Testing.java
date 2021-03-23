@@ -8,6 +8,7 @@ public class Testing
     double grade;
 
     String s = "όχι, εσύ είσαι μαλάκας";
+    String a = "ASTRINGGG";
 
     public Testing(String name, int age, double grade)
     {
