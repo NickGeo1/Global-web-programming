@@ -6,7 +6,7 @@ public class Testing
     int age;
     double grade;
 
-    String s = "EISAImalakas";
+    String s = "όχι, εσύ είσαι μαλάκας";
 
     public Testing(String name, int age, double grade)
     {
