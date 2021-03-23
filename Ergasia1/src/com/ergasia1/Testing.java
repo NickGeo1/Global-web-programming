@@ -4,11 +4,13 @@ public class Testing
 {
     String name;
     int age;
+    double grade;
 
-    public Testing(String name, int age)
+    public Testing(String name, int age, double grade)
     {
         this.name = name;
         this.age = age;
+        this.grade = grade;
     }
 
     public String getName()
@@ -20,4 +22,6 @@ public class Testing
     {
         return age;
     }
+
+    public double getGrade() {return grade;}
 }
