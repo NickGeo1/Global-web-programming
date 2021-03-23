@@ -4,7 +4,7 @@ public class Testing
 {
     String name;
     int age;
-    int k;
+    int k = 9;
     double grade;
 
     String s = "όχι, εσύ είσαι μαλάκας";
