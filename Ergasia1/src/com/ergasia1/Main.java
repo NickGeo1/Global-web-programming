@@ -4,12 +4,10 @@ public class Main
 {
     public static void main(String[] args)
     {
-        Testing test = new Testing("Giorgos", 19);
+        Testing test = new Testing("Giorgos", 19, 8.8d);
         System.out.println(test.getAge());
         System.out.println(test.getName());
+        System.out.println(test.getGrade());
 
-        String a1 = "Stratos";
-
-        double dd = 7.999;
     }
 }
