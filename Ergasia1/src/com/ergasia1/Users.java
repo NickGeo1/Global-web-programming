@@ -2,9 +2,12 @@ package com.ergasia1;
 
 public abstract class Users 
 {
+    // Basic characteristics of each user
     private String username, password, firstname, surname;
     private int age;
-    private static int UsersCount;
+
+    // 'UsersCount' variale counts the number of users
+    private static int UsersCount =0;
 
     public Users(String username, String password, String firstname, String surname, int age)
     {
@@ -13,6 +16,7 @@ public abstract class Users
         this.firstname = firstname;
         this.surname   = surname;
         this.age       = age;
+
         UsersCount++;
     }
 
@@ -25,7 +29,7 @@ public abstract class Users
     {
         if (this.password.equals(password))
         {
-            System.out.println("Welcome back, " + this.firstname + "!");
+            System.out.println("Welcome back " + this.firstname + "!");
             return true;
         }
 
@@ -63,7 +67,6 @@ public abstract class Users
     }
 
     //setters
-
     public void setUsername(String username) {
         this.username = username;
     }
