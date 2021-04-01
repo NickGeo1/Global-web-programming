@@ -4,9 +4,9 @@ public class Patient extends Users
 {
     private final String AMKA;
 
-    public Patient(String username, String password, String AMKA)
+    public Patient(String username, String password, String firstname, String lastname, int age, String AMKA)
     {
-        super(username, password);
+        super(username, password, firstname, lastname, age);
         this.AMKA = AMKA;
     }
 
