@@ -4,10 +4,11 @@ public abstract class Users
 {
     // Basic characteristics of each user
     private String username, password, firstname, surname;
+    private boolean loggedOn;
     private int age;
 
-    // 'UsersCount' variale counts the number of users
-    private static int UsersCount =0;
+    // 'UsersCount' variable counts the number of users
+    private static int UsersCount = 0;
 
     public Users(String username, String password, String firstname, String surname, int age)
     {
@@ -16,7 +17,7 @@ public abstract class Users
         this.firstname = firstname;
         this.surname   = surname;
         this.age       = age;
-
+        this.loggedOn  = false;
         UsersCount++;
     }
 
@@ -30,7 +31,7 @@ public abstract class Users
         if (this.password.equals(password))
         {
             System.out.println("Welcome back " + this.firstname + "!");
-            return true;
+            return loggedOn = true;
         }
 
         System.out.println("These credentials don't match. Please try again...");
@@ -42,7 +43,8 @@ public abstract class Users
      */
     public void Logout()
     {
-        System.out.println("Successfully logged out from user " + this.username + ".");
+        System.out.println("Successfully logged out user " + this.username + ".");
+        loggedOn = false;
     }
 
     //getters
@@ -60,6 +62,10 @@ public abstract class Users
 
     public int getAge() {
         return age;
+    }
+
+    public boolean isLoggedOn() {
+        return this.loggedOn;
     }
 
     public static int getUsersCount() {

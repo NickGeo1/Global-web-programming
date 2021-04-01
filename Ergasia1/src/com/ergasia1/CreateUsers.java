@@ -12,6 +12,6 @@ public class CreateUsers
         // Create objects
         Patient p1 = new Patient("GeorgeMC2610", "blabla", "555465652","jhgjhg",78,"986yug97");
 
-        //p1.Login("GeorgeMC2610", "blabla");
+        p1.Login("blabla");
     }
 }
