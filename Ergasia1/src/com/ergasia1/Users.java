@@ -47,6 +47,12 @@ public abstract class Users
         loggedOn = false;
     }
 
+    @Override
+    public String toString()
+    {
+        return this.firstname + " \"" + this.username + "\" " + this.surname + ", " + this.age + " years old.";
+    }
+
     //getters
     public String getUsername() {
         return username;

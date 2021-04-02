@@ -10,8 +10,8 @@ public class CreateUsers
         System.out.println("Program starts");
 
         // Create objects
-        Patient p1 = new Patient("GeorgeMC2610", "blabla", "555465652","jhgjhg",78,"986yug97");
+        Patient p1 = new Patient("GeorgeMC2610", "blabla", "Georgios","Seimenis",19,"986yug97");
 
-        p1.Login("blabla");
+        System.out.println(p1.toString());
     }
 }
