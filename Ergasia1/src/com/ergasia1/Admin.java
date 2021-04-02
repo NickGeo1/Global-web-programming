@@ -1,7 +1,7 @@
 package com.ergasia1;
 
 /**
- * This is the model of an Admin. Admins are the only one who can add,modify and delete doctors from the
+ * This is the model of an Admin. Admins are the only ones who can add,modify and delete doctors from the
  * application
  */
 public class Admin extends Users
@@ -16,20 +16,20 @@ public class Admin extends Users
     /**
      * This function is used to delete a doctor that already exists.
      */
-    private void delete_doctor(){}
+    public void delete_doctor(){}
 
     /**
      * This function is used to add/create a new doctor.
      */
-    private void add_doctor(){}
+    public void add_doctor(){}
 
     /**
      * This function is used to modify a doctor that already exists.
      */
-    private void change_doctor(){}
+    public void change_doctor(){}
 
-    /*@Override
+    @Override
     public String toString(){
         return super.toString();
-    }*/
+    }
 }
