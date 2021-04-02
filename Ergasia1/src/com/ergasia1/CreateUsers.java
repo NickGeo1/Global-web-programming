@@ -51,10 +51,73 @@ public class CreateUsers
         Appointment ap1 = new Appointment();
         //...
 
+        //Users login
+        System.out.println("\n" + p1.getUsername()+" is trying to login...");
+        p1.Login("123");
+        System.out.println(a1.getUsername()+" is trying to login...");
+        a1.Login("stratos444");
+        System.out.println(a1.getUsername()+" is trying to logout...");
+        a1.Logout();
+
+        //Give Patient,Doctor attributes
+        giveAttributes("Patient");
+        giveAttributes("Doctor");
 
 
 
+    }
 
+    /**
+     * Tells the user to give the corresponding constructor arguments splitted by ','(for Patient or Doctor), depending on 'user' value.
+     * Probable exceptions are being handled.
+     * @param user Represents which Class's(Patient or Doctor) attributes the user should give.For example, if users=Patient, the user must
+     * give Patient attributes.
+     */
+    private static void giveAttributes(String user)
+    {
+        String[] atr = {};
 
+        while(true) //Ask attributes from user, until he give them right
+        {
+            try
+            {
+                System.out.println("\nGive "+user+" attributes splitted by ',' in the following order : username, password, firstname, lastname, age, " +
+                        ""+(user.equals("Patient")?"AMKA:":"speciality:"));
+                String values = input.nextLine();
+                atr = values.split(",");
+
+                //if user gave more than 6 attributes, we tell him to give attributes again
+
+                if(atr.length>6){
+                    System.out.println("Fewer attributes expected");
+                    continue;
+                }
+
+                if(user.equals("Patient"))
+                {
+                    Patient p2 = new Patient(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
+                }
+                else
+                {
+                    Doctor d2 = new Doctor(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
+                }
+
+                break; //At this point user gave correct attributes so we exit
+            }
+            catch(NumberFormatException e1) //Exception in case user gave wrong age format
+            {
+                System.out.println("Wrong age format!");
+                if(atr.length==5)
+                    System.out.println("More attributes expected!"); //In case user gave 5 attributes
+            }
+            catch (ArrayIndexOutOfBoundsException e2) //Exception in case user gave fewer than 6 attributes
+            {
+                System.out.println("More attributes expected!");
+            }
+            catch (Exception e) //Any other Exception case
+            {
+                System.out.println("An exception has occured!");
+            }
+        }
     }
 }
