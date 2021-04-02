@@ -24,7 +24,7 @@ public class Doctor extends Users
      * This function shows if a doctor is available for an appointment or not
      * @return True if doctor is available. False if doctor is not available
      */
-    private boolean isAvailable(){
+    public boolean isAvailable(){
 
         return true;
 
@@ -33,12 +33,16 @@ public class Doctor extends Users
     /**
      * This function shows to the screen all the appointments that a doctor has.
      */
-    private void show_appointments(){}
+    public void show_appointments(){
+        System.out.println("Doctor's appointments are being shown here");
+    }
 
     /**
      *  Create a new apppointment between a patient and a doctor
      */
-    private void create_new_appointment(){}
+    public void create_new_appointment(){
+        System.out.println("Created a new appointment");
+    }
 
     public String getSpeciality()
     {
