@@ -3,19 +3,19 @@ package com.ergasia1;
 public abstract class Users 
 {
     // Basic characteristics of each user
-    private String username, password, firstname, name;
+    private String username, password, firstname, surname;
     private boolean loggedOn;
     private int age;
 
     // 'UsersCount' variable counts the number of users
     private static int UsersCount = 0;
 
-    public Users(String username, String password, String firstname, String name, int age)
+    public Users(String username, String password, String firstname, String surname, int age)
     {
         this.username  = username;
         this.password  = password;
         this.firstname = firstname;
-        this.name   = name;
+        this.surname   = surname;
         this.age       = age;
         this.loggedOn  = false;
         UsersCount++;
@@ -50,7 +50,7 @@ public abstract class Users
     @Override
     public String toString()
     {
-        return this.firstname + " \"" + this.username + "\" " + this.name + ", " + this.age + " years old.";
+        return this.firstname + " \"" + this.username + "\" " + this.surname + ", " + this.age + " years old.";
     }
 
     //getters
@@ -63,7 +63,7 @@ public abstract class Users
     }
 
     public String getSurname() {
-        return name;
+        return surname;
     }
 
     public int getAge() {
@@ -92,7 +92,7 @@ public abstract class Users
     }
 
     public void setSurname(String surname) {
-        this.name = surname;
+        this.surname = surname;
     }
 
     public void setAge(int age) {
