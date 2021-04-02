@@ -62,6 +62,10 @@ public abstract class Users
         return username;
     }
 
+    public String getPassword(){
+        return password;
+    }
+
     public String getFirstname() {
         return firstname;
     }

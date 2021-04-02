@@ -1,11 +1,13 @@
 package com.ergasia1;
+import java.io.*;
 import java.util.Scanner;
+import java.util.regex.Matcher;
 
 public class CreateUsers
 {
     static Scanner input = new Scanner(System.in);
 
-    public static void main(String[] args)
+    public static void main(String[] args) throws IOException
     {
         System.out.println("Program starts\n");
 
@@ -63,19 +65,63 @@ public class CreateUsers
         giveAttributes("Patient");
         giveAttributes("Doctor");
 
+        //txt file Input
+        BufferedReader inputStream = null;
 
+        try
+        {
+            inputStream = new BufferedReader ( new FileReader("C:\\Users\\nikos\\Documents\\GitHub\\Global-web-programming\\Ergasia1\\src\\com\\ergasia1\\Patient_attr") );
+            String[] attr = inputStream.readLine().split(" ");
+
+            if(!attr[2].matches("[a-zA-Z]+") || !attr[3].matches("[a-zA-Z]+"))
+            {
+                System.out.println("Wrong firstname/surname format in output file.Attributes failed to be red");
+                inputStream.close();
+                return;
+            }
+
+            Patient p3 = new Patient(attr[0], attr[1], attr[2], attr[3], Integer.parseInt(attr[4]), attr[5]);
+            System.out.println("\nPatient attributes red from file:");
+            System.out.println("Username: "+attr[0]);
+            System.out.println("Password: "+attr[1]);
+            System.out.println("Firstname: "+attr[2]);
+            System.out.println("Surname: "+attr[3]);
+            System.out.println("Age: "+attr[4]);
+            System.out.println("AMKA: "+attr[5]);
+        }
+        catch(NumberFormatException e) //Exception in case output file contains wrong age format
+        {
+            System.out.println("Wrong age format!");
+        }
+        catch (IOException e)
+        {
+            System.out.println("An I/O exception has occured!");
+        }
+        catch (Exception e)
+        {
+            System.out.println("An Exception has occured!");
+        }
+        finally
+        {
+            if (inputStream != null)
+            {
+                inputStream.close();
+            }
+        }
 
     }
 
+
     /**
      * Tells the user to give the corresponding constructor arguments splitted by ','(for Patient or Doctor), depending on 'user' value.
-     * Probable exceptions are being handled.
+     * Probable exceptions are being handled.If a Patient is being initialized, its attributes are being written in an output file
      * @param user Represents which Class's(Patient or Doctor) attributes the user should give.For example, if users=Patient, the user must
      * give Patient attributes.
      */
-    private static void giveAttributes(String user)
+    private static void giveAttributes(String user) throws IOException
     {
         String[] atr = {};
+        Patient p2 = null;
 
         while(true) //Ask attributes from user, until he give them right
         {
@@ -86,16 +132,22 @@ public class CreateUsers
                 String values = input.nextLine();
                 atr = values.split(",");
 
-                //if user gave more than 6 attributes, we tell him to give attributes again
+                //if user gave more than 6 attributes or gave wrong names format, we tell him to give attributes again
 
-                if(atr.length>6){
+                if(!atr[2].matches("[a-zA-Z]+") || !atr[3].matches("[a-zA-Z]+"))
+                {
+                    System.out.println("Wrong firstname/surname format");
+                    continue;
+                }
+                else if(atr.length>6)
+                {
                     System.out.println("Fewer attributes expected");
                     continue;
                 }
 
                 if(user.equals("Patient"))
                 {
-                    Patient p2 = new Patient(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
+                    p2 = new Patient(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
                 }
                 else
                 {
@@ -119,5 +171,35 @@ public class CreateUsers
                 System.out.println("An exception has occured!");
             }
         }
+
+        //txt file Output
+
+        if(user.equals("Patient"))
+        {
+            BufferedWriter outputStream = null;
+
+            try
+            {
+                outputStream = new BufferedWriter ( new FileWriter("C:\\Users\\nikos\\Documents\\GitHub\\Global-web-programming\\Ergasia1\\src\\com\\ergasia1\\Patient_attr",true) );
+                outputStream.write("\n"+p2.getUsername() +" "+ p2.getPassword() +" "+ p2.getFirstname() +" "+ p2.getSurname() +" "+ p2.getAge() +" "+ p2.GetAMKA());
+                System.out.println("Successfully stored above patient in output file!");
+            }
+            catch (IOException e)
+            {
+                System.out.println("An I/O exception has occured!");
+            }
+            catch (Exception e)
+            {
+                System.out.println("An Exception has occured!");
+            }
+            finally
+            {
+                if (outputStream != null)
+                {
+                    outputStream.close();
+                }
+            }
+        }
     }
+
 }
