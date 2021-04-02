@@ -18,7 +18,7 @@ public class CreateUsers
         System.out.println("registration method:");
         p1.registration();
         System.out.println("searchAvailableappointment method:");
-        p1.searchAvailableappointment("name","Nikolaos");
+        p1.searchAvailableappointments("name","Nikolaos");
         System.out.println("showAppointmenthistory method:");
         p1.showAppointmenthistory("speciality","pulmonologist");
         System.out.println("showScheduledappointments method:");
@@ -35,7 +35,21 @@ public class CreateUsers
         System.out.println("create_new_appointment method:");
         d1.create_new_appointment();
 
+        //Admin
+        System.out.println("\nCreating an Admin object...\nAttributes are:");
+        Admin a1 = new Admin("Stratosk123", "stratos444", "Efstratios","Karkanis",19);
+        System.out.println(a1.toString());
+        System.out.println("delete_doctor method:");
+        a1.delete_doctor();
+        System.out.println("add_doctor method:");
+        a1.add_doctor();
+        System.out.println("delete_doctor method:");
+        a1.delete_doctor();
 
+        //Appointment
+        System.out.println("\nCreating an Appointment object...\nAttributes are:");
+        Appointment ap1 = new Appointment();
+        //...
 
 
 

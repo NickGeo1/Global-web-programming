@@ -1,5 +1,9 @@
 package com.ergasia1;
 
+/**
+ * Every class is extending Users class.This class has the attributes and methods that every kind of user must have
+ * Any user has a username, password, firstname, surname, age and is able to Login and Logout from the website
+ */
 public abstract class Users 
 {
     // Basic characteristics of each user
