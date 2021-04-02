@@ -20,12 +20,12 @@ public class Patient extends Users
         System.out.println(getUsername() + " has been successfully registered!");
     }
 
-    //we can search an appointment by doctor name or specialty
+    //we can search an appointment by doctor name or speciality
 
     public void searchAvailableappointment(String searchby, String value)
     {
         if(searchby.equals(""))
-            System.out.println("Searching every specialty/doctor appointment...");
+            System.out.println("Searching every speciality/doctor appointment...");
         else
             System.out.println("Searching appointment by "+ searchby +", where "+searchby+" is "+value);
     }

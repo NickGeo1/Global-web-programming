@@ -1,5 +1,8 @@
 package com.ergasia1;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * This is the model (class) of a Doctor. Each doctor has his speciality and
  * some other abilities, which are to be able to see his appointments, to create a new appointment,
@@ -8,6 +11,7 @@ package com.ergasia1;
 public class Doctor extends Users
 {
     String speciality; // Speciality that a doctor has
+    List<Appointment> appointments = new ArrayList<>(); //The list of doctor's appointments
 
     public Doctor(String username, String password, String firstname, String surname, int age,String speciality) {
 
