@@ -36,4 +36,9 @@ public class Doctor extends Users
      */
     private void create_new_appointment(){}
 
+    public String getSpeciality()
+    {
+        return speciality;
+    }
+
 }
