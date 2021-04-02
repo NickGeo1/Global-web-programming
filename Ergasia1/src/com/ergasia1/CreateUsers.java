@@ -10,6 +10,7 @@ public class CreateUsers
         System.out.println("Program starts");
 
         // Create objects
+        System.out.println();
         Patient p1 = new Patient("GeorgeMC2610", "blabla", "Georgios","Seimenis",19,"986yug97");
 
         System.out.println(p1.toString());

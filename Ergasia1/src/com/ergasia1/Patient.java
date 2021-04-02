@@ -46,5 +46,10 @@ public class Patient extends Users
             System.out.println("Show scheduled appointments by "+showby+", where "+showby+" is "+value);
     }
 
+    @Override
+    public String toString(){
+        return super.toString() + ", AMKA: "+AMKA;
+    }
+
     public String GetAMKA() { return this.AMKA; }
 }

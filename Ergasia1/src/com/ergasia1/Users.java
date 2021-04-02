@@ -50,7 +50,7 @@ public abstract class Users
     @Override
     public String toString()
     {
-        return this.firstname + " \"" + this.username + "\" " + this.surname + ", " + this.age + " years old.";
+        return this.firstname + " \"" + this.username + "\" " + this.surname + ", " + this.age + " years old";
     }
 
     //getters

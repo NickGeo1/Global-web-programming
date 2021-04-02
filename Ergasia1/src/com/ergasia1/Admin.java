@@ -27,4 +27,9 @@ public class Admin extends Users
      * This function is used to modify a doctor that already exists.
      */
     private void change_doctor(){}
+
+    /*@Override
+    public String toString(){
+        return super.toString();
+    }*/
 }

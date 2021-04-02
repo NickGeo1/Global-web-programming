@@ -45,4 +45,9 @@ public class Doctor extends Users
         return speciality;
     }
 
+    @Override
+    public String toString(){
+        return super.toString() + ", speciality: "+speciality;
+    }
+
 }
