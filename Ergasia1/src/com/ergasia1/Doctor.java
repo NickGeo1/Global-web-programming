@@ -10,7 +10,8 @@ import java.util.List;
  */
 public class Doctor extends Users
 {
-    String speciality; // Speciality that a doctor has
+    private String speciality; // Speciality that a doctor has
+
     List<Appointment> appointments = new ArrayList<>(); //The list of doctor's appointments
 
     public Doctor(String username, String password, String firstname, String surname, int age,String speciality) {
@@ -44,11 +45,15 @@ public class Doctor extends Users
         System.out.println("Created a new appointment");
     }
 
+    // Getter for the attribute speciality that a doctor has
     public String getSpeciality()
     {
         return speciality;
     }
 
+    /**
+     * @return The characteristics of each Doctor (firstname,username,surname, age and his speciality)
+     */
     @Override
     public String toString(){
         return super.toString() + ", speciality: "+speciality;

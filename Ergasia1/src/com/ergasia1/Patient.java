@@ -5,13 +5,14 @@ import java.util.List;
 
 /**
  * This is the model of a patient.A patient is able to register to the website,search for an available appointment and
- * see his scheduled or past appointments.Except of User's attributes, each patient has also his unique AMKA
+ * see his scheduled or past appointments. Except of User's attributes, each patient has also his unique AMKA.
  */
 public class Patient extends Users
 {
-    private final String AMKA;
-    List<Appointment> scheduled_appointments = new ArrayList<>(); //every patient has a list of some appointment objects
+    private final String AMKA; // This is the unique AMKA of each patient
+
     List<Appointment> past_appointments = new ArrayList<>();
+    List<Appointment> scheduled_appointments = new ArrayList<>(); // every patient has a list of some appointment objects
 
     public Patient(String username, String password, String firstname, String lastname, int age, String AMKA)
     {
@@ -75,10 +76,14 @@ public class Patient extends Users
             System.out.println("Show scheduled appointments by "+showby+", where "+showby+" is "+value);
     }
 
+    /**
+     * @return The characteristics of each Patient (firstname,username,surname, age and his AMKA)
+     */
     @Override
     public String toString(){
         return super.toString() + ", AMKA: "+AMKA;
     }
 
+    // Getter for the attribute AMKA
     public String GetAMKA() { return this.AMKA; }
 }

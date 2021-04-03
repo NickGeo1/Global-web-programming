@@ -42,11 +42,11 @@ public class CreateUsers
         Admin a1 = new Admin("Stratosk123", "stratos444", "Efstratios","Karkanis",19);
         System.out.println(a1.toString());
         System.out.println("delete_doctor method:");
-        a1.delete_doctor();
+        a1.delete_doctor(d1);
         System.out.println("add_doctor method:");
-        a1.add_doctor();
+        a1.add_doctor("GeorgeS12", "12345", "George", "Seimenis", 56,"Dentist");
         System.out.println("delete_doctor method:");
-        a1.delete_doctor();
+        a1.delete_doctor(d1);
 
         //Appointment
         System.out.println("\nCreating an Appointment object...\nAttributes are:");
@@ -75,7 +75,7 @@ public class CreateUsers
 
             if(!attr[2].matches("[a-zA-Z]+") || !attr[3].matches("[a-zA-Z]+"))
             {
-                System.out.println("Wrong firstname/surname format in output file.Attributes failed to be red");
+                System.out.println("Wrong firstname/surname format in output file.Attributes failed to be read");
                 inputStream.close();
                 return;
             }

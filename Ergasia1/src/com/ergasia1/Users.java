@@ -51,6 +51,10 @@ public abstract class Users
         loggedOn = false;
     }
 
+    /**
+     * This method returns the characteristics of each User
+     * @return firstname,username,surname and age
+     */
     @Override
     public String toString()
     {
@@ -86,7 +90,7 @@ public abstract class Users
         return UsersCount;
     }
 
-    //setters
+    // setters
     public void setUsername(String username) {
         this.username = username;
     }
