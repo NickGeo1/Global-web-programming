@@ -38,11 +38,19 @@ public class Patient extends Users
         System.out.print("Provide a password --> ");
         String password = UserInteraction.input.nextLine();
 
-        System.out.print("Enter your first name --> ");
-        String firstname = UserInteraction.input.nextLine();
+        String firstname;
+        do
+        {
+            System.out.print("Enter your first name --> ");
+            firstname = UserInteraction.input.nextLine();
+        } while (firstname.matches("^[A-Z][a-z]+"));
 
-        System.out.print("Enter your last name --> ");
-        String lastname = UserInteraction.input.nextLine();
+        String lastname;
+        do
+        {
+            System.out.print("Enter your last name --> ");
+            lastname = UserInteraction.input.nextLine();
+        } while (firstname.matches("^[A-Z][a-z]+"));
 
         //the age must be a number, so we make sure the program does so.
         int age = 0;
