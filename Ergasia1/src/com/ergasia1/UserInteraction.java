@@ -185,7 +185,7 @@ public class UserInteraction {
             inputStream = new BufferedReader ( new FileReader("C:\\Users\\nikos\\Documents\\GitHub\\Global-web-programming\\Ergasia1\\src\\com\\ergasia1\\Patient_attr") );
             String[] attr = inputStream.readLine().split(" ");
 
-            if(!attr[2].matches("[a-zA-Z]+") || !attr[3].matches("[a-zA-Z]+"))
+            if(!attr[2].matches("[A-Z][a-z]*") || !attr[3].matches("[A-Z][a-z]*"))
             {
                 System.out.println("Wrong firstname/surname format in output file.Attributes failed to be read");
                 inputStream.close();
