@@ -113,7 +113,7 @@ public class UserInteraction {
         {
             try
             {
-                System.out.println("\nGive "+user+" attributes splitted by ',' in the following order:\nusername, password, firstname, lastname, age, " +
+                System.out.println("\nGive "+user+" attributes splitted by ',' in the following order:\nusername,password,firstname,lastname,age," +
                         ""+(user.equals("Patient")?"AMKA":"speciality"));
                 String values = input.nextLine();
                 atr = values.split(",");
