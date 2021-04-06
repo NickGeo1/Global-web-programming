@@ -11,9 +11,9 @@ public class Appointment
     Date date; // The date of the appointment
     Boolean done = false;
 
-    Appointment (Date d){
+    Appointment (Date da){
 
-        this.date = d;
+        this.date = da;
     }
 
     /**
