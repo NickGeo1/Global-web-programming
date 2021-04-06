@@ -1,5 +1,6 @@
 package com.ergasia1;
 
+import java.awt.print.Printable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,9 +21,75 @@ public class Patient extends Users
         this.AMKA = AMKA;
     }
 
-    public void registration()
+    /**
+     * Registers a Patient. All required fields are registered, and all are provided by the user. In some circumstances,
+     * the user has to provide numbers. Invalid inputs will be asked to be provided again.
+     * @return A new Patient object, with all fields filled.
+     */
+    public static Patient Register()
     {
-        System.out.println(getUsername() + " has been successfully registered!");
+        //starting of the registration, we provide an appropriate message.
+        System.out.println("Initiated Patient Registration.");
+
+        //we scan linearly the values
+        System.out.print("Provide a username --> ");
+        String username = CreateUsers.input.nextLine();
+
+        System.out.print("Provide a password --> ");
+        String password = CreateUsers.input.nextLine();
+
+        System.out.print("Enter your first name --> ");
+        String firstname = CreateUsers.input.nextLine();
+
+        System.out.print("Enter your last name --> ");
+        String lastname = CreateUsers.input.nextLine();
+
+        //the age must be a number, so we make sure the program does so.
+        int age = 0;
+        do
+        {
+            //we get a first String of an age.
+            System.out.print("Enter your age --> ");
+            String firstAge = CreateUsers.input.nextLine();
+
+            //we try to parse it.
+            try
+            {
+                //if the parsing was done successfully, we break out of the loop.
+                age = Integer.parseInt(firstAge);
+                break;
+            }
+            catch (Exception e)
+            {
+                //if it doesn't, we continue and repeat the same process.
+                System.out.println("Provide an integer number.");
+            }
+        } while (true);
+
+        //same thing happens with the AMKA.
+        String AMKA;
+        do
+        {
+            //we force the user to provide an integer number.
+            System.out.print("Enter your Patient Number (AMKA) --> ");
+            String firstAMKA = CreateUsers.input.nextLine();
+
+            //we try to parse the value the user gave to an integer
+            try
+            {
+                //but we don't store it anywhere, because AMKA is a String value. We just have to make sure it's a number by parsing it.
+                Integer.parseInt(firstAMKA);
+                AMKA = firstAMKA;
+                break;
+            }
+            catch (Exception e)
+            {
+                System.out.println("Provide an integer number.");
+            }
+        } while (true);
+
+        //and then we create the user.
+        return new Patient(username, password, firstname, lastname, age, AMKA);
     }
 
     /**
