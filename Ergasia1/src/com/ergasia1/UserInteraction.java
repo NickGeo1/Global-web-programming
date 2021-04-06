@@ -34,6 +34,7 @@ public class UserInteraction {
                 p1.showAppointmenthistory("speciality", "pulmonologist");
                 System.out.println("showScheduledappointments method:");
                 p1.showScheduledappointments("", "");
+                break;
 
             case "Doctor" :
                 System.out.println("\nCreating a Doctor object...\nAttributes are:");
@@ -44,6 +45,7 @@ public class UserInteraction {
                 d1.show_appointments();
                 System.out.println("createAppointment method:");
                 d1.createAppointment(d1,p1);
+                break;
 
             case "Admin" :
                 System.out.println("\nCreating an Admin object...\nAttributes are:");
@@ -54,10 +56,12 @@ public class UserInteraction {
                 a1.add_doctor("GeorgeS12", "12345", "George", "Seimenis", 56, "Dentist");
                 System.out.println("delete_doctor method:");
                 a1.delete_doctor(d1);
+                break;
 
             case "Appointment" :
                 System.out.println("\nCreating an Appointment object...\nAttributes are:");
                 //...
+                break;
 
             default :
                 System.out.println("\n" + p1.getUsername() + " is trying to login...");
