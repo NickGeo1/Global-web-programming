@@ -15,9 +15,9 @@ public class UserInteraction {
      */
     static void showAttributes(String type)
     {
-        Patient p1 = p1 = new Patient("GeorgeMC2610", "blabla", "Georgios", "Seimenis", 19, "986yug97");
-        Doctor d1 = d1 = new Doctor("NickGeo01", "iamadocotr", "Nikolaos", "Georgiadis", 19, "Cardiologist");
-        Admin a1 = a1 = new Admin("Stratosk123", "stratos444", "Efstratios", "Karkanis", 19);
+        Patient p1 = new Patient("GeorgeMC2610", "blabla", "Georgios", "Seimenis", 19, "986yug97");
+        Doctor d1 = new Doctor("NickGeo01", "iamadocotr", "Nikolaos", "Georgiadis", 19, "Cardiologist");
+        Admin a1 = new Admin("Stratosk123", "stratos444", "Efstratios", "Karkanis", 19);
         Appointment ap1 = new Appointment();
 
         switch (type)
