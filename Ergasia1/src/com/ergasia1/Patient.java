@@ -21,6 +21,11 @@ public class Patient extends Users
         this.AMKA = AMKA;
     }
 
+    /**
+     * Registers a Patient. All required fields are registered, and all are provided by the user. In some circumstances,
+     * the user has to provide numbers. Invalid inputs will be asked to be provided again.
+     * @return A new Patient object, with all fields filled.
+     */
     public static Patient Register()
     {
         //starting of the registration, we provide an appropriate message.
