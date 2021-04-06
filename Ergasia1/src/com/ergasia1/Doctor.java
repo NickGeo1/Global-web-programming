@@ -28,7 +28,6 @@ public class Doctor extends Users
     public boolean isAvailable(){
 
         return true;
-
     }
 
     /**
@@ -39,10 +38,19 @@ public class Doctor extends Users
     }
 
     /**
-     *  Create a new apppointment between a patient and a doctor
+     * This function creates a new appointment only if the patient and the
+     * are available.
      */
-    public void create_new_appointment(){
-        System.out.println("Created a new appointment");
+    void createAppointment (Doctor d,Patient t){
+
+        if (d.isAvailable() && t.isAvailable()){
+            System.out.println("Appointment created!");
+        }
+        else
+        {
+            System.out.println("Appointment was not created!");
+        }
+
     }
 
     // Getter for the attribute speciality that a doctor has

@@ -86,4 +86,14 @@ public class Patient extends Users
 
     // Getter for the attribute AMKA
     public String GetAMKA() { return this.AMKA; }
+
+    /**
+     * This function shows if a patient is available for an appointment or not
+     * @return True if patient is available. False if patient is not available
+     */
+    public boolean isAvailable(){
+
+        return true;
+
+    }
 }
