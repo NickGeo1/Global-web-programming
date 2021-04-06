@@ -22,7 +22,7 @@ public class CreateUsers
         UserInteraction.showAttributes("Admin");
 
         //Appointment
-        UserInteraction.showAttributes("Appointmrnt");
+        UserInteraction.showAttributes("Appointment");
 
         //Users login
         UserInteraction.showAttributes("User login");
