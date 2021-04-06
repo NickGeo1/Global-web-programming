@@ -33,16 +33,16 @@ public class Patient extends Users
 
         //we scan linearly the values
         System.out.print("Provide a username --> ");
-        String username = CreateUsers.input.nextLine();
+        String username = UserInteraction.input.nextLine();
 
         System.out.print("Provide a password --> ");
-        String password = CreateUsers.input.nextLine();
+        String password = UserInteraction.input.nextLine();
 
         System.out.print("Enter your first name --> ");
-        String firstname = CreateUsers.input.nextLine();
+        String firstname = UserInteraction.input.nextLine();
 
         System.out.print("Enter your last name --> ");
-        String lastname = CreateUsers.input.nextLine();
+        String lastname = UserInteraction.input.nextLine();
 
         //the age must be a number, so we make sure the program does so.
         int age = 0;
@@ -50,7 +50,7 @@ public class Patient extends Users
         {
             //we get a first String of an age.
             System.out.print("Enter your age --> ");
-            String firstAge = CreateUsers.input.nextLine();
+            String firstAge = UserInteraction.input.nextLine();
 
             //we try to parse it.
             try
@@ -72,7 +72,7 @@ public class Patient extends Users
         {
             //we force the user to provide an integer number.
             System.out.print("Enter your Patient Number (AMKA) --> ");
-            String firstAMKA = CreateUsers.input.nextLine();
+            String firstAMKA = UserInteraction.input.nextLine();
 
             //we try to parse the value the user gave to an integer
             try
