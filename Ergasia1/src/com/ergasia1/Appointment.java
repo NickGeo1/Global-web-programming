@@ -1,4 +1,5 @@
 package com.ergasia1;
+import java.util.Date;
 
 /**
  * This class is used for managing appointments (insert,delete and modify an appointment)
@@ -7,13 +8,22 @@ package com.ergasia1;
 public class Appointment
 {
 
+    Date date; // The date of the appointment
+    Boolean done = false;
+
+    Appointment (Date d){
+
+        this.date = d;
+    }
+
     /**
      * This function is used for inserting a new
      * appointment to the database
      */
     void insertNewAppointment(){
 
-        System.out.println("Appointment was added to the database!");
+        if (done)
+            System.out.println("Appointment was added to the database!");
 
     }
 
@@ -23,7 +33,8 @@ public class Appointment
      */
     void deleteAppointment(){
 
-        System.out.println("Appointment was deleted from the database!");
+        if (done)
+            System.out.println("Appointment was deleted from the database!");
 
     }
 
@@ -33,7 +44,8 @@ public class Appointment
      */
     void modifyAppointment(){
 
-        System.out.println("Appointment was successfully modified from the database!");
+        if (done)
+            System.out.println("Appointment was successfully modified from the database!");
 
     }
 
