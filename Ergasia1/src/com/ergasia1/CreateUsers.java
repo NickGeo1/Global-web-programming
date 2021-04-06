@@ -35,7 +35,7 @@ public class CreateUsers
         System.out.println("show_appointments method:");
         d1.show_appointments();
         System.out.println("create_new_appointment method:");
-        d1.create_new_appointment();
+        d1.createAppointment(d1,p1);
 
         //Admin
         System.out.println("\nCreating an Admin object...\nAttributes are:");
