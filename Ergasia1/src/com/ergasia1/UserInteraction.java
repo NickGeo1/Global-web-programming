@@ -82,8 +82,8 @@ public class UserInteraction {
 
     /**
      * Searches for any null or space-starting values in 'array'
-     * @param array
-     * @return
+     * @param array The array we want to iterrate
+     * @return true if there is any null or space-starting values.False otherwise
      */
     static private boolean hasNullorSpacevalues(String[] array)
     {
