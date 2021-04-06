@@ -16,7 +16,7 @@ public class UserInteraction {
      */
     static void showAttributes(String type)
     {
-        Patient p1 = new Patient("GeorgeMC2610", "blabla", "Georgios", "Seimenis", 19, "986yug97");
+        Patient p1 = new Patient("GeorgeMC2610", "blabla", "Georgios", "Seimenis", 19, "9867");
         Doctor d1 = new Doctor("NickGeo01", "iamadocotr", "Nikolaos", "Georgiadis", 19, "Cardiologist");
         Admin a1 = new Admin("Stratosk123", "stratos444", "Efstratios", "Karkanis", 19);
         Appointment ap1 = new Appointment(new Date());
@@ -24,7 +24,7 @@ public class UserInteraction {
         switch (type)
         {
             case "Patient" :
-                System.out.println("Creating a patient object...\nAttributes are:");
+                System.out.println("Creating a Patient object...\nAttributes are:");
 
                 System.out.println(p1.toString());
                 System.out.println("Register method:");
@@ -81,6 +81,24 @@ public class UserInteraction {
     }
 
     /**
+     * Searches for any null or space-starting values in 'array'
+     * @param array
+     * @return
+     */
+    static private boolean hasNullorSpacevalues(String[] array)
+    {
+        for (String a: array)
+        {
+            if(a.equals("") || a.startsWith(" "))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Tells the user to give the corresponding constructor arguments splitted by ','(for Patient or Doctor), depending on 'user' value.
      * Probable exceptions are being handled.If a Patient is being initialized, its attributes are being written in an output file
      * @param user Represents which Class's(Patient or Doctor) attributes the user should give.For example, if users=Patient, the user must
@@ -95,27 +113,33 @@ public class UserInteraction {
         {
             try
             {
-                System.out.println("\nGive "+user+" attributes splitted by ',' in the following order : username, password, firstname, lastname, age, " +
-                        ""+(user.equals("Patient")?"AMKA:":"speciality:"));
+                System.out.println("\nGive "+user+" attributes splitted by ',' in the following order:\nusername, password, firstname, lastname, age, " +
+                        ""+(user.equals("Patient")?"AMKA":"speciality"));
                 String values = input.nextLine();
                 atr = values.split(",");
 
                 //if user gave more than 6 attributes or gave wrong names format, we tell him to give attributes again
                 //Firstname,surname format can be only letters
 
-                if(!atr[2].matches("[A-Z][a-zA-Z]*") || !atr[3].matches("[A-Z][a-zA-Z]*"))
-                {
-                    System.out.println("Wrong firstname/surname format");
-                    continue;
-                }
-                else if(atr.length>6)
+                if(atr.length>6)
                 {
                     System.out.println("Fewer attributes expected");
+                    continue;
+
+                }else if(hasNullorSpacevalues(atr))
+                {
+                    System.out.println("Values cannot be null, or start with space character");
+                    continue;
+                }
+                else if(!atr[2].matches("[A-Z][a-z]*") || !atr[3].matches("[A-Z][a-z]*"))
+                {
+                    System.out.println("Wrong firstname/surname format");
                     continue;
                 }
 
                 if(user.equals("Patient"))
                 {
+                    Integer.parseInt(atr[5]);
                     p2 = new Patient(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
                 }
                 else
@@ -127,7 +151,7 @@ public class UserInteraction {
             }
             catch(NumberFormatException e1) //Exception in case user gave wrong age format
             {
-                System.out.println("Wrong age format!");
+                System.out.println("Wrong age/AMKA format!");
                 if(atr.length==5)
                     System.out.println("More attributes expected!"); //In case user gave 5 attributes
             }

@@ -25,9 +25,9 @@ public class CreateUsers
         UserInteraction.showAttributes("Appointment");
 
         //Users login
-        UserInteraction.showAttributes("User login");
+        UserInteraction.showAttributes("User");
 
-        //Give Patient,Doctor attributes and store them to output file
+        //Give Patient,Doctor attributes and store Patient's to output file
         UserInteraction.giveAttributes("Patient");
         UserInteraction.giveAttributes("Doctor");
 
