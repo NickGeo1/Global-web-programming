@@ -81,24 +81,6 @@ public class UserInteraction {
     }
 
     /**
-     * Searches for any null or space-starting values in 'array'
-     * @param array The array we want to iterrate
-     * @return true if there is any null or space-starting values.False otherwise
-     */
-    static private boolean hasNullorSpacevalues(String[] array)
-    {
-        for (String a: array)
-        {
-            if(a.equals("") || a.startsWith(" "))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Tells the user to give the corresponding constructor arguments splitted by ','(for Patient or Doctor), depending on 'user' value.
      * Probable exceptions are being handled.If a Patient is being initialized, its attributes are being written in an output file
      * @param user Represents which Class's(Patient or Doctor) attributes the user should give.For example, if users=Patient, the user must
@@ -118,22 +100,30 @@ public class UserInteraction {
                 String values = input.nextLine();
                 atr = values.split(",");
 
-                //if user gave more than 6 attributes or gave wrong names format, we tell him to give attributes again
-                //Firstname,surname format can be only letters
+                //If user gave more than 6 attributes or gave wrong format of any, we tell him to give attributes again
+
+                //Firstname,surname and speciality have to be only letters(Starting with capital,except of speciality)
+                //age,AMKA must be integers
+                //Username cannot contain only space characters
 
                 if(atr.length>6)
                 {
                     System.out.println("Fewer attributes expected");
                     continue;
 
-                }else if(hasNullorSpacevalues(atr))
+                }else if(atr[0].isBlank())
                 {
-                    System.out.println("Values cannot be null, or start with space character");
+                    System.out.println("Username cannot be null, or contain only space characters.");
+                    continue;
+                }
+                else if(atr[1].isEmpty())
+                {
+                    System.out.println("Password cannot be null.");
                     continue;
                 }
                 else if(!atr[2].matches("[A-Z][a-z]*") || !atr[3].matches("[A-Z][a-z]*"))
                 {
-                    System.out.println("Wrong firstname/surname format");
+                    System.out.println("Firstname/surname have to contain only letters and they must start with a capital letter.");
                     continue;
                 }
 
@@ -142,8 +132,12 @@ public class UserInteraction {
                     Integer.parseInt(atr[5]);
                     p2 = new Patient(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
                 }
-                else
+                else if(!atr[5].matches("[A-Za-z]+")) //in this case user="Doctor"
                 {
+                    System.out.println("Wrong speciality format.");
+                    continue;
+                }
+                else {
                     Doctor d2 = new Doctor(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
                 }
 
@@ -152,8 +146,6 @@ public class UserInteraction {
             catch(NumberFormatException e1) //Exception in case user gave wrong age format
             {
                 System.out.println("Wrong age/AMKA format!");
-                if(atr.length==5)
-                    System.out.println("More attributes expected!"); //In case user gave 5 attributes
             }
             catch (ArrayIndexOutOfBoundsException e2) //Exception in case user gave fewer than 6 attributes
             {
