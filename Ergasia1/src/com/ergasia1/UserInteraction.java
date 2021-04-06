@@ -2,6 +2,7 @@ package com.ergasia1;
 
 import java.io.*;
 import java.util.Scanner;
+import java.util.Date;
 
 public class UserInteraction {
 
@@ -18,7 +19,7 @@ public class UserInteraction {
         Patient p1 = new Patient("GeorgeMC2610", "blabla", "Georgios", "Seimenis", 19, "986yug97");
         Doctor d1 = new Doctor("NickGeo01", "iamadocotr", "Nikolaos", "Georgiadis", 19, "Cardiologist");
         Admin a1 = new Admin("Stratosk123", "stratos444", "Efstratios", "Karkanis", 19);
-        Appointment ap1 = new Appointment();
+        Appointment ap1 = new Appointment(new Date());
 
         switch (type)
         {
@@ -60,7 +61,13 @@ public class UserInteraction {
 
             case "Appointment" :
                 System.out.println("\nCreating an Appointment object...\nAttributes are:");
-                //...
+                System.out.println(ap1.toString());
+                System.out.println("insertNewAppointment method:");
+                ap1.insertNewAppointment();
+                System.out.println("deleteAppointment method:");
+                ap1.deleteAppointment();
+                System.out.println("modifyAppointment method:");
+                ap1.modifyAppointment();
                 break;
 
             default :
@@ -96,7 +103,7 @@ public class UserInteraction {
                 //if user gave more than 6 attributes or gave wrong names format, we tell him to give attributes again
                 //Firstname,surname format can be only letters
 
-                if(!atr[2].matches("[a-zA-Z]+") || !atr[3].matches("[a-zA-Z]+"))
+                if(!atr[2].matches("[A-Z][a-zA-Z]*") || !atr[3].matches("[A-Z][a-zA-Z]*"))
                 {
                     System.out.println("Wrong firstname/surname format");
                     continue;

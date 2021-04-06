@@ -49,4 +49,9 @@ public class Appointment
 
     }
 
+    @Override
+    public String toString(){
+        return  "Date: "+date +", is done: "+done;
+    }
+
 }
