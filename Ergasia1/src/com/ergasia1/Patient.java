@@ -32,11 +32,17 @@ public class Patient extends Users
         System.out.println("Initiated Patient Registration.");
 
         //we scan linearly the values
-        System.out.print("Provide a username --> ");
-        String username = UserInteraction.input.nextLine();
+        String username;
+        do {
+            System.out.print("Provide a username --> ");
+            username = UserInteraction.input.nextLine();
+        }while (!username.isBlank());
 
-        System.out.print("Provide a password --> ");
-        String password = UserInteraction.input.nextLine();
+        String password;
+        do{
+            System.out.print("Provide a password --> ");
+            password = UserInteraction.input.nextLine();
+        }while(!password.isEmpty());
 
         String firstname;
         do
