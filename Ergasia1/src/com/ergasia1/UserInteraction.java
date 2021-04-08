@@ -73,9 +73,9 @@ public class UserInteraction {
             default :
                 System.out.println("\n(Login method)Give password for user "+ p2.getUsername());
                 String pass1 = input.nextLine();
-                p1.Login(pass1);
+                p2.Login(pass1);
                 System.out.println("(Logout method)" +p2.getUsername() + " is trying to logout...");
-                d1.Logout();
+                p2.Logout();
         }
     }
 
