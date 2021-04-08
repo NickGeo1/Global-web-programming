@@ -33,16 +33,18 @@ public class Patient extends Users
 
         //we scan linearly the values
         String username;
-        do {
+        do
+        {
             System.out.print("Provide a username --> ");
             username = UserInteraction.input.nextLine();
-        }while (!username.isBlank());
+        } while (!username.isBlank());
 
         String password;
-        do{
+        do
+        {
             System.out.print("Provide a password --> ");
             password = UserInteraction.input.nextLine();
-        }while(!password.isEmpty());
+        } while(!password.isEmpty() && password.length() < 4);
 
         String firstname;
         do
