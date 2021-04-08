@@ -86,7 +86,7 @@ public class Patient extends Users
             try
             {
                 //but we don't store it anywhere, because AMKA is a String value. We just have to make sure it's a number by parsing it.
-                Integer.parseInt(firstAMKA);
+                Long.parseLong(firstAMKA);
                 AMKA = firstAMKA;
                 break;
             }
@@ -109,8 +109,14 @@ public class Patient extends Users
      * @param value The actual value of 'searchby' attribute we are looking for
      *
      */
-    public void searchAvailableappointments(String searchby, String value)
+    public void searchAvailableAppointments(String searchby, String value)
     {
+        if (!isLoggedOn())
+        {
+            System.out.println("You must be logged on to search for available appointments.");
+            return;
+        }
+
         if(searchby.equals(""))
             System.out.println("Searching every speciality/doctor appointment...");
         else
@@ -126,8 +132,14 @@ public class Patient extends Users
      * @param value The actual value of 'showby' attribute we are looking for
      *
      */
-    public void showAppointmenthistory(String showby, String value)
+    public void showAppointmentHistory(String showby, String value)
     {
+        if (!isLoggedOn())
+        {
+            System.out.println("You must be logged on to show appointment history.");
+            return;
+        }
+
         if(showby.equals(""))
             System.out.println("Show all appointment history");
         else
@@ -143,8 +155,14 @@ public class Patient extends Users
      * @param value The actual value of 'showby' attribute we are looking for
      *
      */
-    public void showScheduledappointments(String showby, String value)
+    public void showScheduledAppointments(String showby, String value)
     {
+        if (!isLoggedOn())
+        {
+            System.out.println("You must be logged on to show all scheduled appointments.");
+            return;
+        }
+
         if(showby.equals(""))
             System.out.println("Show all scheduled appointments");
         else

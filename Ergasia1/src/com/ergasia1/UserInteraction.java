@@ -30,11 +30,11 @@ public class UserInteraction {
                 System.out.println("Register method:");
                 Patient.Register();
                 System.out.println("searchAvailableappointment method:");
-                p1.searchAvailableappointments("name", "Nikolaos");
+                p1.searchAvailableAppointments("name", "Nikolaos");
                 System.out.println("showAppointmenthistory method:");
-                p1.showAppointmenthistory("speciality", "pulmonologist");
+                p1.showAppointmentHistory("speciality", "pulmonologist");
                 System.out.println("showScheduledappointments method:");
-                p1.showScheduledappointments("", "");
+                p1.showScheduledAppointments("", "");
                 break;
 
             case "Doctor" :
