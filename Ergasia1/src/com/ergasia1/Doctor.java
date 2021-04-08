@@ -10,10 +10,11 @@ import java.util.List;
  */
 public class Doctor extends Users
 {
-    private String speciality; // Speciality that a doctor has
-
     List<Appointment> appointments = new ArrayList<>(); //The list of doctor's appointments
 
+    private String speciality; // Speciality that a doctor has
+
+    // Constructor method
     public Doctor(String username, String password, String firstname, String surname, int age,String speciality) {
 
         super(username, password, firstname, surname, age); // Constructor of class Doctor calls superclasse's constructor
@@ -27,6 +28,7 @@ public class Doctor extends Users
      */
     public boolean isAvailable(){
 
+        System.out.println("Doctor is available!");
         return true;
     }
 
@@ -40,10 +42,12 @@ public class Doctor extends Users
     /**
      * This function creates a new appointment only if the patient and the
      * are available.
+     * @param d is an instance of class Doctor
+     * @param p is an instance of class Patient
      */
-    void createAppointment (Doctor d,Patient t){
+    void createAppointment (Doctor d,Patient p){
 
-        if (d.isAvailable() && t.isAvailable()){
+        if (d.isAvailable() && p.isAvailable()){
             System.out.println("Appointment created!");
         }
         else

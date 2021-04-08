@@ -11,9 +11,10 @@ public class Appointment
     Date date; // The date of the appointment
     Boolean done = false;
 
-    Appointment (Date da){
+    // Constructor method
+    Appointment (Date d){
 
-        this.date = da;
+        this.date = d;
     }
 
     /**
@@ -45,10 +46,14 @@ public class Appointment
     void modifyAppointment(){
 
         if (done)
-            System.out.println("Appointment was successfully modified from the database!");
+            System.out.println("Appointment was successfully modified!");
 
     }
 
+    /**
+     * This function is used for desplaying the
+     *  date and status of an appointment.
+     */
     @Override
     public String toString(){
         return  "Date: "+date +", is done: "+done;

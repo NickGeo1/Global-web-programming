@@ -6,7 +6,7 @@ package com.ergasia1;
  */
 public class Admin extends Users
 {
-
+    // Constructor method
     public Admin(String username, String password, String firstname, String surname, int age) {
 
         super(username, password, firstname, surname, age);
@@ -25,15 +25,18 @@ public class Admin extends Users
      * This function is used to add/create a new doctor.
      */
     public void add_doctor(String username, String password, String firstname, String surname, int age,String speciality){
-        Doctor new_doctor = new Doctor(username,password,firstname,username,age,speciality);
 
+        Doctor new_doctor = new Doctor(username,password,firstname,username,age,speciality);
         System.out.println("New doctor added!");
     }
 
     /**
      * This function is used to modify a doctor that already exists.
+     * @param username is the username of the doctor that we want to modify
      */
     public void change_doctor(String username){
+
+        System.out.println("Doctor's characteristics have been changed!");
     }
 
     /**
