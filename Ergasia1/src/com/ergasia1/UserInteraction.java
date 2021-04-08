@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class UserInteraction {
 
+    static Patient p2 = null;
     static Scanner input = new Scanner(System.in);
 
     /**
@@ -25,10 +26,9 @@ public class UserInteraction {
         {
             case "Patient" :
                 System.out.println("Creating a Patient object...\nAttributes are:");
-
                 System.out.println(p1.toString());
                 System.out.println("Register method:");
-                Patient.Register();
+                p2 = Patient.Register();
                 System.out.println("searchAvailableappointment method:");
                 p1.searchAvailableAppointments("name", "Nikolaos");
                 System.out.println("showAppointmenthistory method:");
@@ -71,14 +71,11 @@ public class UserInteraction {
                 break;
 
             default :
-                System.out.println("\n(Login method)Give password for user "+ p1.getUsername());
+                System.out.println("\n(Login method)Give password for user "+ p2.getUsername());
                 String pass1 = input.nextLine();
                 p1.Login(pass1);
-                System.out.println("\n(Login method)Give password for user "+ a1.getUsername());
-                String pass2 = input.nextLine();
-                a1.Login(pass2);
-                System.out.println("(Logout method)"+a1.getUsername() + " is trying to logout...");
-                a1.Logout();
+                System.out.println("(Logout method)" +p2.getUsername() + " is trying to logout...");
+                d1.Logout();
         }
     }
 
