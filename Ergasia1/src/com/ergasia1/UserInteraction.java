@@ -115,9 +115,9 @@ public class UserInteraction {
                     System.out.println("Username cannot be null, or contain only space characters.");
                     continue;
                 }
-                else if(atr[1].isEmpty())
+                else if(atr[1].isEmpty() || atr[1].length() < 4)
                 {
-                    System.out.println("Password cannot be null.");
+                    System.out.println("Password cannot be null or less than 4 characters.");
                     continue;
                 }
                 else if(!atr[2].matches("[A-Z][a-z]*") || !atr[3].matches("[A-Z][a-z]*"))
