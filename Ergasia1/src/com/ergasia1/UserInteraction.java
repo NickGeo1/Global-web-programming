@@ -71,11 +71,13 @@ public class UserInteraction {
                 break;
 
             default :
-                System.out.println("\n" + p1.getUsername() + " is trying to login...");
-                p1.Login("123");
-                System.out.println(a1.getUsername() + " is trying to login...");
-                a1.Login("stratos444");
-                System.out.println(a1.getUsername() + " is trying to logout...");
+                System.out.println("\n(Login method)Give password for user "+ p1.getUsername());
+                String pass1 = input.nextLine();
+                p1.Login(pass1);
+                System.out.println("\n(Login method)Give password for user "+ a1.getUsername());
+                String pass2 = input.nextLine();
+                a1.Login(pass2);
+                System.out.println("(Logout method)"+a1.getUsername() + " is trying to logout...");
                 a1.Logout();
         }
     }
