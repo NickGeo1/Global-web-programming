@@ -70,9 +70,9 @@ public class Doctor extends Users
     }
 
     /**
-     * This function cancels an appointment
+     * This function is user for canceling an appointment
      */
-    void cancelAppointment (){
+    void cancelAppointment(){
 
         if (!isLoggedOn())
         {
@@ -85,7 +85,7 @@ public class Doctor extends Users
     }
 
     // Getter for the attribute speciality that a doctor has
-    public String getSpeciality()
+    String getSpeciality()
     {
         return speciality;
     }
@@ -95,7 +95,7 @@ public class Doctor extends Users
      */
     @Override
     public String toString(){
-        return super.toString() + ", speciality: "+speciality;
+        return super.toString() + ", speciality: "+getSpeciality();
     }
 
 }

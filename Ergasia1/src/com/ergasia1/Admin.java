@@ -61,8 +61,8 @@ public class Admin extends Users
     }
 
     /**
-     * This method returns the characteristics of each Doctor
-     * @return firstname,username,surname and age
+     * This method returns the characteristics of each Admin
+     * @return firstname,username,surname and age of Admin object
      */
     @Override
     public String toString(){
