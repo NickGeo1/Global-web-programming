@@ -13,11 +13,11 @@ public class CreateUsers
         //Admin
         UserInteraction.showAttributes("Admin");
 
-        //Doctor
-        UserInteraction.showAttributes("Doctor");
-
         //Patient
         UserInteraction.showAttributes("Patient");
+
+        //Doctor
+        UserInteraction.showAttributes("Doctor");
 
         //Appointment
         UserInteraction.showAttributes("Appointment");

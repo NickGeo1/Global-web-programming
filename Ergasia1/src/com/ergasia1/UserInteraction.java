@@ -27,16 +27,14 @@ public class UserInteraction {
             switch (type)
             {
                 case "Patient" :
-                    System.out.println("Creating a Patient object...");
+                    System.out.println("\nCreating a Patient object...");
                     p1 = new Patient("GeorgeMC2610", "blabla", "Georgios", "Seimenis", 19, "9867");
                     TimeUnit.SECONDS.sleep(2);
                     System.out.println("Attributes are:");
                     System.out.println(p1.toString());
                     TimeUnit.SECONDS.sleep(2);
-
                     p1.Login("blabla");
                     TimeUnit.SECONDS.sleep(2);
-
                     System.out.println("Register method:");
                     p2 = Patient.Register();
                     TimeUnit.SECONDS.sleep(2);
@@ -63,10 +61,8 @@ public class UserInteraction {
                     System.out.println("Attributes are:");
                     System.out.println(d1.toString());
                     TimeUnit.SECONDS.sleep(2);
-
                     d1.Login("iamadocotr");
                     TimeUnit.SECONDS.sleep(2);
-
                     System.out.println("isAvailable method:");
                     boolean b = d1.isAvailable();
                     System.out.println("isAvailable returns: " + b);
@@ -82,16 +78,14 @@ public class UserInteraction {
                     break;
 
                 case "Admin" :
-                    System.out.println("\nCreating an Admin object...");
+                    System.out.println("Creating an Admin object...");
                     a1 = new Admin("Stratosk123", "stratos444", "Efstratios", "Karkanis", 19);
                     TimeUnit.SECONDS.sleep(2);
                     System.out.println("Attributes are:");
                     System.out.println(a1.toString());
                     TimeUnit.SECONDS.sleep(2);
-
                     a1.Login("stratos444");
                     TimeUnit.SECONDS.sleep(2);
-
                     System.out.println("add_doctor method:");
                     Doctor d2 = a1.add_doctor("GeorgeS12", "12345", "George", "Seimenis", 56, "Dentist");
                     TimeUnit.SECONDS.sleep(2);
