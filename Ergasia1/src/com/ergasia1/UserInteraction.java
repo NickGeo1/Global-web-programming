@@ -174,7 +174,7 @@ public class UserInteraction {
                     System.out.println("Firstname/surname have to contain only letters and they must start with a capital letter.");
                     continue;
                 }
-                else if(!atr[5].matches("[A-Za-z]+")) //in this case user="Doctor"
+                else if(!atr[5].matches("[A-Za-z]+"))
                 {
                     System.out.println("Wrong speciality format.");
                     continue;

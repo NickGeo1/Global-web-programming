@@ -31,8 +31,8 @@ public class CreateUsers
 
         UserInteraction.giveDoctorAttributes();
 
-        //Users login
-        UserInteraction.showAttributes("User");
+        //Users attributes
+        UserInteraction.showAttributes("Users");
 
         //txt file Input
         UserInteraction.readObjectfromFile();
