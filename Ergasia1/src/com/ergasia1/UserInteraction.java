@@ -135,10 +135,9 @@ public class UserInteraction {
      * Tells the user to give Doctor constructor arguments splitted by ','.Creates a Doctor object after.
      * Probable exceptions are being handled.
      */
-    static void giveDoctorAttributes() throws IOException
+    static void giveDoctorAttributes()
     {
-        String[] atr = {};
-        Patient p2 = null;
+        String[] atr;
 
         while(true) //Ask attributes from user, until he give them right
         {
@@ -157,35 +156,31 @@ public class UserInteraction {
                 if(atr.length>6)
                 {
                     System.out.println("Fewer attributes expected");
-                    continue;
 
                 }else if(atr[0].isBlank())
                 {
                     System.out.println("Username cannot be null, or contain only space characters.");
-                    continue;
                 }
                 else if(atr[1].isEmpty() || atr[1].length() < 4)
                 {
                     System.out.println("Password cannot be null or less than 4 characters.");
-                    continue;
                 }
                 else if(!atr[2].matches("[A-Z][A-Za-z]*") || !atr[3].matches("[A-Z][A-Za-z]*"))
                 {
                     System.out.println("Firstname/surname have to contain only letters and they must start with a capital letter.");
-                    continue;
                 }
                 else if(!atr[5].matches("[A-Za-z]+"))
                 {
                     System.out.println("Wrong speciality format.");
-                    continue;
                 }
                 else
                 {
                     d3 = new Doctor(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
                     System.out.println("Doctor object created!");
+                    TimeUnit.SECONDS.sleep(2);
+                    break; //At this point user gave correct attributes so we exit
                 }
-                TimeUnit.SECONDS.sleep(2);
-                break; //At this point user gave correct attributes so we exit
+
             }
             catch(NumberFormatException e1) //Exception in case user gave wrong age format
             {
