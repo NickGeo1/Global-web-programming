@@ -70,13 +70,13 @@ public class Doctor extends Users
     }
 
     /**
-     * This function deletes an appointment
+     * This function cancels an appointment
      */
-    void deleteAppointment (){
+    void cancelAppointment (){
 
         if (!isLoggedOn())
         {
-            System.out.println("You must be logged on to delete an appointment.");
+            System.out.println("You must be logged on to cancel an appointment.");
             return;
         }
 
