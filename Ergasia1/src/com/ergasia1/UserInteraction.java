@@ -29,104 +29,156 @@ public class UserInteraction {
                 case "Patient" :
                     System.out.println("\nCreating a Patient object...");
                     p1 = new Patient("GeorgeMC2610", "blabla", "Georgios", "Seimenis", 19, "9867");
+
                     TimeUnit.SECONDS.sleep(2);
-                    System.out.println("Attributes are:");
-                    System.out.println(p1.toString());
-                    TimeUnit.SECONDS.sleep(2);
+
+                    System.out.println("[PATIENT OBJECT]: Attributes are '" + p1.toString() + "'.");
+
+                    TimeUnit.SECONDS.sleep(3);
+
+                    System.out.println("[PATIENT OBJECT]: Attempting to log in " + p1.getUsername() + ".");
                     p1.Login("blabla");
+
                     TimeUnit.SECONDS.sleep(2);
-                    System.out.println("searchAvailableΑppointment method:");
+
+                    System.out.println("[PATIENT OBJECT]: searchAvailableΑppointment method:");
                     p1.searchAvailableAppointments("name", "Nikolaos");
-                    TimeUnit.SECONDS.sleep(2);
-                    System.out.println("showAppointmentΗistory method:");
+
+                    TimeUnit.SECONDS.sleep(3);
+
+                    System.out.println("[PATIENT OBJECT]: showAppointmentΗistory method:");
                     p1.showAppointmentHistory("speciality", "pulmonologist");
-                    TimeUnit.SECONDS.sleep(2);
-                    System.out.println("showScheduledΑppointments method:");
+
+                    TimeUnit.SECONDS.sleep(4);
+
+                    System.out.println("[PATIENT OBJECT]: showScheduledΑppointments method:");
                     p1.showScheduledAppointments("", "");
-                    TimeUnit.SECONDS.sleep(2);
-                    System.out.println("isAvailable method:");
-                    System.out.println("Returns: "+p1.isAvailable());
-                    TimeUnit.SECONDS.sleep(2);
+
+                    TimeUnit.SECONDS.sleep(4);
+
+                    System.out.println("[PATIENT OBJECT]: isAvailable method returns " + p1.isAvailable());
+
+                    TimeUnit.SECONDS.sleep(4);
+
+                    System.out.println("[PATIENT OBJECT]: " + p1.getUsername() + " is now logging out.");
                     p1.Logout();
+
                     TimeUnit.SECONDS.sleep(2);
                     break;
 
                 case "Doctor" :
                     System.out.println("\nCreating a Doctor object...");
                     d1 = new Doctor("NickGeo01", "iamadocotr", "Nikolaos", "Georgiadis", 19, "Cardiologist");
+
                     TimeUnit.SECONDS.sleep(2);
-                    System.out.println("Attributes are:");
-                    System.out.println(d1.toString());
-                    TimeUnit.SECONDS.sleep(2);
+
+                    System.out.println("[DOCTOR OBJECT]: Attributes are '" + d1.toString() + "'.");
+
+                    TimeUnit.SECONDS.sleep(3);
+
+                    System.out.println("[DOCTOR OBJECT]: Attempting to log in " + d1.getUsername() + ".");
                     d1.Login("iamadocotr");
+
                     TimeUnit.SECONDS.sleep(2);
-                    System.out.println("isAvailable method:");
-                    boolean b = d1.isAvailable();
-                    System.out.println("isAvailable returns: " + b);
-                    TimeUnit.SECONDS.sleep(2);
-                    System.out.println("show_appointments method:");
+
+                    System.out.println("[DOCTOR OBJECT]: isAvailable method returns " + d1.isAvailable());
+
+                    TimeUnit.SECONDS.sleep(4);
+
+                    System.out.println("[DOCTOR OBJECT]: show_appointments method:");
                     d1.show_appointments();
-                    TimeUnit.SECONDS.sleep(2);
-                    System.out.println("createAppointment method:");
-                    d1.createAppointment(d1,p1);
-                    TimeUnit.SECONDS.sleep(2);
+
+                    TimeUnit.SECONDS.sleep(4);
+
+                    System.out.println("[DOCTOR OBJECT]: createAppointment method:");
+                    d1.createAppointment(d1, p1);
+
+                    TimeUnit.SECONDS.sleep(4);
+
+                    System.out.println("[DOCTOR OBJECT]: " + d1.getUsername() + " is now logging out.");
                     d1.Logout();
+
                     TimeUnit.SECONDS.sleep(2);
                     break;
 
                 case "Admin" :
                     System.out.println("Creating an Admin object...");
                     a1 = new Admin("Stratosk123", "stratos444", "Efstratios", "Karkanis", 19);
+
                     TimeUnit.SECONDS.sleep(2);
-                    System.out.println("Attributes are:");
-                    System.out.println(a1.toString());
-                    TimeUnit.SECONDS.sleep(2);
+
+                    System.out.println("[ADMIN OBJECT]: Attributes are '" + a1.toString() + "'.");
+
+                    TimeUnit.SECONDS.sleep(3);
+
+                    System.out.println("[ADMIN OBJECT]: Attempting to log in " + a1.getUsername() + ".");
                     a1.Login("stratos444");
-                    TimeUnit.SECONDS.sleep(2);
-                    System.out.println("add_doctor method:");
+
+                    TimeUnit.SECONDS.sleep(3);
+
+                    System.out.println("[ADMIN OBJECT]: add_doctor method:");
                     Doctor d2 = a1.add_doctor("GeorgeS12", "12345", "George", "Seimenis", 56, "Dentist");
-                    TimeUnit.SECONDS.sleep(2);
-                    System.out.println("change_doctor method:");
+
+                    TimeUnit.SECONDS.sleep(4);
+
+                    System.out.println("[ADMIN OBJECT]: change_doctor method:");
                     a1.change_doctor(a1.getUsername());
-                    TimeUnit.SECONDS.sleep(2);
-                    System.out.println("delete_doctor method:");
+
+                    TimeUnit.SECONDS.sleep(4);
+
+                    System.out.println("[ADMIN OBJECT]: delete_doctor method:");
                     a1.delete_doctor(d2);
-                    TimeUnit.SECONDS.sleep(2);
+
+                    TimeUnit.SECONDS.sleep(4);
+
+                    System.out.println("[ADMIN OBJECT]: " + a1.getUsername() + " is now logging out.");
                     a1.Logout();
-                    TimeUnit.SECONDS.sleep(2);
+
+                    TimeUnit.SECONDS.sleep(3);
                     break;
 
                 case "Appointment" :
                     System.out.println("\nCreating an Appointment object...");
                     ap1 = new Appointment(new Date(),true);
+
                     TimeUnit.SECONDS.sleep(2);
-                    System.out.println("Attributes are:");
-                    System.out.println(ap1.toString());
-                    TimeUnit.SECONDS.sleep(2);
-                    System.out.println("insertNewAppointment method:");
+
+                    System.out.println("[APPOINTMENT OBJECT]: Attributes are '" + ap1.toString() + "'.");
+
+                    TimeUnit.SECONDS.sleep(3);
+
+                    System.out.println("[APPOINTMENT OBJECT]: insertNewAppointment method:");
                     ap1.insertNewAppointment();
-                    TimeUnit.SECONDS.sleep(2);
-                    System.out.println("deleteAppointment method:");
+
+                    TimeUnit.SECONDS.sleep(3);
+
+                    System.out.println("[APPOINTMENT OBJECT]: deleteAppointment method:");
                     ap1.deleteAppointment();
-                    TimeUnit.SECONDS.sleep(2);
-                    System.out.println("modifyAppointment method:");
+
+                    TimeUnit.SECONDS.sleep(3);
+
+                    System.out.println("[APPOINTMENT OBJECT]: modifyAppointment method:");
                     ap1.modifyAppointment();
-                    TimeUnit.SECONDS.sleep(2);
+
+                    TimeUnit.SECONDS.sleep(3);
                     break;
 
                 default :
-                    System.out.println("\n(Login method)Give password for user "+ d3.getUsername()+":");
+                    System.out.println("\n[LOGIN METHOD]: Give password for user " + d3.getUsername()+": ");
                     String pass1 = input.nextLine();
+
                     if(d3.Login(pass1))
                     {
                         TimeUnit.SECONDS.sleep(2);
-                        System.out.println("(Logout method)" +d3.getUsername() + " is trying to logout...");
+                        System.out.println("\n[LOGOUT METHOD]: " + d3.getUsername() + " is now logging out.");
                         d3.Logout();
                     }
+
                     TimeUnit.SECONDS.sleep(2);
-                    System.out.println("isLoggedOn method:");
-                    System.out.println("For user "+d3.getUsername()+" isLoggedOn returns: "+d3.isLoggedOn());
-                    TimeUnit.SECONDS.sleep(2);
+
+                    System.out.println("\n[isLoggedOn METHOD]: For user " + d3.getUsername() + " isLoggedOn returns " + d3.isLoggedOn() + ".");
+
+                    TimeUnit.SECONDS.sleep(3);
             }
         }catch(InterruptedException e){}
     }
@@ -204,7 +256,7 @@ public class UserInteraction {
      * @param p2 Patient object
      * @throws IOException
      */
-    static void writeObjecttoFile(Patient p2) throws IOException
+    static void writeObjectToFile(Patient p2) throws IOException
     {
         BufferedWriter outputStream = null;
 
@@ -237,7 +289,7 @@ public class UserInteraction {
      * Checks for each attribute if format is correct
      * @throws IOException
      */
-    static void readObjectfromFile() throws IOException
+    static void readObjectFromFile() throws IOException
     {
         BufferedReader inputStream = null;
 

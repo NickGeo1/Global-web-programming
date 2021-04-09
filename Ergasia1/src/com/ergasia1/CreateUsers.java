@@ -27,7 +27,7 @@ public class CreateUsers
 
         System.out.println("\nRegister method of Class Patient:");
         Patient p = Patient.Register();
-        UserInteraction.writeObjecttoFile(p);
+        UserInteraction.writeObjectToFile(p);
 
         UserInteraction.giveDoctorAttributes();
 
@@ -35,7 +35,7 @@ public class CreateUsers
         UserInteraction.showAttributes("Users");
 
         //txt file Input
-        UserInteraction.readObjectfromFile();
+        UserInteraction.readObjectFromFile();
 
         System.out.println("\nTotal users created: "+Users.getUsersCount());
 
