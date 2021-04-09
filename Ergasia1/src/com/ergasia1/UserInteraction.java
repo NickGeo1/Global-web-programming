@@ -175,7 +175,7 @@ public class UserInteraction {
             try
             {
                 outputStream = new BufferedWriter ( new FileWriter("C:\\Users\\nikos\\Documents\\GitHub\\Global-web-programming\\Ergasia1\\src\\com\\ergasia1\\Patient_attr",true) );
-                outputStream.write("\n"+p2.getUsername() +" "+ p2.getPassword() +" "+ p2.getFirstname() +" "+ p2.getSurname() +" "+ p2.getAge() +" "+ p2.GetAMKA());
+                outputStream.write("\n"+p2.getUsername() +","+ p2.getPassword() +","+ p2.getFirstname() +","+ p2.getSurname() +","+ p2.getAge() +","+ p2.GetAMKA());
                 System.out.println("Successfully stored above patient in output file!");
             }
             catch (IOException e)
@@ -208,7 +208,7 @@ public class UserInteraction {
         try
         {
             inputStream = new BufferedReader ( new FileReader("C:\\Users\\nikos\\Documents\\GitHub\\Global-web-programming\\Ergasia1\\src\\com\\ergasia1\\Patient_attr") );
-            String[] attr = inputStream.readLine().split(" ");
+            String[] attr = inputStream.readLine().split(",");
 
             if(attr.length>6)
             {

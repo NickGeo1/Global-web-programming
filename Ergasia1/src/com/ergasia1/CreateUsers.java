@@ -32,7 +32,6 @@ public class CreateUsers
         UserInteraction.giveAttributes("Doctor");
 
         //txt file Input
-        System.out.println("\n");
         UserInteraction.readObjectfromFile();
 
         System.out.println("\nTotal users created: "+Users.getUsersCount());

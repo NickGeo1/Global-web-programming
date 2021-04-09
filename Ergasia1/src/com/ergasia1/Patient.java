@@ -44,7 +44,7 @@ public class Patient extends Users
         {
             System.out.print("Provide a password --> ");
             password = UserInteraction.input.nextLine();
-        } while(password.isEmpty() && password.length() < 4);
+        } while(password.isEmpty() || password.length() < 4);
 
         String firstname;
         do
