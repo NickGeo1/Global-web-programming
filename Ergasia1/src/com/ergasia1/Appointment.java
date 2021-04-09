@@ -12,9 +12,9 @@ public class Appointment
     Boolean done = false;
 
     // Constructor method
-    Appointment (Date d){
+    Appointment (Date d,Boolean done){
 
-        done = true;
+        this.done = true;
         this.date = d;
     }
 
