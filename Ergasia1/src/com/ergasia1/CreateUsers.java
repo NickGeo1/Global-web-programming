@@ -10,14 +10,14 @@ public class CreateUsers
 
         // Create objects and show attributes/methods
 
-        //Patient
-        UserInteraction.showAttributes("Patient");
+        //Admin
+        UserInteraction.showAttributes("Admin");
 
         //Doctor
         UserInteraction.showAttributes("Doctor");
 
-        //Admin
-        UserInteraction.showAttributes("Admin");
+        //Patient
+        UserInteraction.showAttributes("Patient");
 
         //Appointment
         UserInteraction.showAttributes("Appointment");
