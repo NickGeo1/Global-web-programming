@@ -69,6 +69,21 @@ public class Doctor extends Users
 
     }
 
+    /**
+     * This function cancels an appointment
+     */
+    void cancelAppointment (){
+
+        if (!isLoggedOn())
+        {
+            System.out.println("You must be logged on to cancel an appointment.");
+            return;
+        }
+
+        System.out.println("Appointment deleted!");
+
+    }
+
     // Getter for the attribute speciality that a doctor has
     public String getSpeciality()
     {
