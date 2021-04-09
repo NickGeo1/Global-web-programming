@@ -18,7 +18,7 @@ public class Admin extends Users
      * This function is used to delete a doctor that already exists.
      */
     public void delete_doctor(Users doctor){
-        System.out.println("Doctor " + doctor.getUsername() + "has been deleted!");
+        System.out.println("Doctor " + doctor.getUsername() + " has been deleted!");
     }
 
     /**

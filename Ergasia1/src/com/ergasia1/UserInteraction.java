@@ -71,7 +71,7 @@ public class UserInteraction {
                 break;
 
             default :
-                System.out.println("\n(Login method)Give password for user "+ p2.getUsername());
+                System.out.println("\n(Login method)Give password for user "+ p2.getUsername()+":");
                 String pass1 = input.nextLine();
                 p2.Login(pass1);
                 System.out.println("(Logout method)" +p2.getUsername() + " is trying to logout...");
@@ -130,14 +130,17 @@ public class UserInteraction {
                 {
                     Integer.parseInt(atr[5]);
                     p2 = new Patient(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
+                    System.out.println("Patient object created!");
                 }
                 else if(!atr[5].matches("[A-Za-z]+")) //in this case user="Doctor"
                 {
                     System.out.println("Wrong speciality format.");
                     continue;
                 }
-                else {
+                else
+                {
                     Doctor d2 = new Doctor(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
+                    System.out.println("Docrtor object created!");
                 }
 
                 break; //At this point user gave correct attributes so we exit
@@ -200,15 +203,24 @@ public class UserInteraction {
             inputStream = new BufferedReader ( new FileReader("C:\\Users\\nikos\\Documents\\GitHub\\Global-web-programming\\Ergasia1\\src\\com\\ergasia1\\Patient_attr") );
             String[] attr = inputStream.readLine().split(" ");
 
-            if(!attr[2].matches("[A-Z][a-z]*") || !attr[3].matches("[A-Z][a-z]*"))
+            if(attr.length>6)
+            {
+                System.out.println("Fewer attributes expected.Attributes failed to be read");
+                inputStream.close();
+                return;
+            }
+            else if(!attr[2].matches("[A-Z][a-z]*") || !attr[3].matches("[A-Z][a-z]*"))
             {
                 System.out.println("Wrong firstname/surname format in output file.Attributes failed to be read");
                 inputStream.close();
                 return;
             }
 
+            Integer.parseInt(attr[5]);
+
             Patient p3 = new Patient(attr[0], attr[1], attr[2], attr[3], Integer.parseInt(attr[4]), attr[5]);
-            System.out.println("\nPatient attributes red from file:");
+            System.out.println("\nPatient object created!");
+            System.out.println("Patient attributes red from file:");
             System.out.println("Username: "+attr[0]);
             System.out.println("Password: "+attr[1]);
             System.out.println("Firstname: "+attr[2]);
@@ -218,13 +230,17 @@ public class UserInteraction {
         }
         catch(NumberFormatException e) //Exception in case output file contains wrong age format
         {
-            System.out.println("Wrong age format!");
+            System.out.println("Wrong age/AMKA format on file.Attributes failed to be read");
         }
-        catch (IOException e)
+        catch(ArrayIndexOutOfBoundsException e)
+        {
+            System.out.println("More attributes expected.Attributes failed to be read");
+        }
+        catch(IOException e)
         {
             System.out.println("An I/O exception has occured!");
         }
-        catch (Exception e)
+        catch(Exception e)
         {
             System.out.println("An Exception has occured!");
         }
@@ -236,5 +252,4 @@ public class UserInteraction {
             }
         }
     }
-
 }
