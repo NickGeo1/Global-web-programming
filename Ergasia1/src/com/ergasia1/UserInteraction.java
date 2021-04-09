@@ -33,6 +33,9 @@ public class UserInteraction {
                     System.out.println("Attributes are:");
                     System.out.println(p1.toString());
                     TimeUnit.SECONDS.sleep(2);
+
+                    p1.Login("blabla");
+
                     System.out.println("Register method:");
                     p2 = Patient.Register();
                     TimeUnit.SECONDS.sleep(2);
@@ -48,6 +51,7 @@ public class UserInteraction {
                     System.out.println("isAvailable method:");
                     System.out.println("Returns: "+p1.isAvailable());
                     TimeUnit.SECONDS.sleep(2);
+                    p1.Logout();
                     break;
 
                 case "Doctor" :
@@ -57,6 +61,9 @@ public class UserInteraction {
                     System.out.println("Attributes are:");
                     System.out.println(d1.toString());
                     TimeUnit.SECONDS.sleep(2);
+
+                    d1.Login("iamadocotr");
+
                     System.out.println("isAvailable method:");
                     boolean b = d1.isAvailable();
                     System.out.println("isAvailable returns: " + b);
@@ -67,6 +74,7 @@ public class UserInteraction {
                     System.out.println("createAppointment method:");
                     d1.createAppointment(d1,p1);
                     TimeUnit.SECONDS.sleep(2);
+                    d1.Logout();
                     break;
 
                 case "Admin" :
@@ -76,20 +84,24 @@ public class UserInteraction {
                     System.out.println("Attributes are:");
                     System.out.println(a1.toString());
                     TimeUnit.SECONDS.sleep(2);
-                    System.out.println("delete_doctor method:");
-                    a1.delete_doctor(d1);
-                    TimeUnit.SECONDS.sleep(2);
+
+                    a1.Login("stratos444");
+
                     System.out.println("add_doctor method:");
                     a1.add_doctor("GeorgeS12", "12345", "George", "Seimenis", 56, "Dentist");
                     TimeUnit.SECONDS.sleep(2);
                     System.out.println("change_doctor method:");
                     a1.change_doctor(a1.getUsername());
                     TimeUnit.SECONDS.sleep(2);
+                    System.out.println("delete_doctor method:");
+                    a1.delete_doctor(d1);
+                    TimeUnit.SECONDS.sleep(2);
+                    a1.Logout();
                     break;
 
                 case "Appointment" :
                     System.out.println("\nCreating an Appointment object...");
-                    ap1 = new Appointment(new Date());
+                    ap1 = new Appointment(new Date(),true);
                     TimeUnit.SECONDS.sleep(2);
                     System.out.println("Attributes are:");
                     System.out.println(ap1.toString());
