@@ -34,7 +34,7 @@ public abstract class Users
     {
         if (this.password.equals(password))
         {
-            System.out.println("Welcome back " + this.firstname + "!");
+            System.out.println("Successfully logged in! Welcome back " + this.firstname + "!");
             return loggedOn = true;
         }
 

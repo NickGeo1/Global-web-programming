@@ -36,13 +36,13 @@ public class UserInteraction {
                     System.out.println("Register method:");
                     p2 = Patient.Register();
                     TimeUnit.SECONDS.sleep(2);
-                    System.out.println("searchAvailableappointment method:");
+                    System.out.println("searchAvailableΑppointment method:");
                     p1.searchAvailableAppointments("name", "Nikolaos");
                     TimeUnit.SECONDS.sleep(2);
-                    System.out.println("showAppointmenthistory method:");
+                    System.out.println("showAppointmentΗistory method:");
                     p1.showAppointmentHistory("speciality", "pulmonologist");
                     TimeUnit.SECONDS.sleep(2);
-                    System.out.println("showScheduledappointments method:");
+                    System.out.println("showScheduledΑppointments method:");
                     p1.showScheduledAppointments("", "");
                     TimeUnit.SECONDS.sleep(2);
                     System.out.println("isAvailable method:");
