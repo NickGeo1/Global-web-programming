@@ -35,5 +35,7 @@ public class CreateUsers
         System.out.println("\n");
         UserInteraction.readObjectfromFile();
 
+        System.out.println("\nTotal users created: "+Users.getUsersCount());
+
     }
 }
