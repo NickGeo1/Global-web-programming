@@ -14,20 +14,35 @@ public class Admin extends Users
     }
 
     /**
-     * @param doctor Doctor is a type of User. So, the function takes an object of type User and destroyes it.
+     * @param doctor is a type of User. So, the function takes an object of type User and destroyes it.
      * This function is used to delete a doctor that already exists.
      */
     public void delete_doctor(Users doctor){
+
+        if (!isLoggedOn())
+        {
+
+            System.out.println("You must be logged on to delete a doctor.");
+            return;
+        }
+
         System.out.println("Doctor " + doctor.getUsername() + " has been deleted!");
     }
 
     /**
      * This function is used to add/create a new doctor.
+     * @return an object of type Doctor
      */
-    public void add_doctor(String username, String password, String firstname, String surname, int age,String speciality){
+    public Doctor add_doctor(String username, String password, String firstname, String surname, int age,String speciality){
 
-        Doctor new_doctor = new Doctor(username,password,firstname,username,age,speciality);
+        if (!isLoggedOn())
+        {
+            System.out.println("You must be logged on to add a new Doctor.");
+            return null;
+        }
+
         System.out.println("New doctor added!");
+        return new Doctor (username,password,firstname,surname,age,speciality);
     }
 
     /**
@@ -35,6 +50,12 @@ public class Admin extends Users
      * @param username is the username of the doctor that we want to modify
      */
     public void change_doctor(String username){
+
+        if (!isLoggedOn())
+        {
+            System.out.println("You must be logged on to modify a doctor.");
+            return;
+        }
 
         System.out.println("Doctor's characteristics have been changed!");
     }
