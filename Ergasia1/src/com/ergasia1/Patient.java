@@ -51,14 +51,14 @@ public class Patient extends Users
         {
             System.out.print("Enter your first name --> ");
             firstname = UserInteraction.input.nextLine();
-        } while (!firstname.matches("[A-Z][a-z]*"));
+        } while (!firstname.matches("[A-Z][A-Za-z]*"));
 
         String lastname;
         do
         {
             System.out.print("Enter your last name --> ");
             lastname = UserInteraction.input.nextLine();
-        } while (!lastname.matches("[A-Z][a-z]*"));
+        } while (!lastname.matches("[A-Z][A-Za-z]*"));
 
         //the age must be a number, so we make sure the program does so.
         int age = 0;
