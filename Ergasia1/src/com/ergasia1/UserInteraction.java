@@ -17,8 +17,8 @@ public class UserInteraction {
     /**
      * Create an object of the given type and show its attributes
      * @param type The type of the object we want to show attributes of.
-     * If no specific type of object is given, the default action is to create
-     * an Admin and Patient object and make them to Login/Logout(Users method)
+     * The default action is to create a Doctor object and show Users attributes with it.
+     *
      */
     static void showAttributes(String type) {
 
@@ -203,6 +203,12 @@ public class UserInteraction {
     }
 
     //txt file Output
+
+    /**
+     * Writes attributes of given object in output file
+     * @param p2 Patient object
+     * @throws IOException
+     */
     static void writeObjecttoFile(Patient p2) throws IOException
     {
         BufferedWriter outputStream = null;
