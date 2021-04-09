@@ -38,7 +38,7 @@ public abstract class Users
             return loggedOn = true;
         }
 
-        System.out.println("These credentials don't match. Please try again...");
+        System.out.println("These credentials don't match.");
         return false;
     }
 
