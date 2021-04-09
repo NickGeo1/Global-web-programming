@@ -14,6 +14,7 @@ public class Appointment
     // Constructor method
     Appointment (Date d){
 
+        done = true;
         this.date = d;
     }
 

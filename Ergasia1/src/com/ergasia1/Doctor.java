@@ -28,6 +28,12 @@ public class Doctor extends Users
      */
     public boolean isAvailable(){
 
+        if (!isLoggedOn())
+        {
+            System.out.println("You must be logged on to search for available appointments.");
+            return false;
+        }
+
         System.out.println("Doctor is available!");
         return true;
     }
@@ -46,6 +52,12 @@ public class Doctor extends Users
      * @param p is an instance of class Patient
      */
     void createAppointment (Doctor d,Patient p){
+
+        if (!isLoggedOn())
+        {
+            System.out.println("You must be logged on to search for available appointments.");
+            return;
+        }
 
         if (d.isAvailable() && p.isAvailable()){
             System.out.println("Appointment created!");
