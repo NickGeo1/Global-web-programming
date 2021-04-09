@@ -35,6 +35,7 @@ public class UserInteraction {
                     TimeUnit.SECONDS.sleep(2);
 
                     p1.Login("blabla");
+                    TimeUnit.SECONDS.sleep(2);
 
                     System.out.println("Register method:");
                     p2 = Patient.Register();
@@ -52,6 +53,7 @@ public class UserInteraction {
                     System.out.println("Returns: "+p1.isAvailable());
                     TimeUnit.SECONDS.sleep(2);
                     p1.Logout();
+                    TimeUnit.SECONDS.sleep(2);
                     break;
 
                 case "Doctor" :
@@ -63,6 +65,7 @@ public class UserInteraction {
                     TimeUnit.SECONDS.sleep(2);
 
                     d1.Login("iamadocotr");
+                    TimeUnit.SECONDS.sleep(2);
 
                     System.out.println("isAvailable method:");
                     boolean b = d1.isAvailable();
@@ -75,6 +78,7 @@ public class UserInteraction {
                     d1.createAppointment(d1,p1);
                     TimeUnit.SECONDS.sleep(2);
                     d1.Logout();
+                    TimeUnit.SECONDS.sleep(2);
                     break;
 
                 case "Admin" :
@@ -86,17 +90,19 @@ public class UserInteraction {
                     TimeUnit.SECONDS.sleep(2);
 
                     a1.Login("stratos444");
+                    TimeUnit.SECONDS.sleep(2);
 
                     System.out.println("add_doctor method:");
-                    a1.add_doctor("GeorgeS12", "12345", "George", "Seimenis", 56, "Dentist");
+                    Doctor d2 = a1.add_doctor("GeorgeS12", "12345", "George", "Seimenis", 56, "Dentist");
                     TimeUnit.SECONDS.sleep(2);
                     System.out.println("change_doctor method:");
                     a1.change_doctor(a1.getUsername());
                     TimeUnit.SECONDS.sleep(2);
                     System.out.println("delete_doctor method:");
-                    a1.delete_doctor(d1);
+                    a1.delete_doctor(d2);
                     TimeUnit.SECONDS.sleep(2);
                     a1.Logout();
+                    TimeUnit.SECONDS.sleep(2);
                     break;
 
                 case "Appointment" :
