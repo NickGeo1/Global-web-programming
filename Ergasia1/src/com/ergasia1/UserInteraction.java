@@ -8,8 +8,8 @@ import java.util.concurrent.TimeUnit;
 public class UserInteraction {
 
     static Patient p1;
-    static Patient p2;
     static Doctor d1;
+    static Doctor d3;
     static Admin a1;
     static Appointment ap1;
     static Scanner input = new Scanner(System.in);
@@ -34,9 +34,6 @@ public class UserInteraction {
                     System.out.println(p1.toString());
                     TimeUnit.SECONDS.sleep(2);
                     p1.Login("blabla");
-                    TimeUnit.SECONDS.sleep(2);
-                    System.out.println("Register method:");
-                    p2 = Patient.Register();
                     TimeUnit.SECONDS.sleep(2);
                     System.out.println("searchAvailableΑppointment method:");
                     p1.searchAvailableAppointments("name", "Nikolaos");
@@ -118,29 +115,27 @@ public class UserInteraction {
                     break;
 
                 default :
-                    System.out.println("\n(Login method)Give password for user "+ p2.getUsername()+":");
+                    System.out.println("\n(Login method)Give password for user "+ d3.getUsername()+":");
                     String pass1 = input.nextLine();
-                    if(p2.Login(pass1))
+                    if(d3.Login(pass1))
                     {
                         TimeUnit.SECONDS.sleep(2);
-                        System.out.println("(Logout method)" +p2.getUsername() + " is trying to logout...");
-                        p2.Logout();
+                        System.out.println("(Logout method)" +d3.getUsername() + " is trying to logout...");
+                        d3.Logout();
                     }
                     TimeUnit.SECONDS.sleep(2);
                     System.out.println("isLoggedOn method:");
-                    System.out.println("For user "+p2.getUsername()+" isLoggedOn returns: "+p2.isLoggedOn());
+                    System.out.println("For user "+d3.getUsername()+" isLoggedOn returns: "+d3.isLoggedOn());
                     TimeUnit.SECONDS.sleep(2);
             }
         }catch(InterruptedException e){}
     }
 
     /**
-     * Tells the user to give the corresponding constructor arguments splitted by ','(for Patient or Doctor), depending on 'user' value.
-     * Probable exceptions are being handled.If a Patient is being initialized, its attributes are being written in an output file
-     * @param user Represents which Class's(Patient or Doctor) attributes the user should give.For example, if users=Patient, the user must
-     * give Patient attributes.
+     * Tells the user to give Doctor constructor arguments splitted by ','.Creates a Doctor object after.
+     * Probable exceptions are being handled.
      */
-    static void giveAttributes(String user) throws IOException
+    static void giveDoctorAttributes() throws IOException
     {
         String[] atr = {};
         Patient p2 = null;
@@ -149,15 +144,14 @@ public class UserInteraction {
         {
             try
             {
-                System.out.println("\nGive "+user+" attributes splitted by ',' in the following order:\nusername,password,firstname,lastname,age," +
-                        ""+(user.equals("Patient")?"AMKA":"speciality"));
+                System.out.println("\nGive Doctor attributes splitted by ',' in the following order:\nusername,password,firstname,lastname,age,speciality");
                 String values = input.nextLine();
                 atr = values.split(",");
 
                 //If user gave more than 6 attributes or gave wrong format of any, we tell him to give attributes again
 
                 //Firstname,surname and speciality have to be only letters(Starting with capital,except of speciality)
-                //age,AMKA must be integers
+                //age must be integer
                 //Username cannot contain only space characters
 
                 if(atr.length>6)
@@ -180,13 +174,6 @@ public class UserInteraction {
                     System.out.println("Firstname/surname have to contain only letters and they must start with a capital letter.");
                     continue;
                 }
-
-                if(user.equals("Patient"))
-                {
-                    Integer.parseInt(atr[5]);
-                    p2 = new Patient(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
-                    System.out.println("Patient object created!");
-                }
                 else if(!atr[5].matches("[A-Za-z]+")) //in this case user="Doctor"
                 {
                     System.out.println("Wrong speciality format.");
@@ -194,16 +181,15 @@ public class UserInteraction {
                 }
                 else
                 {
-                    Doctor d2 = new Doctor(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
+                    d3 = new Doctor(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
                     System.out.println("Doctor object created!");
                 }
                 TimeUnit.SECONDS.sleep(2);
-
                 break; //At this point user gave correct attributes so we exit
             }
             catch(NumberFormatException e1) //Exception in case user gave wrong age format
             {
-                System.out.println("Wrong age/AMKA format!");
+                System.out.println("Wrong age format!");
             }
             catch (ArrayIndexOutOfBoundsException e2) //Exception in case user gave fewer than 6 attributes
             {
@@ -214,34 +200,33 @@ public class UserInteraction {
                 System.out.println("An exception has occured!");
             }
         }
+    }
 
-        //txt file Output
+    //txt file Output
+    static void writeObjecttoFile(Patient p2) throws IOException
+    {
+        BufferedWriter outputStream = null;
 
-        if(user.equals("Patient"))
+        try
         {
-            BufferedWriter outputStream = null;
-
-            try
+            outputStream = new BufferedWriter ( new FileWriter("C:\\Users\\nikos\\Documents\\GitHub\\Global-web-programming\\Ergasia1\\src\\com\\ergasia1\\Patient_attr",true) );
+            outputStream.write("\n"+p2.getUsername() +","+ p2.getPassword() +","+ p2.getFirstname() +","+ p2.getSurname() +","+ p2.getAge() +","+ p2.GetAMKA());
+            System.out.println("Successfully stored above patient in output file!");
+            TimeUnit.SECONDS.sleep(2);
+        }
+        catch (IOException e)
+        {
+            System.out.println("An I/O exception has occured!");
+        }
+        catch (Exception e)
+        {
+            System.out.println("An Exception has occured!");
+        }
+        finally
+        {
+            if (outputStream != null)
             {
-                outputStream = new BufferedWriter ( new FileWriter("C:\\Users\\nikos\\Documents\\GitHub\\Global-web-programming\\Ergasia1\\src\\com\\ergasia1\\Patient_attr",true) );
-                outputStream.write("\n"+p2.getUsername() +","+ p2.getPassword() +","+ p2.getFirstname() +","+ p2.getSurname() +","+ p2.getAge() +","+ p2.GetAMKA());
-                System.out.println("Successfully stored above patient in output file!");
-                TimeUnit.SECONDS.sleep(2);
-            }
-            catch (IOException e)
-            {
-                System.out.println("An I/O exception has occured!");
-            }
-            catch (Exception e)
-            {
-                System.out.println("An Exception has occured!");
-            }
-            finally
-            {
-                if (outputStream != null)
-                {
-                    outputStream.close();
-                }
+                outputStream.close();
             }
         }
     }

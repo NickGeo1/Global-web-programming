@@ -22,12 +22,17 @@ public class CreateUsers
         //Appointment
         UserInteraction.showAttributes("Appointment");
 
-        //Users login
-        UserInteraction.showAttributes("User");
 
         //Give Patient,Doctor attributes and store Patient's to output file
-        UserInteraction.giveAttributes("Patient");
-        UserInteraction.giveAttributes("Doctor");
+
+        System.out.println("\nRegister method of Class Patient:");
+        Patient p = Patient.Register();
+        UserInteraction.writeObjecttoFile(p);
+
+        UserInteraction.giveDoctorAttributes();
+
+        //Users login
+        UserInteraction.showAttributes("User");
 
         //txt file Input
         UserInteraction.readObjectfromFile();
