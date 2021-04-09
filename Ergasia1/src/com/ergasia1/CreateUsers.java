@@ -32,6 +32,7 @@ public class CreateUsers
         UserInteraction.giveAttributes("Doctor");
 
         //txt file Input
+        System.out.println("\n");
         UserInteraction.readObjectfromFile();
 
     }

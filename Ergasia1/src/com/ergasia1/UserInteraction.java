@@ -35,13 +35,16 @@ public class UserInteraction {
                 p1.showAppointmentHistory("speciality", "pulmonologist");
                 System.out.println("showScheduledappointments method:");
                 p1.showScheduledAppointments("", "");
+                System.out.println("isAvailable method:");
+                System.out.println("Returns: "+p1.isAvailable());
                 break;
 
             case "Doctor" :
                 System.out.println("\nCreating a Doctor object...\nAttributes are:");
                 System.out.println(d1.toString());
-                System.out.println("isAvailable method returns true if doctor is available.Returns false otherwise");
-                System.out.println("isAvailable returns: " + d1.isAvailable());
+                System.out.println("isAvailable method:");
+                boolean b = d1.isAvailable();
+                System.out.println("isAvailable returns: " + b);
                 System.out.println("show_appointments method:");
                 d1.show_appointments();
                 System.out.println("createAppointment method:");
@@ -55,8 +58,8 @@ public class UserInteraction {
                 a1.delete_doctor(d1);
                 System.out.println("add_doctor method:");
                 a1.add_doctor("GeorgeS12", "12345", "George", "Seimenis", 56, "Dentist");
-                System.out.println("delete_doctor method:");
-                a1.delete_doctor(d1);
+                System.out.println("change_doctor method:");
+                a1.change_doctor(a1.getUsername());
                 break;
 
             case "Appointment" :
@@ -140,7 +143,7 @@ public class UserInteraction {
                 else
                 {
                     Doctor d2 = new Doctor(atr[0], atr[1], atr[2], atr[3], Integer.parseInt(atr[4]), atr[5]);
-                    System.out.println("Docrtor object created!");
+                    System.out.println("Doctor object created!");
                 }
 
                 break; //At this point user gave correct attributes so we exit
