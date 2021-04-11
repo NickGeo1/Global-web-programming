@@ -209,7 +209,8 @@ public class UserInteraction {
                 {
                     System.out.println("Fewer attributes expected");
 
-                }else if(atr[0].isBlank())
+                }
+                else if(atr[0].isBlank())
                 {
                     System.out.println("Username cannot be null, or contain only space characters.");
                 }
@@ -217,7 +218,7 @@ public class UserInteraction {
                 {
                     System.out.println("Password cannot be null or less than 4 characters.");
                 }
-                else if(!atr[2].matches("[A-Z][A-Za-z]*") || !atr[3].matches("[A-Z][A-Za-z]*"))
+                else if(!atr[2].matches("^[A-Z][a-z]+") || !atr[3].matches("^[A-Z][a-z]+"))
                 {
                     System.out.println("Firstname/surname have to contain only letters and they must start with a capital letter.");
                 }

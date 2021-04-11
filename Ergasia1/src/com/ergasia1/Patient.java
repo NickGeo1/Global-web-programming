@@ -32,33 +32,37 @@ public class Patient extends Users
         System.out.println("Initiated Patient Registration.");
 
         //we scan linearly the values
-        String username;
-        do
+        System.out.print("Provide a username --> ");
+        String username = UserInteraction.input.nextLine();
+        while (username.isBlank())
         {
-            System.out.print("Provide a username --> ");
+            System.out.print("A username cannot be blank. Provide a new one --> ");
             username = UserInteraction.input.nextLine();
-        } while (username.isBlank());
+        }
 
-        String password;
-        do
+        System.out.print("Provide a password --> ");
+        String password = UserInteraction.input.nextLine();
+        while (password.isEmpty() || password.length() < 4)
         {
-            System.out.print("Provide a password --> ");
+            System.out.print("A password cannot be empty or less than four characters. Provide a new one --> ");
             password = UserInteraction.input.nextLine();
-        } while(password.isEmpty() || password.length() < 4);
+        }
 
-        String firstname;
-        do
+        System.out.print("Provide a first name --> ");
+        String firstname = UserInteraction.input.nextLine();
+        while (!firstname.matches("^[A-Z][a-z]+"))
         {
-            System.out.print("Enter your first name --> ");
+            System.out.print("A first name must start with a capital latin character and end with a lowercase.\nProvide a new one --> ");
             firstname = UserInteraction.input.nextLine();
-        } while (!firstname.matches("[A-Z][A-Za-z]*"));
+        }
 
-        String lastname;
-        do
+        System.out.print("Provide a first name --> ");
+        String lastname = UserInteraction.input.nextLine();
+        while (!lastname.matches("^[A-Z][a-z]+"))
         {
-            System.out.print("Enter your last name --> ");
+            System.out.print("A last name must start with a capital latin character and end with a lowercase.\nProvide a new one --> ");
             lastname = UserInteraction.input.nextLine();
-        } while (!lastname.matches("[A-Z][A-Za-z]*"));
+        }
 
         //the age must be a number, so we make sure the program does so.
         int age = 0;
@@ -73,6 +77,9 @@ public class Patient extends Users
             {
                 //if the parsing was done successfully, we break out of the loop.
                 age = Integer.parseInt(firstAge);
+                if (age < 0)
+                    continue;
+
                 break;
             }
             catch (Exception e)
