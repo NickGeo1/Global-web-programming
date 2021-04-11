@@ -56,7 +56,7 @@ public class Patient extends Users
             firstname = UserInteraction.input.nextLine();
         }
 
-        System.out.print("Provide a first name --> ");
+        System.out.print("Provide a last name --> ");
         String lastname = UserInteraction.input.nextLine();
         while (!lastname.matches("^[A-Z][a-z]+"))
         {
