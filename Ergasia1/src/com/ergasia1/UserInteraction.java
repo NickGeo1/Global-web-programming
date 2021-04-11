@@ -218,13 +218,13 @@ public class UserInteraction {
                 {
                     System.out.println("Password cannot be null or less than 4 characters.");
                 }
-                else if(!atr[2].matches("^[A-Z][a-z]+") || !atr[3].matches("^[A-Z][a-z]+"))
+                else if(!atr[2].matches("[A-Z][a-z]*") || !atr[3].matches("[A-Z][a-z]*"))
                 {
-                    System.out.println("Firstname/surname have to contain only letters and they must start with a capital letter.");
+                    System.out.println("Firstname/surname have to contain only letters and their first character only, must be capital.");
                 }
-                else if(!atr[5].matches("[A-Za-z]+"))
+                else if(!atr[5].matches("[A-Za-z][A-Za-z ]*"))
                 {
-                    System.out.println("Wrong speciality format.");
+                    System.out.println("Wrong speciality format.Must contain only letters and space characters(cannot start with space)");
                 }
                 else
                 {
@@ -301,8 +301,23 @@ public class UserInteraction {
 
             if(attr.length>6)
             {
-                System.out.println("Fewer attributes expected.Attributes failed to be read");
+                System.out.println("In output file:Fewer attributes expected.Attributes failed to be read");
                 inputStream.close();
+                return;
+            }
+            else if(attr[0].isBlank())
+            {
+                System.out.println("In output file:Username cannot be null, or contain only space characters.Attributes failed to be read");
+                return;
+            }
+            else if(attr[1].isEmpty() || attr[1].length() < 4)
+            {
+                System.out.println("In output file:Password cannot be null or less than 4 characters.Attributes failed to be read");
+                return;
+            }
+            else if(!attr[5].matches("[A-Za-z][A-Za-z ]*"))
+            {
+                System.out.println("Wrong speciality format in output file.Attributes failed to be read");
                 return;
             }
             else if(!attr[2].matches("[A-Z][a-z]*") || !attr[3].matches("[A-Z][a-z]*"))

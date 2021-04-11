@@ -50,17 +50,17 @@ public class Patient extends Users
 
         System.out.print("Provide a first name --> ");
         String firstname = UserInteraction.input.nextLine();
-        while (!firstname.matches("^[A-Z][a-z]+"))
+        while (!firstname.matches("[A-Z][a-z]*"))
         {
-            System.out.print("A first name must start with a capital latin character and end with a lowercase.\nProvide a new one --> ");
+            System.out.print("A first name must start with a capital latin character.The rest could be none or more lowercase characters.\nProvide a new one --> ");
             firstname = UserInteraction.input.nextLine();
         }
 
         System.out.print("Provide a last name --> ");
         String lastname = UserInteraction.input.nextLine();
-        while (!lastname.matches("^[A-Z][a-z]+"))
+        while (!lastname.matches("[A-Z][a-z]*"))
         {
-            System.out.print("A last name must start with a capital latin character and end with a lowercase.\nProvide a new one --> ");
+            System.out.print("A last name must start with a capital latin character.The rest could be none or more lowercase characters\nProvide a new one --> ");
             lastname = UserInteraction.input.nextLine();
         }
 

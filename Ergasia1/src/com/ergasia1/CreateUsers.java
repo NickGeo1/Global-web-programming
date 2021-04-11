@@ -22,7 +22,6 @@ public class CreateUsers
         //Appointment
         UserInteraction.showAttributes("Appointment");
 
-
         //Give Patient,Doctor attributes and store Patient's to output file
 
         System.out.println("\nRegister method of Class Patient:");
