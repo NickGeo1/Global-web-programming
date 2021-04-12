@@ -68,7 +68,7 @@ public class UserInteraction {
 
                 case "Doctor" :
                     System.out.println("\nCreating a Doctor object...");
-                    d1 = new Doctor("NickGeo01", "iamadocotr", "Nikolaos", "Georgiadis", 19, "Cardiologist");
+                    d1 = new Doctor("NickGeo01", "iamadoctor", "Nikolaos", "Georgiadis", 19, "Cardiologist");
 
                     TimeUnit.SECONDS.sleep(2);
 
@@ -313,11 +313,6 @@ public class UserInteraction {
             else if(attr[1].isEmpty() || attr[1].length() < 4)
             {
                 System.out.println("In output file:Password cannot be null or less than 4 characters.Attributes failed to be read");
-                return;
-            }
-            else if(!attr[5].matches("[A-Za-z][A-Za-z ]*"))
-            {
-                System.out.println("Wrong speciality format in output file.Attributes failed to be read");
                 return;
             }
             else if(!attr[2].matches("[A-Z][a-z]*") || !attr[3].matches("[A-Z][a-z]*"))
