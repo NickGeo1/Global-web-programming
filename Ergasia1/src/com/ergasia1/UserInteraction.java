@@ -86,7 +86,7 @@ public class UserInteraction {
                     TimeUnit.SECONDS.sleep(4);
 
                     System.out.println("[DOCTOR OBJECT]: show_appointments method:");
-                    d1.show_appointments();
+                    d1.show_appointments("day");
 
                     TimeUnit.SECONDS.sleep(4);
 
