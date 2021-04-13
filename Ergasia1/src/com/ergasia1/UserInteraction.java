@@ -326,7 +326,7 @@ public class UserInteraction {
 
             Patient p3 = new Patient(attr[0], attr[1], attr[2], attr[3], Integer.parseInt(attr[4]), attr[5]);
             System.out.println("\nPatient object created!");
-            System.out.println("Patient attributes red from file:");
+            System.out.println("Patient attributes read from file:");
             System.out.println("Username: "+attr[0]);
             System.out.println("Password: "+attr[1]);
             System.out.println("Firstname: "+attr[2]);

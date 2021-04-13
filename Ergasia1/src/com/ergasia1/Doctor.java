@@ -40,9 +40,22 @@ public class Doctor extends Users
 
     /**
      * This function shows to the screen all the appointments that a doctor has.
+     * @param option takes only values "week" and "day". By this way, the appointments
+     * that a doctor has daily or weekly will be shown.
      */
-    public void show_appointments(){
-        System.out.println("Doctor's appointments are being shown here");
+    public void show_appointments(String option){
+
+        switch(option) {
+            case "week":
+                System.out.println("Week's appointments are:");
+                break;
+            case "day":
+                System.out.println("Today's appointments are:");
+                break;
+            default:
+                System.out.println("No appointments found based on your search.");
+        }
+
     }
 
     /**
@@ -70,7 +83,8 @@ public class Doctor extends Users
     }
 
     /**
-     * This function is user for canceling an appointment
+     * This function is user for canceling an appointment. Appointmenrs will be canceled
+     * only if they have been scheduled three days after current date.
      */
     void cancelAppointment(){
 
