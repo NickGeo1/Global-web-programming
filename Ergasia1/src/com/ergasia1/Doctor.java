@@ -45,6 +45,12 @@ public class Doctor extends Users
      */
     public void show_appointments(String option){
 
+        if (!isLoggedOn())
+        {
+            System.out.println("You must be logged on to search for available appointments.");
+            return;
+        }
+
         switch(option) {
             case "week":
                 System.out.println("Week's appointments are:");
