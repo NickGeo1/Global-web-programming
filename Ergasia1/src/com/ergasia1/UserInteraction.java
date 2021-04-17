@@ -77,7 +77,7 @@ public class UserInteraction {
                     TimeUnit.SECONDS.sleep(3);
 
                     System.out.println("[DOCTOR OBJECT]: Attempting to log in " + d1.getUsername() + ".");
-                    d1.Login("iamadocotr");
+                    d1.Login("iamadoctor");
 
                     TimeUnit.SECONDS.sleep(2);
 
