@@ -1,4 +1,4 @@
-package com.ergasia1;
+package com.classes;
 
 /**
  * Every class is extending Users class.This class has the attributes and methods that every kind of user must have

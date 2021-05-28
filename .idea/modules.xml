@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Global-web-programming.iml" filepath="$PROJECT_DIR$/Global-web-programming.iml" />
-      <module fileurl="file://$USER_HOME$/Documents/GitHub/Global-web-programming/Global-web-programming1.iml" filepath="$USER_HOME$/Documents/GitHub/Global-web-programming/Global-web-programming1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Ergasia2/Ergasia2.iml" filepath="$PROJECT_DIR$/Ergasia2/Ergasia2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Global-web-programming.iml" filepath="$PROJECT_DIR$/.idea/Global-web-programming.iml" />
     </modules>
   </component>
 </project>

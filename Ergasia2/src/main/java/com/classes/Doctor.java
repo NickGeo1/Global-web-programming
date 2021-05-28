@@ -1,4 +1,4 @@
-package com.example.Ergasia2.Classes;
+package com.classes;
 
 import java.util.ArrayList;
 import java.util.List;

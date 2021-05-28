@@ -1,4 +1,4 @@
-package com.ergasia1;
+package com.classes;
 
 import java.awt.print.Printable;
 import java.util.ArrayList;

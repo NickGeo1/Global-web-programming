@@ -1,4 +1,4 @@
-package com.ergasia1;
+package com.classes;
 
 /**
  * This is the model of an Admin. Admins are the only ones who can add,modify and delete doctors from the
