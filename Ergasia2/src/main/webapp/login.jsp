@@ -86,7 +86,7 @@
         <br>
         <br>
 
-        <form action="" method="post" name="me">
+        <form action="login" method="post" name="me">
             <center><table>
                 <tr><td colspan="2" id="firstcell" height="25px" class="td7"><pre> Login form</pre></td></tr>
                 <tr><td></td><td></td></tr>
