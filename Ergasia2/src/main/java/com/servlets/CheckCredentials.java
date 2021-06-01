@@ -1,4 +1,4 @@
-package com.example.Ergasia2;
+package com.servlets;
 
 import java.io.*;
 import javax.servlet.http.*;
