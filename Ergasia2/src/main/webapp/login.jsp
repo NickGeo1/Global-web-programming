@@ -31,7 +31,7 @@
 <br>
 <article class="article1">
     <br><br>
-    <form action="" method="post" name="me">
+    <form action="login" method="post" name="me">
         <center><table>
             <tr><td colspan="2" id="firstcell" height="25px" class="td7">Φόρμα επικοινωνίας</td></tr>
             <tr><td></td><td></td></tr>
