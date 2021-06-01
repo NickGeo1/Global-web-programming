@@ -1,4 +1,4 @@
-<!-- This is the start page of the application -->
+<!-- start page -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
