@@ -1,4 +1,4 @@
-<!-- This is the login page -->
+<!-- This is the login page. Using this page, users are able to connect to the application. -->
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -7,39 +7,48 @@
     <head>
 
         <meta charset="utf-8">
-        <title>Login page</title>
+        <title>LOGIN</title>
 
         <style>
 
+            /* the whole page has the same font */
             *
-            {/*Όλα το περιεχόμενο της ιστοσελίδας έχει την ίδια γραμματοσειρά.*/
+            {
                 font-family:candara;
             }
 
+            /* change the background colour of the page */
             body
-            {/*Μορφοποίηση του υπόβαθρου της ιστοσελίδας.*/
+            {
                 background-color: seagreen;
             }
 
+            /* style rules for the article part of body section */
             .article1
-            {/*Κλάση μορφοποίησης για το article.*/
+            {
                 border-radius: 25px;
                 background: white;
-                margin-right:400px;
-                margin-left:400px;
-                margin-top:30px;
+                width: 500px;
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
             }
 
+            /* style rules for every field of the table (inside the login form) */
             td
             {
-                width:210px;
+                width:200px;
                 height:20px;
                 text-align:center;
                 color:white;
             }
 
+            /* style rules for every field of the table (inside the login form) */
             .td7
-            {/*Μορφοποίηση των κελιών του πίνακα της φόρμας.*/
+            {
                 text-align:left;
                 color:#012A6C;
                 font-size:19px;
@@ -47,15 +56,17 @@
                 width:150px;
             }
 
+            /* style rules for every input field of the form */
             .input1
-            {/*Μορφοποίηση όλων των πεδίων της φόρμας.*/
-                width:200px;
+            {
+                width:150px;
                 border:1px solid #012A6C;
                 padding: 12px 20px;
             }
 
+            /* style rules of the first row of the table (inside the login form) */
             #firstcell
-            {/*Μορφοποίηση της πρώτης γραμμής του πίνακα στην form1*/
+            {
                 background-color:#012A6C;
                 font-size:20px;
                 text-align:left;
@@ -63,8 +74,9 @@
                 font-weight:bold;
             }
 
+            /* style the two buttons of the form */
             #buttons
-            {/*Τα κουμπιά της φόρμας στην σελίδα communication.html.*/
+            {
                 font-size:17px;
                 font-weight:bold;
                 text-align:center;
@@ -88,15 +100,17 @@
 
         <form action="login" method="post" name="me">
             <center><table>
-                <tr><td colspan="2" id="firstcell" height="25px" class="td7"><pre> Login form</pre></td></tr>
+                <tr><td colspan="2" id="firstcell" height="25px" class="td7"><pre> Please, insert your credentials:</pre></td></tr>
                 <tr><td></td><td></td></tr>
                 <tr><td class="td7"><label for="username" class="td7">Username: *:</label></td><td class="td7"><input type="text" id="username" name="username" class="input1"/></td></tr>
                 <tr><td></td><td></td></tr>
                 <tr><td class="td7"><label for="password">Password: *:</label></td><td class="td7"><input type="password" id="password" name="password" class="input1"/></td></tr>
                 <tr><td></td><td></td></tr>
+                <tr><td class="td7">Category: *:</td><td class="td7"><input type="radio" id="Admin" name="category" value="Admin"><label for="Admin">Admin</label><br><input type="radio" id="Patient" name="category" value="Patient"><label for="Patient">Patient</label><br><input type="radio" id="Doctor" name="category" value="Doctor"><label for="Doctor">Doctor</label></td></tr>
+                <tr><td></td><td></td></tr>
                 <tr><td colspan="2" class="td7">Fields with * are necessary.</td></tr>
                 <tr><td></td><td></td></tr>
-                <tr><td colspan="2"><center><pre><input type="submit" name="send" value="SUBMIT" id="buttons" onmouseover="validname()" onclick="validateform()">           <input type="Reset" name="rEset" value="RESET" id="buttons"/></pre></center></td></tr>
+                <tr><td colspan="2"><center><pre><input type="submit" name="send" value="SUBMIT" id="buttons">           <input type="Reset" name="rEset" value="RESET" id="buttons"/></pre></center></td></tr>
                 <input type="hidden" name="con1" id="con1" value="0"><input type="hidden" name="con2" id="con2" value="0"><!--Κρυμμένα πεδία μη ορατά από το χρήστη.-->
             </table></center>
         </form>
@@ -105,24 +119,6 @@
         <br>
 
     </article>
-
-    <script>
-
-        function validateform()
-        {
-            var username = document.forms["me"]
-                ["username"].value;
-
-            var password = document.forms["me"]
-                ["password"].value;
-
-            if( username == "" || password == "")
-            {
-                alert("Both fields of the form are necessary!");
-            }
-        }
-
-    </script>
 
     </body>
 
