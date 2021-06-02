@@ -35,16 +35,10 @@
                 margin-top:30px;
             }
 
-            /* style rules for all the hyperlinks */
-            a
-            {
-                font-size:20px;
-            }
-
             /* style rules when hyperlinks are active */
             a:active
             {
-                background-color: chocolate;
+                background-color: seagreen;
             }
 
             /* style rules when hyperlinks are pressed */
@@ -53,8 +47,11 @@
                 color: #012A6C;
             }
 
-            a{/*Όλοι οι σύνδεσμοι.*/
-                font-size:17px;
+            /* style the hyperlinks in the nav section */
+            a
+            {
+                font-size:19px;
+                color: #012A6C;
             }
 
             /* style rules for every h1 */
@@ -94,6 +91,13 @@
                 margin-top:30px;
             }
 
+            /* set the width and height of the image */
+            img
+            {
+                width:600px;
+                height:500px;
+            }
+
         </style>
 
     </head>
@@ -112,8 +116,8 @@
 
             <table align="center">
                 <tr>
-                    <td><a href="sign-up.jsp">sign-up</a></td>
-                    <td><a href="login.jsp">login</a></td>
+                    <td><a href="sign-up.jsp">Sign-up</a></td>
+                    <td><a href="login.jsp">Login</a></td>
                     <td><a href="instructions.jsp">Instruction use</a></td>
                 </tr>
             </table>
@@ -121,7 +125,17 @@
         </nav>
 
         <article>
-                <h1>EDO THA BEI MIA POUTANA IKONA POU DEN XERO POS MPENI SE JSP ARXIA.</h1>
+
+            <br>
+            <br>
+
+            <center>
+                <img src="img/logos/doctor1.jpg">
+            </center>
+
+            <br>
+            <br>
+
         </article>
 
         <br>
