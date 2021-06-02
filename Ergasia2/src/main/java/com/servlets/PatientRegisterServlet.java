@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name = "PatientServlet", value = "/patientregister")
+@WebServlet(name = "PatientRegisterServlet", value = "/patientregister")
 public class PatientRegisterServlet extends HttpServlet
 {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
