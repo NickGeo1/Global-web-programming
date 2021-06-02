@@ -16,7 +16,7 @@
                 font-family:candara;
             }
 
-            /* change the background colour of the page */
+            /* style rules for the body of the page */
             body
             {
                 background-color: seagreen;
