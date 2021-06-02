@@ -34,14 +34,14 @@
             {
                 border-radius: 25px;
                 background: white;
-                width: 500px;
+                width: 550px;
             }
 
             /* style rules for the image */
             img
             {
                 width:500px;
-                height:400px;
+                height:500px;
             }
 
             a:active
@@ -75,7 +75,7 @@
             {
                 border-radius: 25px;
                 background: white;
-                width: 500px;
+                width: 550px;
             }
 
         </style>
@@ -83,6 +83,9 @@
     </head>
 
     <body>
+
+        <br>
+        <br>
 
         <section>
             <br>
@@ -104,5 +107,8 @@
         </footer>
 
     </body>
+
+    <br>
+    <br>
 
 </html>
