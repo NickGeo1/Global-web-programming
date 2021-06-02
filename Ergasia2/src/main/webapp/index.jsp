@@ -95,7 +95,7 @@
             img
             {
                 width:800px;
-                height:350px;
+                height:400px;
             }
 
         </style>
