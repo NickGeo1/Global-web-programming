@@ -132,7 +132,7 @@
         <br>
         <br>
 
-        <form action="" method="post" name="signup" onsubmit="return validateForm()">
+        <form action="patientregister" method="post" name="signup" onsubmit="return validateForm()">
             <center><table>
                 <tr><td colspan="2" id="firstcell" height="25px" class="td7"><pre> Hello patient, please sign-up:</pre></td></tr>
                 <tr><td></td><td></td></tr>
