@@ -34,9 +34,7 @@
             {
                 border-radius: 25px;
                 background: white;
-                margin-right:100px;
-                margin-left:100px;
-                margin-top:30px;
+                width: 500px;
             }
 
             /* style rules for the image */
