@@ -13,24 +13,21 @@
 
         <style>
 
-            img
-            {
-                width:25px;
-                height:25px;
-            }
-
+            /* the whole page has the same font */
             *
-            {/*Όλα το περιεχόμενο της ιστοσελίδας έχει την ίδια γραμματοσειρά.*/
+            {
                 font-family:candara;
             }
 
+            /* change the background colour of the page */
             body
-            {/*Μορφοποίηση του υπόβαθρου της ιστοσελίδας.*/
+            {
                 background-color: seagreen;
             }
 
+            /* style rules for the article part of body section */
             article
-            {/*Κλάση μορφοποίησης για το article.*/
+            {
                 border-radius: 25px;
                 background: white;
                 margin-right:100px;
@@ -38,38 +35,38 @@
                 margin-top:30px;
             }
 
-            a:active
-            {/*Σύνδεσμοι που όταν τους πατάει ο χρήστης έχουν μπλε επισύναψη.*/
-                background-color:#012A6C;
-            }
-
-            a:visited
-            {/*Σύνδεσμοι που όταν τους επισκέπτεται ο χρήστης έχουν κόκκινο χρώμα.*/
-                color:#C20034;
-            }
-
+            /* style rules for all the hyperlinks */
             a
-            {/*Όλοι οι σύνδεσμοι.*/
+            {
+                font-size:20px;
+            }
+
+            /* style rules when hyperlinks are active */
+            a:active
+            {
+                background-color: chocolate;
+            }
+
+            /* style rules when hyperlinks are pressed */
+            a:visited
+            {
+                color: #012A6C;
+            }
+
+            a{/*Όλοι οι σύνδεσμοι.*/
                 font-size:17px;
             }
 
-            section
-            {/*Κανόνες μορφοποίησης για το section.*/
-                border-radius: 25px;
-                background: white;
-                margin-right:100px;
-                margin-left:100px;
-                margin-top:30px;
-            }
-
+            /* style rules for every h1 */
             h1
-            {/*Κανόνες μορφοποίησης για όλα τα h1.*/
+            {
                 font-size:25px;
                 text-align:center;
                 color: #012A6C;
                 letter-spacing:6px;
             }
 
+            /* style rules for every field of the table */
             td
             {
                 width:210px;
@@ -78,19 +75,23 @@
                 color:white;
             }
 
+            /* style rules for the menu section of the web page */
+            nav
+            {
+                border-radius: 25px;
+                background: white;
+                margin-right:100px;
+                margin-left:100px;
+            }
+
+            /* style rules for the header part of the page */
             header
-            {/*Κανόνες μορφοποίησης για την επικεφαλίδα του body.*/
+            {
                 border-radius: 25px;
                 background: white;
                 margin-right:100px;
                 margin-left:100px;
                 margin-top:30px;
-            }
-
-            h3
-            {/*Κοινή μορφοποίηση για όλα τα h3.*/
-                font-size:19px;
-                color:#C20034;
             }
 
         </style>
@@ -107,27 +108,23 @@
 
         <br>
 
-        <section>
-            <center>
-                <br>
-                <h3>In this application, you will have the chance to create or handle your appointments. Εδω θα έχει κείμενο και καλά</h3>
-                <br>
-                <h3>-- Please, login or sign-up to the application --</h3>
-                <br>
-            </center>
-        </section>
+        <nav>
 
-        <br>
-
-        <article>
             <table align="center">
                 <tr>
-                    <td><h3><a href="login.jsp">Login</a></h3></td>
-                    <td><h3><a href="sign-up.jsp">Sign-up</a></h3></td>
+                    <td><a href="sign-up.jsp">sign-up</a></td>
+                    <td><a href="login.jsp">login</a></td>
+                    <td><a href="instructions.jsp">Instruction use</a></td>
                 </tr>
             </table>
+
+        </nav>
+
+        <article>
+                <h1>EDO THA BEI MIA POUTANA IKONA POU DEN XERO POS MPENI SE JSP ARXIA.</h1>
         </article>
 
+        <br>
         <br>
 
     </body>
