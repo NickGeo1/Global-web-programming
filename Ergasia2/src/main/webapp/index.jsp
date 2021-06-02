@@ -94,8 +94,8 @@
             /* set the width and height of the image */
             img
             {
-                width:600px;
-                height:500px;
+                width:800px;
+                height:350px;
             }
 
         </style>
