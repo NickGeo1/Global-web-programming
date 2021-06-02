@@ -151,7 +151,6 @@
                 <tr><td colspan="2" class="td7">Fields with * are necessary.</td></tr>
                 <tr><td></td><td></td></tr>
                 <tr><td colspan="2"><center><pre><input type="submit" name="send" value="SUBMIT" id="buttons" onmouseover="validname()">           <input type="Reset" name="rEset" value="RESET" id="buttons"/></pre></center></td></tr>
-                <input type="hidden" name="con1" id="con1" value="0"><input type="hidden" name="con2" id="con2" value="0"><!--Κρυμμένα πεδία μη ορατά από το χρήστη.-->
             </table></center>
         </form>
 
@@ -209,26 +208,39 @@
             var AMKA = document.forms["signup"]["AMKA"].value;
             var age = document.forms["signup"]["age"].value;
 
-            if (/^[a-zA-Zα-ωΑ-Ωίόάήώύϊϋΐέΰ\s]+$/.test(name))
+
+            if (!/^+$/.test(username))
             {
-                document.getElementById("con1").value="1";//Δίνει την τιμή 1 σε ένα κρυφό πεδίο της φόρμας.
-            }
-            else
-            {
-                alert("Το όνομά σας πρέπει να περιλαμβάνει μόνο ελληνικούς ή και λατινικούς χαρακτήρες!");//Εμφάνιση σχετικού μηνύματος.
-                document.getElementById("con1").value="0";//Δίνει την τιμή 0 σε ένα κρυφό πεδίο της φόρμας.
+                alert("Username should include at least one character.")
             }
 
-            if (/^[a-z\d\._-]+@([a-z\d-]+\.)+[a-z]{2,6}$/i.test(email))
+            if (!/^{6}$/.test(password))
             {
-                document.getElementById("con2").value="1";//Δίδει την τιμή 1 σε ένα κρυφό πεδίο της φόρμας.
+                alert("Password should consist of only six characters.")
             }
-            else
+
+            if (!/^A-z][a-z]*$/.test(fn))
             {
-                alert("Το email σας πρέπει να είναι της μορφής xxxx@xxxx.xx !");//Εμφάνιση σχετικού μηνύματος.
-                document.getElementById("con2").value="0";//Δίδει την τιμή 0 σε ένα κρυφό πεδίο της φόρμας.
+                alert("First name includes only letters and should begin with a capital letter.")
             }
+
+            if (!/^[A-Z][a-z]*$/.test(ln))
+            {
+                alert("Last name includes only letters and should begin with a capital letter.")
+            }
+
+            if (!/^[0-9]+$/.test(age))
+            {
+                alert("Age field should consist of only numbers.")
+            }
+
+            if (!/^\d{11}$/.test(AMKA))
+            {
+                alert("AMKA should be a 11-digit number.")
+            }
+
         }
+
     </script>
 
     </body>
