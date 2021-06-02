@@ -7,7 +7,7 @@
     <head>
 
         <meta charset="utf-8">
-        <title>Failed to login</title>
+        <title>LOGIN FAILED</title>
 
         <style>
 
@@ -40,7 +40,7 @@
             /* style rules for the image */
             img
             {
-                width:400px;
+                width:500px;
                 height:400px;
             }
 
@@ -85,9 +85,13 @@
     <body>
 
         <section>
+            <br>
+            <br>
             <center>
                 <img src="img/stop.png" alt="failed to login">
             </center>
+            <br>
+            <br>
         </section>
 
         <br>
