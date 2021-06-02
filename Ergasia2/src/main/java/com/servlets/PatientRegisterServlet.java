@@ -13,14 +13,15 @@ public class PatientRegisterServlet extends HttpServlet
 {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String firstname = request.getParameter("fn");
-        String lastname = request.getParameter("ln");
-        int age = Integer.parseInt(request.getParameter("age"));
-        String AMKA = request.getParameter("AMKA");
+        //getting the parameters as they are from the form.
+        Patient patient = new Patient(request.getParameter("username"),
+                                      request.getParameter("password"),
+                                      request.getParameter("fn"),
+                                      request.getParameter("ln"),
+                                      Integer.parseInt(request.getParameter("age")),
+                                      request.getParameter("AMKA")
+                                     );
 
-        Patient patient = new Patient(username, password, firstname, lastname, age, AMKA);
         System.out.println(patient.toString());
     }
 }
