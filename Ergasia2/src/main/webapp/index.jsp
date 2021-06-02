@@ -130,7 +130,7 @@
             <br>
 
             <center>
-                <img src="img/logos/doctor1.jpg">
+                <img src="img/logos/doctor.jpg">
             </center>
 
             <br>
