@@ -119,7 +119,6 @@
                     <td><a href="sign-up.jsp">Sign-up</a></td>
                     <td><a href="login.jsp">Login</a></td>
                     <td><a href="instructions.jsp">Instruction use</a></td>
-                    <td><a href="patientappointments.jsp">Patient appointments</a></td>
                 </tr>
             </table>
 

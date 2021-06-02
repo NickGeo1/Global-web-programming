@@ -107,7 +107,7 @@
 
             <table align="center">
                 <tr>
-                    <td><a href="">Appointment history</a></td>
+                    <td><a href="patientappointments.jsp">Appointment history</a></td>
                     <td><a href="">Book an appointment</a></td>
                     <td><a href="">Cancel appointment</a></td>
                     <td><a href="">Logout</a></td>
