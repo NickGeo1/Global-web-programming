@@ -147,7 +147,7 @@
 
         <article class="article1">
             <br>
-            <form action="patientlogin" method="post" name="form1">
+            <form action="patient" method="post" name="form1">
                 <center><table>
                     <tr><td colspan="2" id="firstcell" height="25px" class="td7"><pre> Insert the name of the patient:</pre></td></tr>
                     <tr><td></td><td></td></tr>

@@ -1,5 +1,7 @@
 package com.servlets;
 
+import com.classes.Patient;
+
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +13,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import javax.sql.DataSource;
 
-@WebServlet(name = "PatientServlet", value = "/patientlogin") //servlet annotation
+@WebServlet(name = "PatientServlet", value = "/patient") //servlet annotation
 public class PatientServlet extends HttpServlet
 {
     private static DataSource datasource = null; //datasource object
@@ -45,17 +47,36 @@ public class PatientServlet extends HttpServlet
 
         switch(PATIENT_SERVLET_ACTION)
         {
-            case 1:
+            case 1:         //appointment history
                 break;
 
-            case 2:
+            case 2:         //Book an appointment
                 break;
 
-            case 3:
+            case 3:         //Scheduled appointments
                 break;
 
-            case 4:
+            case 4:         //logout
                 break;
+
+            case 5:         //register
+
+                //getting the parameters as they are from the form.
+                Patient patient = new Patient(request.getParameter("username"),
+                        request.getParameter("password"),
+                        request.getParameter("fn"),
+                        request.getParameter("ln"),
+                        Integer.parseInt(request.getParameter("age")),
+                        request.getParameter("AMKA")
+                );
+
+                System.out.println(patient.toString());
+
+                break;
+
+            case 6:         //login
+                break;
+
         }
 
         response.setContentType("text/html; charset=UTF-8");
