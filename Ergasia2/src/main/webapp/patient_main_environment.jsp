@@ -97,25 +97,17 @@
     <body id="head">
 
         <script>
+
+            //Javascript function that executes for every patient action
+
+            //Depending on the button clicked that describes the action,
+            //an action value is being stored in the hidden html input
+            //tag (name="patient_action").At the end, we submit the
+            //form and we are being redirected to the patient servlet.
+
             function setAction(a)
             {
                 document.getElementById("patient_action").value = a;
-
-                switch (a)
-                {
-                    case 1:
-                        document.getElementById("form").action = "patientappointments.jsp";
-                        break;
-                    case 2:
-                        document.getElementById("form").action = "";
-                        break;
-                    case 3:
-                        document.getElementById("form").action = "";
-                        break;
-                    case 4:
-                        document.getElementById("form").action = "";
-                        break;
-                }
 
                 document.getElementById("form").submit();
             }
@@ -132,7 +124,10 @@
             <table align="center">
                 <tr>
 
-                    <form method="post" id="form" action="">
+                    //Form that contains a hidden input html tag.The value of the tag is being passed
+                    //in the patient servlet
+
+                    <form method="post" id="form" action="patientappointments.jsp">
                     <input type="hidden" id="patient_action" name="patient_action" value="">
                     </form>
 

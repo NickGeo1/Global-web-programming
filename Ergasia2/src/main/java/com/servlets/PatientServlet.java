@@ -11,14 +11,18 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import javax.sql.DataSource;
 
-@WebServlet(name = "PatientServlet", value = "/patientlogin")
+@WebServlet(name = "PatientServlet", value = "/patientlogin") //servlet annotation
 public class PatientServlet extends HttpServlet
 {
-    private DataSource datasource = null;
+    private static DataSource datasource = null; //datasource object
 
-    private static int PATIENT_SERVLET_ACTION;
+    private static int PATIENT_SERVLET_ACTION; //Variable that describes what action the servlet should perform for the patient
 
-    public void init() throws ServletException
+    //init method runs at every start of a servlet action.
+    //init searches the patient's attributes from the database
+    //and initializes a patient object with these attributes
+
+    public void init()
     {
         try
         {
@@ -27,13 +31,17 @@ public class PatientServlet extends HttpServlet
 
         } catch(Exception e)
         {
-            throw new ServletException(e.toString());
+            System.out.println("A Datasource exception has occured: "+e.toString());
         }
 
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
+        //Get the action value from the hidden html input tag(see patient_main_environment.jsp)
+
         PATIENT_SERVLET_ACTION = Integer.parseInt(request.getParameter("patient_action"));
+
+        //Depending on the action value, execute the corresponding method
 
         switch(PATIENT_SERVLET_ACTION)
         {

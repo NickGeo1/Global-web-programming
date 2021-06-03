@@ -70,11 +70,8 @@ public class Patient extends Users
             System.out.println("You must be logged on to show appointment history.");
             return;
         }
+        /////
 
-        if(showby.equals(""))
-            System.out.println("Show all appointment history");
-        else
-            System.out.println("Show appointment history by "+showby+", where "+showby+" is "+value);
     }
 
     /**
