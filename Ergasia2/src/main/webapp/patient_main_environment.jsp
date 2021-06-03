@@ -96,10 +96,34 @@
 
     <body id="head">
 
+        <script>
+            function setAction(a)
+            {
+                document.getElementById("patient_action").value = a;
+
+                switch (a)
+                {
+                    case 1:
+                        document.getElementById("form").action = "patientappointments.jsp";
+                        break;
+                    case 2:
+                        document.getElementById("form").action = "";
+                        break;
+                    case 3:
+                        document.getElementById("form").action = "";
+                        break;
+                    case 4:
+                        document.getElementById("form").action = "";
+                        break;
+                }
+
+                document.getElementById("form").submit();
+            }
+        </script>
+
         <header>
             <h1>Welcome to the online doctor appointments!</h1>
         </header>
-
         <br>
         <br>
 
@@ -107,10 +131,15 @@
 
             <table align="center">
                 <tr>
-                    <td><a href="patientappointments.jsp">Appointment history</a></td>
-                    <td><a href="">Book an appointment</a></td>
-                    <td><a href="">Cancel appointment</a></td>
-                    <td><a href="">Logout</a></td>
+
+                    <form method="post" id="form" action="">
+                    <input type="hidden" id="patient_action" name="patient_action" value="">
+                    </form>
+
+                    <td><button onclick="setAction(1);">Appointment history</button></td>
+                    <td><button onclick="setAction(2);">Book an appointment</button></td>
+                    <td><button onclick="setAction(3);">Scheduled appointments</button></td>
+                    <td><button onclick="setAction(4);">Logout</button></td>
                 </tr>
             </table>
 

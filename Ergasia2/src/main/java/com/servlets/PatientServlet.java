@@ -16,11 +16,12 @@ public class PatientServlet extends HttpServlet
 {
     private DataSource datasource = null;
 
+    private static int PATIENT_SERVLET_ACTION;
+
     public void init() throws ServletException
     {
         try
         {
-
             InitialContext ctx = new InitialContext();
             datasource = (DataSource)ctx.lookup("java:comp/env/jdbc/LiveDataSource");
 
@@ -32,6 +33,23 @@ public class PatientServlet extends HttpServlet
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
+        PATIENT_SERVLET_ACTION = Integer.parseInt(request.getParameter("patient_action"));
+
+        switch(PATIENT_SERVLET_ACTION)
+        {
+            case 1:
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+
+            case 4:
+                break;
+        }
+
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
@@ -47,8 +65,6 @@ public class PatientServlet extends HttpServlet
         {
             Connection con = datasource.getConnection();
             Statement stmt = con.createStatement();
-
-
 
             String amka = null;
 
