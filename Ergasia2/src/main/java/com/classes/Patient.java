@@ -57,6 +57,7 @@ public class Patient extends Users
         }
 
         //if we get to this point it means none of the fields are incorrect. we can execute sql statements safely.
+        //checking for duplicates in the database
         try
         {
             Connection connection = dataSource.getConnection();
@@ -70,6 +71,17 @@ public class Patient extends Users
                 this.Fail(response, "This username/AMKA is already taken!");
                 return;
             }
+
+            Integer a = this.getAge();
+
+            statement = connection.prepareStatement("INSERT INTO patient (patientAMKA,username,hashedpassword,name,surname,age) VALUES (?,?,?,?,?,?);");
+            statement.setString(1, this.getAMKA());
+            statement.setString(2, this.getUsername());
+            statement.setString(3, this.getPassword());
+            statement.setString(4, this.getFirstname());
+            statement.setString(5, this.getSurname());
+            statement.setString(6, a.toString());
+            statement.execute();
         }
         catch (Exception exception)
         {
@@ -226,7 +238,8 @@ public class Patient extends Users
          * @return The characteristics of each Patient (firstname,username,surname, age and his AMKA)
          */
     @Override
-    public String toString(){
+    public String toString()
+    {
         return super.toString() + ", AMKA: "+AMKA;
     }
 
