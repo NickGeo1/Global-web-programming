@@ -135,9 +135,12 @@
         <br>
         <br>
 
-        <form action="login" method="post" name="me">
+        <form action="patient" method="post" name="me">
             <center>
                 <table>
+
+                    <input type="hidden" name="patient_action" value="6">
+
                     <tr>
                         <td colspan="2" id="firstcell" height="25px" class="td7"><pre> Please, insert your credentials:</pre></td>
                     </tr>

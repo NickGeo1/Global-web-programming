@@ -111,6 +111,8 @@ public class PatientServlet extends HttpServlet
                                 rs.getString("name"), rs.getString("surname"),
                                 rs.getInt("age"),rs.getString("patientAMKA") );
 
+                        patient.loggedOn = true;
+
                         response.sendRedirect("patient_main_environment.jsp");
 
                     }else if(rs.next() && !rs.getString("hashedpassword").equals(pass)) //correct username wrong pass

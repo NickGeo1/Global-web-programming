@@ -120,7 +120,7 @@
 
                 <tr>
                     <!-- Form that contains a hidden input html tag. The value of the tag is being passed in the patient servlet -->
-                    <form method="post" id="form" action="patientappointments.jsp">
+                    <form method="post" id="form" action="patient">
                         <input type="hidden" id="patient_action" name="patient_action" value="">
                     </form>
 

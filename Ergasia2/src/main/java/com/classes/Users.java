@@ -8,7 +8,7 @@ public abstract class Users
 {
     // Basic characteristics of each user
     private String username, password, firstname, surname;
-    private boolean loggedOn;
+    public boolean loggedOn;
     private int age;
 
     // 'UsersCount' variable counts the number of users
