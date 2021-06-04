@@ -1,6 +1,15 @@
 package com.classes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+import javax.xml.crypto.Data;
 import java.awt.print.Printable;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +20,6 @@ import java.util.List;
 public class Patient extends Users
 {
     private final String AMKA; // This is the unique AMKA of each patient
-
-    List<Appointment> past_appointments = new ArrayList<>();
-    List<Appointment> scheduled_appointments = new ArrayList<>(); // every patient has a list of some appointment objects
 
     public Patient(String username, String password, String firstname, String lastname, int age, String AMKA)
     {
@@ -63,14 +69,80 @@ public class Patient extends Users
      * @param value The actual value of 'showby' attribute we are looking for
      *
      */
-    public void showAppointmentHistory(String showby, String value)
+    public void showAppointmentHistory(String showby, String value, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
     {
         if (!isLoggedOn())
         {
             System.out.println("You must be logged on to show appointment history.");
             return;
         }
-        /////
+
+        response.setContentType("text/html; charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
+
+        PrintWriter showhtml = response.getWriter();
+        showhtml.println("<html>");
+        showhtml.print("<head><title>Appointment History</title></head>");
+        showhtml.println("<body>");
+
+        try
+        {
+            Connection con = datasource.getConnection();
+
+            PreparedStatement showHistory = con.prepareStatement("SELECT * FROM appointment WHERE PATIENT_patientAMKA=?");
+            showHistory.setString(1, this.AMKA);
+
+            ResultSet rs = showHistory.executeQuery();
+
+            if(rs.next())
+            {
+                showhtml.println("<table border=\"1\">");
+                showhtml.println("<tr>");
+                showhtml.println("<th>Date</th>");
+                showhtml.println("<th>Start time</th>");
+                showhtml.println("<th>End time</th>");
+                showhtml.println("<th>Patient AMKA</th>");
+                showhtml.println("<th>Doctor AMKA</th>");
+                showhtml.println("</tr>");
+
+                String date;
+                String startSlotTime;
+                String endSlotTime;
+                String PATIENT_patientAMKA;
+                String DOCTOR_doctorAMKA;
+                String htmlRow;
+
+                do
+                {
+                    date = rs.getString("date");
+                    startSlotTime = rs.getString("startSlotTime");
+                    endSlotTime = rs.getString("endSlotTime");
+                    PATIENT_patientAMKA = rs.getString("PATIENT_patientAMKA");
+                    DOCTOR_doctorAMKA = rs.getString("DOCTOR_doctorAMKA");
+
+                    htmlRow = createTableRow(date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA);
+
+                    showhtml.println(htmlRow);
+
+                }while(rs.next());
+            }
+            else
+            {
+                showhtml.println("<h1>Appointment history is empty</h1>");
+            }
+
+            rs.close();
+
+            con.close();
+
+        } catch(Exception e)
+        {
+            showhtml.println(e.toString());
+        }
+
+        showhtml.println("</body>");
+        showhtml.println("</html>");
 
     }
 
@@ -97,9 +169,22 @@ public class Patient extends Users
             System.out.println("Show scheduled appointments by "+showby+", where "+showby+" is "+value);
     }
 
-    /**
-     * @return The characteristics of each Patient (firstname,username,surname, age and his AMKA)
-     */
+    private static String createTableRow(String date, String startSlotTime, String endSlotTime, String PATIENT_patientAMKA, String DOCTOR_doctorAMKA)
+    {
+        String tablerow = "<tr>";
+        tablerow += "<td>" + date + "</td>";
+        tablerow += "<td>" + startSlotTime + "</td>";
+        tablerow += "<td>" + endSlotTime + "</td>";
+        tablerow += "<td>" + PATIENT_patientAMKA + "</td>";
+        tablerow += "<td>" + DOCTOR_doctorAMKA + "</td>";
+        tablerow += "</tr>";
+
+        return tablerow;
+    }
+
+        /**
+         * @return The characteristics of each Patient (firstname,username,surname, age and his AMKA)
+         */
     @Override
     public String toString(){
         return super.toString() + ", AMKA: "+AMKA;

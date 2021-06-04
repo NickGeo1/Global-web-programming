@@ -50,6 +50,7 @@ public class PatientServlet extends HttpServlet
         switch(PATIENT_SERVLET_ACTION)
         {
             case 1:         //appointment history
+                patient.showAppointmentHistory("","", request, response, datasource);
                 break;
 
             case 2:         //Book an appointment
@@ -122,110 +123,17 @@ public class PatientServlet extends HttpServlet
                         response.sendRedirect("fail.jsp");
                     }
 
-
+                    rs.close();
+                    con.close();
 
                 }catch(Exception e)
                 {
+                    System.out.println("An exception occured during database connection");
                 }
-
 
                 break;
 
         }
-
-        response.setContentType("text/html; charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF-8");
-
-        String pat = request.getParameter("fn");
-
-        PrintWriter showhtml = response.getWriter();
-        showhtml.println("<html>");
-        showhtml.print("<head><title>Appointment History</title></head>");
-        showhtml.println("<body>");
-
-        try
-        {
-            Connection con = datasource.getConnection();
-
-            String amka = null;
-
-            PreparedStatement showHistory = con.prepareStatement("SELECT patientAMKA FROM patient WHERE userid=?");
-            showHistory.setString(1,pat);
-
-            ResultSet rs = showHistory.executeQuery();
-            rs.next();
-
-            amka = rs.getString("patientAMKA");
-
-            rs.close();
-
-            showHistory = con.prepareStatement("SELECT * FROM appointment WHERE PATIENT_patientAMKA=?");
-            showHistory.setString(1,amka);
-
-            rs = showHistory.executeQuery();
-
-            if(rs.next())
-            {
-                showhtml.println("<table border=\"1\">");
-                showhtml.println("<tr>");
-                showhtml.println("<th>Date</th>");
-                showhtml.println("<th>Start time</th>");
-                showhtml.println("<th>End time</th>");
-                showhtml.println("<th>Patient AMKA</th>");
-                showhtml.println("<th>Doctor AMKA</th>");
-                showhtml.println("</tr>");
-
-                String date;
-                String startSlotTime;
-                String endSlotTime;
-                String PATIENT_patientAMKA;
-                String DOCTOR_doctorAMKA;
-                String htmlRow;
-
-                do
-                {
-                    date = rs.getString("date");
-                    startSlotTime = rs.getString("startSlotTime");
-                    endSlotTime = rs.getString("endSlotTime");
-                    PATIENT_patientAMKA = rs.getString("PATIENT_patientAMKA");
-                    DOCTOR_doctorAMKA = rs.getString("DOCTOR_doctorAMKA");
-
-                    htmlRow = createTableRow(date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA);
-
-                    showhtml.println(htmlRow);
-
-                }while(rs.next());
-            }
-            else
-            {
-                showhtml.println("<h1>Appointment history is empty</h1>");
-            }
-
-            rs.close();
-
-            con.close();
-
-        } catch(Exception e)
-        {
-            showhtml.println(e.toString());
-        }
-
-        showhtml.println("</body>");
-        showhtml.println("</html>");
-
     }
 
-    private String createTableRow(String date, String startSlotTime, String endSlotTime, String PATIENT_patientAMKA, String DOCTOR_doctorAMKA)
-    {
-        String tablerow = "<tr>";
-        tablerow  += "<td>" + date + "</td>";
-        tablerow  += "<td>" + startSlotTime + "</td>";
-        tablerow  += "<td>" + endSlotTime + "</td>";
-        tablerow  += "<td>" + PATIENT_patientAMKA + "</td>";
-        tablerow  += "<td>" + DOCTOR_doctorAMKA + "</td>";
-        tablerow +="</tr>";
-
-        return tablerow;
-    }
 }
