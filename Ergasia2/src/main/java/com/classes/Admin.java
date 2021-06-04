@@ -33,7 +33,7 @@ public class Admin extends Users
      * This function is used to add/create a new doctor.
      * @return an object of type Doctor
      */
-    public Doctor add_doctor(String username, String password, String firstname, String surname, int age,String speciality){
+    public Doctor add_doctor(String username, String password, String firstname, String surname, int age, String speciality, String AMKA){
 
         if (!isLoggedOn())
         {
@@ -42,7 +42,7 @@ public class Admin extends Users
         }
 
         System.out.println("New doctor added!");
-        return new Doctor (username,password,firstname,surname,age,speciality);
+        return new Doctor (username, password, firstname, surname, age, speciality, AMKA);
     }
 
     /**

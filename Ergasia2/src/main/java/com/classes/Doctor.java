@@ -10,15 +10,16 @@ import java.util.List;
  */
 public class Doctor extends Users
 {
-    List<Appointment> appointments = new ArrayList<>(); //The list of doctor's appointments
-
     private String speciality; // Speciality that a doctor has
 
+    private final String AMKA; // This is the unique AMKA of each doctor
+
     // Constructor method
-    public Doctor(String username, String password, String firstname, String surname, int age,String speciality) {
+    public Doctor(String username, String password, String firstname, String surname, int age,String speciality,String AMKA) {
 
         super(username, password, firstname, surname, age); // Constructor of class Doctor calls superclasse's constructor
         this.speciality = speciality;
+        this.AMKA = AMKA;
 
     }
 
@@ -110,12 +111,16 @@ public class Doctor extends Users
         return speciality;
     }
 
+    // Getter for the attribute AMKA
+    public String GetAMKA() { return this.AMKA; }
+
     /**
      * @return The characteristics of each Doctor (firstname,username,surname, age and his speciality)
      */
     @Override
-    public String toString(){
-        return super.toString() + ", speciality: "+getSpeciality();
+    public String toString()
+    {
+        return super.toString() + ", speciality: "+getSpeciality() + ", AMKA: "+GetAMKA();
     }
 
 }

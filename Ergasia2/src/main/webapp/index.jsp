@@ -118,7 +118,7 @@
                 <tr>
                     <td><a href="sign-up.jsp">Sign-up</a></td>
                     <td><a href="login.jsp">Login</a></td>
-                    <td><a href="patient_main_environment.jsp">Instructions</a></td>
+                    <td><a href="instructions.jsp">Instructions</a></td>
                 </tr>
             </table>
 

@@ -63,10 +63,7 @@ public class Patient extends Users
     /**
      * Show past doctor appointments by doctor attribute
      *
-     * @param showby The attribute of a doctor we want to show past appointments for.
-     * If 'showby' value is not set, the method shows all past appointments.
      *
-     * @param value The actual value of 'showby' attribute we are looking for
      *
      */
     public void showAppointmentHistory(String showby, String value, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException

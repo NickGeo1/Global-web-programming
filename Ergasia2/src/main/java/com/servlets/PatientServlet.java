@@ -1,6 +1,8 @@
 package com.servlets;
 
+import com.classes.Doctor;
 import com.classes.Patient;
+import com.classes.Users;
 
 import java.io.*;
 import java.sql.Connection;
@@ -83,58 +85,11 @@ public class PatientServlet extends HttpServlet
 
             //login case makes a connection with the database, it is
             //searching the patient's attributes from it
-            //and initializes a patient object with these attributes
+            //and initializes the patient object with these attributes
 
             case 6:
-
-                String name = request.getParameter("username");
-                String pass = request.getParameter("password");
-
-                try
-                {
-                    Connection con = datasource.getConnection();
-
-                    PreparedStatement stmnt = con.prepareStatement("SELECT hashedpassword FROM patient WHERE username=?");
-                    stmnt.setString(1,name);
-
-                    ResultSet rs = stmnt.executeQuery();
-
-                    if(rs.next() && rs.getString("hashedpassword").equals(pass)) //correct details
-                    {
-                        stmnt = con.prepareStatement("SELECT * FROM patient WHERE username=?");
-                        stmnt.setString(1,name);
-
-                        rs = stmnt.executeQuery();
-                        rs.next();
-
-                        patient = new Patient(rs.getString("username"), rs.getString("hashedpassword"),
-                                rs.getString("name"), rs.getString("surname"),
-                                rs.getInt("age"),rs.getString("patientAMKA") );
-
-                        patient.loggedOn = true;
-
-                        response.sendRedirect("patient_main_environment.jsp");
-
-                    }else if(rs.next() && !rs.getString("hashedpassword").equals(pass)) //correct username wrong pass
-                    {
-
-                        response.sendRedirect("fail.jsp");
-
-                    }else
-                    {
-                        response.sendRedirect("fail.jsp");
-                    }
-
-                    rs.close();
-                    con.close();
-
-                }catch(Exception e)
-                {
-                    System.out.println("An exception occured during database connection");
-                }
-
+                patient = (Patient) Users.Login("Patient", request, response, datasource);
                 break;
-
         }
     }
 
