@@ -20,9 +20,11 @@ public class PatientServlet extends HttpServlet
 
     private static int PATIENT_SERVLET_ACTION; //Variable that describes what action the servlet should perform for the patient
 
-    //init method runs at every start of a servlet action.
-    //init searches the patient's attributes from the database
-    //and initializes a patient object with these attributes
+    private static Patient patient; //Patient variable that is being initialized at login and uninitialized at logout
+
+    //init method runs at the very start of a servlet.
+    //Here, init gets the datasource which corresponds
+    //to our database
 
     public void init()
     {
@@ -62,7 +64,7 @@ public class PatientServlet extends HttpServlet
             case 5:         //register
 
                 //getting the parameters as they are from the form.
-                Patient patient = new Patient(request.getParameter("username"),
+                patient = new Patient(request.getParameter("username"),
                         request.getParameter("password"),
                         request.getParameter("fn"),
                         request.getParameter("ln"),
@@ -72,9 +74,61 @@ public class PatientServlet extends HttpServlet
 
                 System.out.println(patient.toString());
 
+                patient = null;
+
                 break;
 
-            case 6:         //login
+            //login
+
+            //login case makes a connection with the database, it is
+            //searching the patient's attributes from it
+            //and initializes a patient object with these attributes
+
+            case 6:
+
+                String name = request.getParameter("username");
+                String pass = request.getParameter("password");
+
+                try
+                {
+                    Connection con = datasource.getConnection();
+
+                    PreparedStatement stmnt = con.prepareStatement("SELECT hashedpassword FROM patient WHERE username=?");
+                    stmnt.setString(1,name);
+
+                    ResultSet rs = stmnt.executeQuery();
+
+                    if(rs.next() && rs.getString("hashedpassword").equals(pass)) //correct details
+                    {
+                        stmnt = con.prepareStatement("SELECT * FROM patient WHERE username=?");
+                        stmnt.setString(1,name);
+
+                        rs = stmnt.executeQuery();
+                        rs.next();
+
+                        patient = new Patient(rs.getString("username"), rs.getString("hashedpassword"),
+                                rs.getString("name"), rs.getString("surname"),
+                                rs.getInt("age"),rs.getString("patientAMKA") );
+
+                        response.sendRedirect("patient_main_environment.jsp");
+
+                    }else if(rs.next() && !rs.getString("hashedpassword").equals(pass)) //correct username wrong pass
+                    {
+
+                        response.sendRedirect("fail.jsp");
+
+                    }else
+                    {
+                        response.sendRedirect("fail.jsp");
+                    }
+
+
+
+                }catch(Exception e)
+                {
+                }
+
+
                 break;
 
         }
@@ -93,7 +147,6 @@ public class PatientServlet extends HttpServlet
         try
         {
             Connection con = datasource.getConnection();
-            Statement stmt = con.createStatement();
 
             String amka = null;
 

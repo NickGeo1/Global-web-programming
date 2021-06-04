@@ -167,29 +167,6 @@
                 document.getElementById("form").submit();
             }
 
-            function setAction(a)
-            {
-                document.getElementById("patient_action").value = a;
-
-                switch (a)
-                {
-                    case 1:
-                        document.getElementById("form").action = "patientappointments.jsp";
-                        break;
-                    case 2:
-                        document.getElementById("form").action = "";
-                        break;
-                    case 3:
-                        document.getElementById("form").action = "";
-                        break;
-                    case 4:
-                        document.getElementById("form").action = "";
-                        break;
-                }
-
-                document.getElementById("form").submit();
-            }
-
         </script>
 
     </body>
