@@ -30,7 +30,7 @@ public class Patient extends Users
     /**
      * Registers a Patient. All fields are processed and carefully injected to the database.
      */
-    public void Register(HttpServletResponse response) throws IOException
+    public void Register(HttpServletResponse response, DataSource dataSource) throws IOException
     {
         if (!this.getFirstname().matches("[A-Z][a-z]+"))
         {
@@ -57,7 +57,24 @@ public class Patient extends Users
         }
 
         //if we get to this point it means none of the fields are incorrect. we can execute sql statements safely.
+        try
+        {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient WHERE patientAMKA=? OR username=?");
+            statement.setString(1, this.getAMKA());
+            statement.setString(2, this.getUsername());
+            ResultSet rs = statement.executeQuery();
 
+            if (rs.next())
+            {
+                this.Fail(response, "This username/AMKA is already taken!");
+                return;
+            }
+        }
+        catch (Exception exception)
+        {
+            exception.printStackTrace();
+        }
 
     }
 

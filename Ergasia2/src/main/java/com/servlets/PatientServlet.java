@@ -75,7 +75,7 @@ public class PatientServlet extends HttpServlet
                 );
 
                 //registering the patient as they are.
-                patient.Register(response);
+                patient.Register(response, datasource);
                 break;
 
             //login
