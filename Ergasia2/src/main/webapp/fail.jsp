@@ -68,7 +68,7 @@
 
     <body>
 
-        <img src="img/stop.png" alt="failed to login">
+        <img src="img/failed_to_login.png" alt="failed to login">
 
         <br>
         <br>
