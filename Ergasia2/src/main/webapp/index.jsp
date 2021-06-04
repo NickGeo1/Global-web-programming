@@ -5,10 +5,11 @@
 <!DOCTYPE html>
 
 <html lang="en">
+
     <head>
 
-        <title>Online doctor appointments</title>
         <meta charset="utf-8">
+        <title>Doctor appointments: Register</title>
 
         <style>
 
@@ -129,40 +130,70 @@
                 color: #012A6C;
             }
 
+            /* style rules for the menu at the bottom of the page */
+            .navbar
+            {
+                font-size: 14px;
+                bottom: 0;
+                text-align: center;
+                background-color: #f1f1f1;
+                width: 100%;
+                height:18px;
+            }
+
         </style>
 
     </head>
 
     <body>
 
-        <form action="patient" method="post" name="login">
+        <form action="patient" method="post" name="signup">
 
-            <input type="hidden" name="patient_action" value="6">
+            <input type="hidden", value="5", name="patient_action">
 
             <div class="imgcontainer">
                 <img src="img/logo1.png" alt="logo_image" class="avatar">
             </div>
 
             <div class="container">
+                <label><b style="color:#012A6C">Hello patient, please create your account!</b></label>
+            </div>
+
+            <div class="container">
+
+                <label><b style="color:#012A6C">First name: *</b></label>
+                <input type="text" placeholder="Enter your first name" name="fn" required>
+
+                <label><b style="color:#012A6C">Last name: *</b></label>
+                <input type="text" placeholder="Enter your last name" name="ln" required>
+
                 <label><b style="color:#012A6C">Username: *</b></label>
-                <input type="text" placeholder="Enter Username" name="username" required>
+                <input type="text" placeholder="Enter username" name="username" required>
 
                 <label><b style="color:#012A6C">Password: *</b></label>
-                <input type="password" placeholder="Enter Password" name="password" required>
+                <input type="password" placeholder="Enter password" name="password" required>
 
-                <label><b style="color:#012A6C">Category: *</b></label>
-                <input type="radio" id="Admin" name="category" value="Admin" required><label for="Admin">Admin</label>
-                <input type="radio" id="Patient" name="category" value="Patient" required><label for="Patient">Patient</label>
-                <input type="radio" id="Doctor" name="category" value="Doctor" required><label for="Doctor">Doctor</label>
+                <label><b style="color:#012A6C">Age: *</b></label>
+                <input type="text" placeholder="Enter your age" name="age" required>
+
+                <label><b style="color:#012A6C">AMKA: *</b></label>
+                <input type="text" placeholder="Enter your AMKA number" name="AMKA" required>
+
             </div>
 
             <div class="container" style="background-color:#f1f1f1">
-                <button type="submit">Login</button>
+                <button type="submit">Register</button>
                 <button type="reset" class="cancelbtn">Reset</button>
-                <span class="psw">Don't have an account yet? <a href="sign-up.jsp">sign-up</a></span>
+                <span class="psw">Already have an account? <a href="login.jsp">login</a></span>
             </div>
 
         </form>
+
+        <br>
+
+        <div class="navbar">
+            <p>Do you need help? Check the <a href="instructions.jsp" class="active" style="font-size: 14px;">instuctions</a></p>
+        </div>
 
     </body>
 
