@@ -32,13 +32,13 @@ public class Patient extends Users
      */
     public void Register(HttpServletResponse response) throws IOException
     {
-        if (!this.getFirstname().matches("[A-Z][a-z]"))
+        if (!this.getFirstname().matches("[A-Z][a-z]+"))
         {
             this.Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter.");
             return;
         }
 
-        else if (!this.getSurname().matches("[A-Z][a-z]"))
+        else if (!this.getSurname().matches("[A-Z][a-z]+"))
         {
             this.Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter.");
             return;
@@ -52,7 +52,7 @@ public class Patient extends Users
 
         else if (!this.getAMKA().matches("[0-9]{11}"))
         {
-            this.Fail(response, "Invalid AMKA! A social security number must be exactly 11 digits.");
+            this.Fail(response, "Invalid AMKA! A social security number must have exactly 11 digits.");
             return;
         }
 

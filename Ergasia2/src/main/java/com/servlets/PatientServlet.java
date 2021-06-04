@@ -65,20 +65,17 @@ public class PatientServlet extends HttpServlet
                 break;
 
             case 5:         //register
-
                 //getting the parameters as they are from the form.
-                patient = new Patient(request.getParameter("username"),
-                        request.getParameter("password"),
-                        request.getParameter("fn"),
-                        request.getParameter("ln"),
-                        Integer.parseInt(request.getParameter("age")),
-                        request.getParameter("AMKA")
+                patient = new Patient(  request.getParameter("username"),
+                                        request.getParameter("password"),
+                                        request.getParameter("fn"),
+                                        request.getParameter("ln"),
+                                        Integer.parseInt(request.getParameter("age")),
+                                        request.getParameter("AMKA")
                 );
 
-                System.out.println(patient.toString());
-
-                patient = null;
-
+                //registering the patient as they are.
+                patient.Register(response);
                 break;
 
             //login

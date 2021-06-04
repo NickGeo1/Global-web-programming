@@ -135,6 +135,7 @@
         <br>
 
         <form action="patient" method="post" name="signup" onsubmit="return validateForm()">
+            <input type="hidden", value="5", name="patient_action">
             <center>
                 <table>
                     <tr>
