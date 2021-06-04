@@ -1,17 +1,23 @@
-<!-- This is the start page of the application -->
-
+<!-- This is the start page of the web application -->
+<!-- source for the html and css code: https://www.geeksforgeeks.org/html-responsive-modal-login-form/ -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
 
 <html lang="en">
-
     <head>
 
+        <title>Online doctor appointments</title>
         <meta charset="utf-8">
-        <title>ONLINE DOCTOR APPOINTMENTS</title>
 
         <style>
+
+            /*set border to the form*/
+            form
+            {
+                border: 3px solid whitesmoke;
+                background-color: white ;
+            }
 
             /* the whole page has the same font */
             *
@@ -23,22 +29,91 @@
             body
             {
                 background-color: seagreen;
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
             }
 
-            /* style rules for the article part of body section */
-            article
+            /*assign full width inputs*/
+            input[type=text],
+            input[type=password]
             {
-                border-radius: 25px;
-                background: white;
-                margin-right:100px;
-                margin-left:100px;
-                margin-top:30px;
+                width: 100%;
+                padding: 12px 20px;
+                margin: 8px 0;
+                display: inline-block;
+                box-sizing: border-box;
+                border:1px solid mediumseagreen;
             }
 
-            /* style rules when hyperlinks are active */
-            a:active
+            /*set a style for the buttons*/
+            button
             {
-                background-color: seagreen;
+                background-color: mediumseagreen;
+                color: white;
+                padding: 10px 18px;
+                margin: 8px 0;
+                border: none;
+                cursor: pointer;
+                width: auto;
+            }
+
+            /* set a hover effect for the button*/
+            button:hover
+            {
+                opacity: 0.8;
+            }
+
+            /*set extra style for the cancel button*/
+            .cancelbtn
+            {
+                width: auto;
+                padding: 10px 18px;
+                background-color: #f44336;
+            }
+
+            /*centre the display image inside the container*/
+            .imgcontainer
+            {
+                text-align: center;
+                margin: 24px 0 12px 0;
+            }
+
+            /*set image properties*/
+            img.avatar
+            {
+                width: 16%;
+                border-radius: 70%;
+            }
+
+            /*set padding to the container*/
+            .container
+            {
+                padding: 16px;
+            }
+
+            /*set the forgot password text*/
+            span.psw
+            {
+                float: right;
+                padding-top: 16px;
+            }
+
+            /*set styles for span and cancel button on small screens*/
+            @media screen and (max-width: 300px)
+            {
+                span.psw
+                {
+                    display: block;
+                    float: none;
+                }
+                .cancelbtn
+                {
+                    width: 100%;
+                }
             }
 
             /* style rules when hyperlinks are pressed */
@@ -50,96 +125,44 @@
             /* style the hyperlinks in the nav section */
             a
             {
-                font-size:19px;
+                font-size:16px;
                 color: #012A6C;
-            }
-
-            /* style rules for every h1 */
-            h1
-            {
-                font-size:25px;
-                text-align:center;
-                color: #012A6C;
-                letter-spacing:6px;
-            }
-
-            /* style rules for every field of the table */
-            td
-            {
-                width:210px;
-                height:20px;
-                text-align:center;
-                color:white;
-            }
-
-            /* style rules for the menu section of the web page */
-            nav
-            {
-                border-radius: 25px;
-                background: white;
-                margin-right:100px;
-                margin-left:100px;
-            }
-
-            /* style rules for the header part of the page */
-            header
-            {
-                border-radius: 25px;
-                background: white;
-                margin-right:100px;
-                margin-left:100px;
-                margin-top:30px;
-            }
-
-            /* set the width and height of the image */
-            img
-            {
-                width:800px;
-                height:400px;
             }
 
         </style>
 
     </head>
 
-    <br>
-
     <body>
 
-        <header>
-            <h1>Welcome to the online doctor appointments!</h1>
-        </header>
+        <form action="patient" method="post" name="login">
 
-        <br>
+            <input type="hidden" name="patient_action" value="6">
 
-        <nav>
+            <div class="imgcontainer">
+                <img src="img/logo1.png" alt="logo_image" class="avatar">
+            </div>
 
-            <table align="center">
-                <tr>
-                    <td><a href="sign-up.jsp">Sign-up</a></td>
-                    <td><a href="login.jsp">Login</a></td>
-                    <td><a href="instructions.jsp">Instructions</a></td>
-                </tr>
-            </table>
+            <div class="container">
+                <label><b style="color:#012A6C">Username: *</b></label>
+                <input type="text" placeholder="Enter Username" name="uname" required>
 
-        </nav>
+                <label><b style="color:#012A6C">Password: *</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
 
-        <article>
+                <label><b style="color:#012A6C">Category: *</b></label>
+                <input type="radio" id="Admin" name="category" value="Admin" required><label for="Admin">Admin</label>
+                <input type="radio" id="Patient" name="category" value="Patient" required><label for="Patient">Patient</label>
+                <input type="radio" id="Doctor" name="category" value="Doctor" required><label for="Doctor">Doctor</label>
+            </div>
 
-            <br>
-            <br>
+            <div class="container" style="background-color:#f1f1f1">
+                <button type="submit">Login</button>
+                <button type="reset" class="cancelbtn">Reset</button>
+                <span class="psw">Don't have an account yet? <a href="sign-up.jsp">sign-up</a></span>
+            </div>
 
-            <center>
-                <img src="img/doctor.jpg">
-            </center>
-
-            <br>
-            <br>
-
-        </article>
-
-        <br>
-        <br>
+        </form>
 
     </body>
 
