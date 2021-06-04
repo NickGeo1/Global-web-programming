@@ -1,4 +1,4 @@
-<!-- This page is used when a user inserts wrong credentials to the login form -->
+<!-- This page is appeared when a user inserts wrong credentials to the login form -->
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -9,7 +9,7 @@
     <head>
 
         <meta charset="utf-8">
-        <title>LOGIN FAILED</title>
+        <title>Doctor appointments: failed to login</title>
 
         <style>
 
@@ -31,24 +31,11 @@
                 transform: translate(-50%, -50%);
             }
 
-            /* style rules for the section part of body */
-            section
-            {
-                border-radius: 25px;
-                background: white;
-                width: 550px;
-            }
-
             /* style rules for the image */
             img
             {
-                width:500px;
-                height:500px;
-            }
-
-            a:active
-            {
-                background-color: seagreen;
+                width:400px;
+                height:400px;
             }
 
             /* style rules when hyperlinks are pressed */
@@ -60,24 +47,19 @@
             /* style the hyperlinks in the nav section */
             a
             {
-                font-size:19px;
+                font-size:16px;
                 color: #012A6C;
             }
 
-            /* style rules for every paragraph */
-            p
+            /* style rules for the menu at the bottom of the page */
+            .navbar
             {
-                font-size: 19px;
-                text-align:center;
-                color: #012A6C;
-            }
-
-            /* style rules for the footer section of the website */
-            footer
-            {
-                border-radius: 25px;
-                background: white;
-                width: 550px;
+                font-size: 14px;
+                bottom: 0;
+                text-align: center;
+                background-color: #f1f1f1;
+                width: 100%;
+                height:18px;
             }
 
         </style>
@@ -86,39 +68,16 @@
 
     <body>
 
-        <br>
-        <br>
-        <br>
+        <img src="img/stop.png" alt="failed to login">
+
         <br>
         <br>
         <br>
 
-        <section>
-
-            <br>
-            <br>
-
-            <center>
-                <img src="img/stop.png" alt="failed to login">
-            </center>
-
-            <br>
-            <br>
-
-        </section>
-
-        <br>
-        <br>
-
-        <footer>
-            <center>
-                <p>Go back to the start page. Click <a href="index.jsp">here</a></p>
-            </center>
-        </footer>
+        <div class="navbar">
+                <p>Go again to the start page: <a href="login.jsp" class="active" style="font-size: 14px;">start</a></p>
+        </div>
 
     </body>
-
-    <br>
-    <br>
 
 </html>
