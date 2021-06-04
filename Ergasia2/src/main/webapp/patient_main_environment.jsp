@@ -2,7 +2,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<html>
+<!DOCTYPE html>
+
+<html lang="en">
 
     <head>
 
@@ -10,6 +12,15 @@
         <title>ONLINE DOCTOR APPOINTMENTS</title>
 
         <style>
+
+            /* style rules for the buttons */
+            #buttons
+            {
+                font-size:17px;
+                text-align:center;
+                color:white;
+                background-color: #012A6C;
+            }
 
             /* the whole page has the same font */
             *
@@ -96,46 +107,29 @@
 
     <body id="head">
 
-        <script>
-
-            //Javascript function that executes for every patient action
-
-            //Depending on the button clicked that describes the action,
-            //an action value is being stored in the hidden html input
-            //tag (name="patient_action").At the end, we submit the
-            //form and we are being redirected to the patient servlet.
-
-            function setAction(a)
-            {
-                document.getElementById("patient_action").value = a;
-
-                document.getElementById("form").submit();
-            }
-        </script>
-
         <header>
             <h1>Welcome to the online doctor appointments!</h1>
         </header>
+
         <br>
         <br>
 
         <nav>
 
             <table align="center">
+
                 <tr>
-
-                    //Form that contains a hidden input html tag.The value of the tag is being passed
-                    //in the patient servlet
-
+                    <!-- Form that contains a hidden input html tag. The value of the tag is being passed in the patient servlet -->
                     <form method="post" id="form" action="patientappointments.jsp">
-                    <input type="hidden" id="patient_action" name="patient_action" value="">
+                        <input type="hidden" id="patient_action" name="patient_action" value="">
                     </form>
 
-                    <td><button onclick="setAction(1);">Appointment history</button></td>
-                    <td><button onclick="setAction(2);">Book an appointment</button></td>
-                    <td><button onclick="setAction(3);">Scheduled appointments</button></td>
-                    <td><button onclick="setAction(4);">Logout</button></td>
+                    <td><button id="buttons" onclick="setAction(1);">Appointment history</button></td>
+                    <td><button id="buttons" onclick="setAction(2);">Book an appointment</button></td>
+                    <td><button id="buttons" onclick="setAction(3);">Scheduled appointments</button></td>
+                    <td><button id="buttons" onclick="setAction(4);">Logout</button></td>
                 </tr>
+
             </table>
 
         </nav>
@@ -156,6 +150,47 @@
             <br>
 
         </article>
+
+        <script>
+
+            //Javascript function that executes for every patient action
+
+            //Depending on the button clicked that describes the action,
+            //an action value is being stored in the hidden html input
+            //tag (name="patient_action").At the end, we submit the
+            //form and we are being redirected to the patient servlet.
+
+            function setAction(a)
+            {
+                document.getElementById("patient_action").value = a;
+
+                document.getElementById("form").submit();
+            }
+
+            function setAction(a)
+            {
+                document.getElementById("patient_action").value = a;
+
+                switch (a)
+                {
+                    case 1:
+                        document.getElementById("form").action = "patientappointments.jsp";
+                        break;
+                    case 2:
+                        document.getElementById("form").action = "";
+                        break;
+                    case 3:
+                        document.getElementById("form").action = "";
+                        break;
+                    case 4:
+                        document.getElementById("form").action = "";
+                        break;
+                }
+
+                document.getElementById("form").submit();
+            }
+
+        </script>
 
     </body>
 

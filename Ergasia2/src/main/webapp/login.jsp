@@ -2,7 +2,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<html>
+<!DOCTYPE html>
+
+<html lang="en">
 
     <head>
 
@@ -134,20 +136,53 @@
         <br>
 
         <form action="login" method="post" name="me">
-            <center><table>
-                <tr><td colspan="2" id="firstcell" height="25px" class="td7"><pre> Please, insert your credentials:</pre></td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td class="td7"><label for="username" class="td7">Username: *:</label></td><td class="td7"><input type="text" id="username" name="username" class="input1"/></td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td class="td7"><label for="password">Password: *:</label></td><td class="td7"><input type="password" id="password" name="password" class="input1"/></td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td class="td7">Category: *:</td><td class="td7"><input type="radio" id="Admin" name="category" value="Admin"><label for="Admin">Admin</label><br><input type="radio" id="Patient" name="category" value="Patient"><label for="Patient">Patient</label><br><input type="radio" id="Doctor" name="category" value="Doctor"><label for="Doctor">Doctor</label></td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td colspan="2" class="td7">Fields with * are necessary.</td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td colspan="2"><center><pre><input type="submit" name="send" value="SUBMIT" id="buttons">           <input type="Reset" name="rEset" value="RESET" id="buttons"/></pre></center></td></tr>
-                <input type="hidden" name="con1" id="con1" value="0"><input type="hidden" name="con2" id="con2" value="0"><!--Κρυμμένα πεδία μη ορατά από το χρήστη.-->
-            </table></center>
+            <center>
+                <table>
+                    <tr>
+                        <td colspan="2" id="firstcell" height="25px" class="td7"><pre> Please, insert your credentials:</pre></td>
+                    </tr>
+
+                    <tr><td></td><td></td></tr>
+
+                    <tr>
+                        <td class="td7"><label for="username" class="td7">Username: *:</label></td>
+                        <td class="td7"><input type="text" id="username" name="username" class="input1" required/></td>
+                    </tr>
+
+                    <tr><td></td><td></td></tr>
+
+                    <tr>
+                        <td class="td7"><label for="password">Password: *:</label></td>
+                        <td class="td7"><input type="password" id="password" name="password" class="input1" required/></td>
+                    </tr>
+
+                    <tr><td></td><td></td></tr>
+
+                    <tr>
+                        <td class="td7">Category: *:</td>
+                        <td class="td7">
+                            <input type="radio" id="Admin" name="category" value="Admin" required><label for="Admin">Admin</label>
+                            <br>
+                            <input type="radio" id="Patient" name="category" value="Patient" required><label for="Patient">Patient</label>
+                            <br>
+                            <input type="radio" id="Doctor" name="category" value="Doctor" required><label for="Doctor">Doctor</label>
+                        </td>
+                    </tr>
+
+                    <tr><td></td><td></td></tr>
+
+                    <tr>
+                        <td colspan="2" class="td7">Fields with * are necessary.</td>
+                    </tr>
+
+                    <tr><td></td><td></td></tr>
+
+                    <tr>
+                        <td colspan="2"><center><pre><input type="submit" name="send" value="SUBMIT" id="buttons">           <input type="Reset" name="rEset" value="RESET" id="buttons"/></pre></center></td>
+                    </tr>
+
+                </table>
+            </center>
         </form>
 
         <br>

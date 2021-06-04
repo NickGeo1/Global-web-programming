@@ -1,7 +1,9 @@
 <!-- This is the sign-up page. Using this page, patients are now able to sign-up to the application. -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<html>
+<!DOCTYPE html>
+
+<html lang="en">
 
     <head>
 
@@ -133,25 +135,68 @@
         <br>
 
         <form action="patient" method="post" name="signup" onsubmit="return validateForm()">
-            <center><table>
-                <tr><td colspan="2" id="firstcell" height="25px" class="td7"><pre> Hello patient, please sign-up:</pre></td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td class="td7"><label for="username" class="td7">Username: *</label></td><td class="td7"><input type="text" id="username" name="username" class="input1"/></td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td class="td7"><label for="password">Password: *</label></td><td class="td7"><input type="password" id="password" name="password" class="input1"/></td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td class="td7"><label for="fn" class="td7">First name: *</label></td><td class="td7"><input type="text" id="fn" name="fn" class="input1"/></td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td class="td7"><label for="ln">Last name: *</label></td><td class="td7"><input type="text" id="ln" name="ln" class="input1"/></td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td class="td7"><label for="AMKA">AMKA: *</label></td><td class="td7"><input type="text" id="AMKA" name="AMKA" class="input1"/></td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td class="td7"><label for="age">Age: *</label></td><td class="td7"><input type="text" id="age" name="age" class="input1"/></td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td colspan="2" class="td7">Fields with * are necessary.</td></tr>
-                <tr><td></td><td></td></tr>
-                <tr><td colspan="2"><center><pre><input type="submit" name="send" value="SUBMIT" id="buttons" onmouseover="validname()">           <input type="Reset" name="rEset" value="RESET" id="buttons"/></pre></center></td></tr>
-            </table></center>
+            <center>
+                <table>
+                    <tr>
+                        <td colspan="2" id="firstcell" height="25px" class="td7"><pre> Hello patient, please sign-up:</pre></td>
+                    </tr>
+
+                    <tr><td></td><td></td></tr>
+
+                    <tr>
+                        <td class="td7"><label for="username" class="td7">Username: *</label></td>
+                        <td class="td7"><input type="text" id="username" name="username" class="input1" required/></td>
+                    </tr>
+
+                    <tr><td></td><td></td></tr>
+
+                    <tr>
+                        <td class="td7"><label for="password">Password: *</label></td>
+                        <td class="td7"><input type="password" id="password" name="password" class="input1" required/></td>
+                    </tr>
+
+                    <tr><td></td><td></td></tr>
+
+                    <tr>
+                        <td class="td7"><label for="fn" class="td7">First name: *</label></td>
+                        <td class="td7"><input type="text" id="fn" name="fn" class="input1" required/></td>
+                    </tr>
+
+                    <tr><td></td><td></td></tr>
+
+                    <tr>
+                        <td class="td7"><label for="ln">Last name: *</label></td>
+                        <td class="td7"><input type="text" id="ln" name="ln" class="input1" required/></td>
+                    </tr>
+
+                    <tr><td></td><td></td></tr>
+
+                    <tr>
+                        <td class="td7"><label for="AMKA">AMKA: *</label></td>
+                        <td class="td7"><input type="text" id="AMKA" name="AMKA" class="input1" required/></td>
+                    </tr>
+
+                    <tr><td></td><td></td></tr>
+
+                    <tr>
+                        <td class="td7"><label for="age">Age: *</label></td>
+                        <td class="td7"><input type="text" id="age" name="age" class="input1" required/></td>
+                    </tr>
+
+                    <tr><td></td><td></td></tr>
+
+                    <tr>
+                        <td colspan="2" class="td7">Fields with * are necessary.</td>
+                    </tr>
+
+                    <tr><td></td><td></td></tr>
+
+                    <tr>
+                        <td colspan="2"><center><pre><input type="submit" name="send" value="SUBMIT" id="buttons" onmouseover="validname()">           <input type="Reset" name="rEset" value="RESET" id="buttons"/></pre></center></td>
+                    </tr>
+
+                </table>
+            </center>
         </form>
 
         <br>
@@ -170,32 +215,7 @@
 
     <script>
 
-        // this function checks if all the fields of the form have been completed by the user
-        function validateform()
-        {
-            // take the values that user inserted to the sign up form
-
-            var username = document.forms["signup"]["username"].value;
-            var password = document.forms["signup"]["password"].value;
-            var fn = document.forms["signup"]["fn"].value; // fn = first name
-            var ln = document.forms["signup"]["ln"].value; // ln = last name
-            var AMKA = document.forms["signup"]["AMKA"].value;
-            var age = document.forms["signup"]["age"].value;
-
-            // if any field is empty, then show a message to user
-            if( username == "" || password == "" || fn == "" || ln == "" || AMKA == "" | age == "")
-            {
-
-                alert("All fields of the form are necessary!");
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-
-        }
-
+        /*
         // this function checks if the form has been correctly completed by the user
         function validname()
         {
@@ -239,7 +259,9 @@
                 alert("AMKA should be a 11-digit number.")
             }
 
-        }
+
+
+        }  */
 
     </script>
 

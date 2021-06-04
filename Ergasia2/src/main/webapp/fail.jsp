@@ -2,7 +2,9 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<html>
+<!DOCTYPE html>
+
+<html lang="en">
 
     <head>
 
@@ -92,13 +94,17 @@
         <br>
 
         <section>
+
             <br>
             <br>
+
             <center>
                 <img src="img/stop.png" alt="failed to login">
             </center>
+
             <br>
             <br>
+
         </section>
 
         <br>

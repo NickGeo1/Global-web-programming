@@ -1,6 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<html>
+<!DOCTYPE html>
+
+<html lang="en">
 
     <head>
 
@@ -92,7 +94,7 @@
                 text-align:left;
                 color:#012A6C;
                 font-size:19px;
-                height:35px;
+                height:25px;
                 width:100px;
             }
 
@@ -148,15 +150,28 @@
         <article class="article1">
             <br>
             <form action="patient" method="post" name="form1">
-                <center><table>
-                    <tr><td colspan="2" id="firstcell" height="25px" class="td7"><pre> Insert the name of the patient:</pre></td></tr>
-                    <tr><td></td><td></td></tr>
-                    <tr><td class="td7"><label for="patient" class="td7">Name: </label></td><td class="td7"><input type="text" id="patient" name="fn" class="input1"/></td></tr>
-                    <tr><td></td><td></td></tr>
-                    <tr><td colspan="2" style="text-align: right"><input type="submit" name="send" value="SHOW" id="buttons"></td></tr>
-                </table></center>
+                <center>
+                    <table>
+                        <tr>
+                            <td colspan="2" id="firstcell" height="25px" class="td7"><pre> Insert the name of the patient:</pre></td>
+                        </tr>
+
+                        <tr><td></td><td></td></tr>
+
+                        <tr>
+                            <td class="td7"><label for="patient" class="td7">Name: </label></td>
+                            <td class="td7"><input type="text" id="patient" name="fn" class="input1" required/></td>
+                        </tr>
+
+                        <tr><td></td><td></td></tr>
+
+                        <tr><td colspan="2" style="text-align: right"><input type="submit" name="send" value="SHOW" id="buttons"></td></tr>
+                    </table>
+                </center>
             </form>
+
             <br>
+
         </article>
 
         <br>
