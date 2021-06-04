@@ -1,0 +1,19 @@
+INSERT INTO `doctorappointment`.`admin` (`username`,`hashedpassword`,`salt`,`age`,`name`,`surname`) VALUES ('admin1','admin',NULL,25,'adname','adsurname');
+INSERT INTO `doctorappointment`.`admin` (`username`,`hashedpassword`,`salt`,`age`,`name`,`surname`) VALUES ('admin2','admin',NULL,30,'adname2','adsurname2');
+
+INSERT INTO `doctorappointment`.`doctor` (`doctorAMKA`,`username`,`hashedpassword`,`name`,`surname`,`specialty`,`ADMIN_username`,`salt`,`age`) VALUES ('10000000001','doctor1','doctor','DocName1','DocSurname1','Pathologist','admin2',NULL,43);
+INSERT INTO `doctorappointment`.`doctor` (`doctorAMKA`,`username`,`hashedpassword`,`name`,`surname`,`specialty`,`ADMIN_username`,`salt`,`age`) VALUES ('10000000002','doctor2','doctor','DocName2','DocSurname2','Pathologist','admin1',NULL,31);
+INSERT INTO `doctorappointment`.`doctor` (`doctorAMKA`,`username`,`hashedpassword`,`name`,`surname`,`specialty`,`ADMIN_username`,`salt`,`age`) VALUES ('10000000003','doctor3','doctor','DocName3','DocSurname3','Pathologist','admin1',NULL,51);
+INSERT INTO `doctorappointment`.`doctor` (`doctorAMKA`,`username`,`hashedpassword`,`name`,`surname`,`specialty`,`ADMIN_username`,`salt`,`age`) VALUES ('20000000001','doctor4','doctor','DocName4','DocSurname4','Pathologist','admin2',NULL,51);
+
+INSERT INTO `doctorappointment`.`patient` (`patientAMKA`,`username`,`hashedpassword`,`name`,`surname`,`salt`,`age`) VALUES ('00000000001','patient1','patient','Name1','Surname1',NULL,22);
+INSERT INTO `doctorappointment`.`patient` (`patientAMKA`,`username`,`hashedpassword`,`name`,`surname`,`salt`,`age`) VALUES ('00000000002','patient2','patient','Name2','Surname2',NULL,12);
+INSERT INTO `doctorappointment`.`patient` (`patientAMKA`,`username`,`hashedpassword`,`name`,`surname`,`salt`,`age`) VALUES ('00000000003','patient3','patient','Name3','Surname3',NULL,42);
+INSERT INTO `doctorappointment`.`patient` (`patientAMKA`,`username`,`hashedpassword`,`name`,`surname`,`salt`,`age`) VALUES ('00000000004','patient4','patient','Name4','Surname4',NULL,56);
+INSERT INTO `doctorappointment`.`patient` (`patientAMKA`,`username`,`hashedpassword`,`name`,`surname`,`salt`,`age`) VALUES ('00000000005','patient5','patient','Name5','Surname5',NULL,78);
+
+INSERT INTO `doctorappointment`.`appointment` (`date`,`startSlotTime`,`endSlotTime`,`PATIENT_patientAMKA`,`DOCTOR_doctorAMKA`,`isAvailable`) VALUES ('2017-09-08','12:00:00','12:30:00','00000000001','10000000001',0);
+INSERT INTO `doctorappointment`.`appointment` (`date`,`startSlotTime`,`endSlotTime`,`PATIENT_patientAMKA`,`DOCTOR_doctorAMKA`,`isAvailable`) VALUES ('2017-06-15','17:00:00','17:30:00','00000000002','10000000002',0);
+INSERT INTO `doctorappointment`.`appointment` (`date`,`startSlotTime`,`endSlotTime`,`PATIENT_patientAMKA`,`DOCTOR_doctorAMKA`,`isAvailable`) VALUES ('2017-07-16','13:00:00','13:30:00','00000000003','10000000003',0);
+INSERT INTO `doctorappointment`.`appointment` (`date`,`startSlotTime`,`endSlotTime`,`PATIENT_patientAMKA`,`DOCTOR_doctorAMKA`,`isAvailable`) VALUES ('2017-08-19','12:00:00','12:30:00','00000000004','20000000001',0);
+INSERT INTO `doctorappointment`.`appointment` (`date`,`startSlotTime`,`endSlotTime`,`PATIENT_patientAMKA`,`DOCTOR_doctorAMKA`,`isAvailable`) VALUES ('2017-09-08','18:00:00','18:30:00','00000000005','20000000001',0);
