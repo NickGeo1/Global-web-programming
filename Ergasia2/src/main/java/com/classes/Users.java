@@ -3,6 +3,8 @@ package com.classes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -30,6 +32,13 @@ public class Users
         this.age       = age;
         this.loggedOn  = false;
         UsersCount++;
+    }
+
+    public void Fail(HttpServletResponse response, String reason) throws IOException
+    {
+        PrintWriter writer = response.getWriter();
+        writer.println("<h1> Something went wrong! </h1>");
+        writer.println("<h3> " + reason + "</h3>");
     }
 
     /**

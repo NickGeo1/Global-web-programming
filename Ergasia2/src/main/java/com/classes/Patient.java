@@ -28,13 +28,37 @@ public class Patient extends Users
     }
 
     /**
-     * Registers a Patient. All required fields are registered, and all are provided by the user. In some circumstances,
-     * the user has to provide numbers. Invalid inputs will be asked to be provided again.
-     * @return A new Patient object, with all fields filled.
+     * Registers a Patient. All fields are processed and carefully injected to the database.
      */
-    public static Patient Register()
+    public void Register(HttpServletResponse response) throws IOException
     {
-        return null;
+        if (!this.getFirstname().matches("[A-Z][a-z]"))
+        {
+            this.Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter.");
+            return;
+        }
+
+        else if (!this.getSurname().matches("[A-Z][a-z]"))
+        {
+            this.Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter.");
+            return;
+        }
+
+        else if (this.getAge() > 119 || this.getAge() < 0)
+        {
+            this.Fail(response, "Invalid Age! A registered age cannot be greater than 119 years or a negative number.");
+            return;
+        }
+
+        else if (!this.getAMKA().matches("[0-9]{11}"))
+        {
+            this.Fail(response, "Invalid AMKA! A social security number must be exactly 11 digits.");
+            return;
+        }
+
+        //if we get to this point it means none of the fields are incorrect. we can execute sql statements safely.
+
+
     }
 
     /**
@@ -168,15 +192,17 @@ public class Patient extends Users
 
     private static String createTableRow(String date, String startSlotTime, String endSlotTime, String PATIENT_patientAMKA, String DOCTOR_doctorAMKA)
     {
-        String tablerow = "<tr>";
-        tablerow += "<td>" + date + "</td>";
-        tablerow += "<td>" + startSlotTime + "</td>";
-        tablerow += "<td>" + endSlotTime + "</td>";
-        tablerow += "<td>" + PATIENT_patientAMKA + "</td>";
-        tablerow += "<td>" + DOCTOR_doctorAMKA + "</td>";
-        tablerow += "</tr>";
+        StringBuilder tablerow = new StringBuilder();
 
-        return tablerow;
+        tablerow.append("<tr>");
+        tablerow.append("<td>" + date + "</td>");
+        tablerow.append("<td>" + startSlotTime + "</td>");
+        tablerow.append("<td>" + endSlotTime + "</td>");
+        tablerow.append("<td>" + PATIENT_patientAMKA + "</td>");
+        tablerow.append("<td>" + DOCTOR_doctorAMKA + "</td>");
+        tablerow.append("</tr>");
+
+        return tablerow.toString();
     }
 
         /**
@@ -188,7 +214,7 @@ public class Patient extends Users
     }
 
     // Getter for the attribute AMKA
-    public String GetAMKA() { return this.AMKA; }
+    public String getAMKA() { return this.AMKA; }
 
     /**
      * This function shows if a patient is available for an appointment or not
