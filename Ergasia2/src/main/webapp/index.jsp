@@ -145,10 +145,10 @@
 
             <div class="container">
                 <label><b style="color:#012A6C">Username: *</b></label>
-                <input type="text" placeholder="Enter Username" name="uname" required>
+                <input type="text" placeholder="Enter Username" name="username" required>
 
                 <label><b style="color:#012A6C">Password: *</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required>
+                <input type="password" placeholder="Enter Password" name="password" required>
 
                 <label><b style="color:#012A6C">Category: *</b></label>
                 <input type="radio" id="Admin" name="category" value="Admin" required><label for="Admin">Admin</label>
