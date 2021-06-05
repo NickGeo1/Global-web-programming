@@ -101,7 +101,6 @@ public class Users
                                 rs.getString("patientAMKA")
                         );
 
-                        user.loggedOn = true;
                         response.sendRedirect("patient_main_environment.jsp");
                         break;
 
@@ -116,7 +115,6 @@ public class Users
                                 rs.getString("doctorAMKA")
                         );
 
-                        user.loggedOn = true;
                         break;
 
                     default:
@@ -128,10 +126,10 @@ public class Users
                                 rs.getInt   ("age")
                         );
 
-                        user.loggedOn = true;
                         break;
                 }
 
+                user.loggedOn = true;
                 rs.close();
                 con.close();
                 return user;

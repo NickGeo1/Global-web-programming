@@ -72,6 +72,7 @@ public class Patient extends Users
 
         //if we get to this point it means none of the fields are incorrect. we can execute sql statements safely.
         //checking for duplicates in the database
+
         try
         {
             //Check if there are any duplicates in the database what comes to AMKA and username.
@@ -90,6 +91,8 @@ public class Patient extends Users
             if (rs.next())
             {
                 this.Fail(response, "This username/AMKA is already taken!");
+                rs.close();
+                connection.close();
                 return;
             }
 
@@ -101,6 +104,8 @@ public class Patient extends Users
             if (rs.next())
             {
                 this.Fail(response, "This AMKA is already taken by a doctor!");
+                rs.close();
+                connection.close();
                 return;
             }
 
@@ -115,6 +120,9 @@ public class Patient extends Users
             statement.setString(5, this.getSurname());
             statement.setString(6, a.toString());
             statement.execute();
+
+            rs.close();
+            connection.close();
         }
         catch (Exception exception)
         {
