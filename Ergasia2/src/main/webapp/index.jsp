@@ -13,7 +13,7 @@
 
         <style>
 
-            /*set border to the form*/
+            /* set border and background colour to the form */
             form
             {
                 border: 3px solid whitesmoke;
@@ -38,7 +38,7 @@
                 transform: translate(-50%, -50%);
             }
 
-            /*assign full width inputs*/
+            /* assign full width inputs */
             input[type=text],
             input[type=password]
             {
@@ -50,7 +50,7 @@
                 border:1px solid mediumseagreen;
             }
 
-            /*set a style for the buttons*/
+            /* set a style for the buttons */
             button
             {
                 background-color: mediumseagreen;
@@ -62,13 +62,13 @@
                 width: auto;
             }
 
-            /* set a hover effect for the button*/
+            /* set a hover effect for the button */
             button:hover
             {
                 opacity: 0.8;
             }
 
-            /*set extra style for the cancel button*/
+            /* set extra style for the cancel button */
             .cancelbtn
             {
                 width: auto;
@@ -76,34 +76,34 @@
                 background-color: #f44336;
             }
 
-            /*centre the display image inside the container*/
+            /* centre the display image inside the container */
             .imgcontainer
             {
                 text-align: center;
                 margin: 24px 0 12px 0;
             }
 
-            /*set image properties*/
+            /* set image properties */
             img.avatar
             {
                 width: 16%;
                 border-radius: 70%;
             }
 
-            /*set padding to the container*/
+            /* set padding to the container */
             .container
             {
                 padding: 16px;
             }
 
-            /*set the forgot password text*/
+            /* set the forgot password text */
             span.psw
             {
                 float: right;
                 padding-top: 16px;
             }
 
-            /*set styles for span and cancel button on small screens*/
+            /* set styles for span and cancel button on small screens */
             @media screen and (max-width: 300px)
             {
                 span.psw
@@ -133,12 +133,12 @@
             /* style rules for the menu at the bottom of the page */
             .navbar
             {
-                font-size: 14px;
+                font-size: 18px;
                 bottom: 0;
                 text-align: center;
                 background-color: #f1f1f1;
                 width: 100%;
-                height:18px;
+                height:20px;
             }
 
         </style>
@@ -192,7 +192,7 @@
         <br>
 
         <div class="navbar">
-            <p>Do you need help? Check the <a href="instructions.jsp" class="active" style="font-size: 14px;">instuctions</a></p>
+            <p>Do you need help? Check the <a href="instructions.jsp" class="active" style="font-size: 18px;">instuctions</a></p>
         </div>
 
     </body>

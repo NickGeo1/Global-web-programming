@@ -1,4 +1,6 @@
-<!-- This is the main environment of the patient -->
+<!-- This is the main environment of the patient. From this page, every patient that successfully logs in, will be
+able to view the history of his appointments, to book a new appointment or watch all the appointments that he has
+scheduled in the past-->
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -9,7 +11,7 @@
     <head>
 
         <meta charset="utf-8">
-        <title>ONLINE DOCTOR APPOINTMENTS</title>
+        <title>Doctor appointments: Dashboard</title>
 
         <style>
 
@@ -20,6 +22,44 @@
                 text-align:center;
                 color:white;
                 background-color: #012A6C;
+            }
+
+            /*set styles for span and cancel button on small screens*/
+            @media screen and (max-width: 300px)
+            {
+                span.psw
+                {
+                    display: block;
+                    float: none;
+                }
+                .cancelbtn
+                {
+                    width: 100%;
+                }
+            }
+
+            /* style rules when hyperlinks are pressed */
+            a:visited
+            {
+                color: #012A6C;
+            }
+
+            /* style the hyperlinks in the nav section */
+            a
+            {
+                font-size:14px;
+                color: #012A6C;
+            }
+
+            /* style rules for the menu at the bottom of the page */
+            .navbar
+            {
+                font-size: 18px;
+                bottom: 0;
+                text-align: center;
+                background-color: #f1f1f1;
+                width: 100%;
+                height:20px;
             }
 
             /* the whole page has the same font */
@@ -34,122 +74,124 @@
                 background-color: seagreen;
             }
 
-            /* style rules for the article part of body section */
-            .article1
+            /* style rules for the logo image that is appeared in the body of the web page */
+            .imgcontainer
             {
-                border-radius: 25px;
-                background: white;
-                margin-right:100px;
-                margin-left:100px;
+                text-align: center;
+                margin: 24px 0 12px 0;
             }
 
-            /* style rules for every h1 */
-            h1
+            /* set image properties */
+            img.avatar
             {
-                font-size:25px;
-                text-align:center;
-                color: #012A6C;
-                letter-spacing:6px;
+                width: 16%;
+                border-radius: 70%;
             }
 
-            /* style rules for the menu section of the web page */
-            nav
+            /* set style rules for the container class */
+            .container
             {
-                border-radius: 25px;
-                background: white;
-                margin-right:100px;
-                margin-left:100px;
+                padding: 16px;
             }
 
-            /* style rules when hyperlinks are active */
-            a:active
+            /* Style rules about the alert message box */
+            .alert
             {
-                background-color: seagreen;
+                padding: 20px;
+                background-color: #012A6C;
+                color: white;
+                margin-bottom: 15px;
             }
 
-            /* style rules when hyperlinks are pressed */
-            a:visited
+            /* The close button of the message at the upper of the web page */
+            .closebtn
             {
-                color: #012A6C;
+                margin-left: 15px;
+                color: white;
+                font-weight: bold;
+                float: right;
+                font-size: 22px;
+                line-height: 20px;
+                cursor: pointer;
+                transition: 0.3s;
             }
 
-            /* style the hyperlinks in the nav section */
-            a
+            /* style rules for the article section of the web page */
+            article
             {
-                font-size:19px;
-                color: #012A6C;
+                margin: 0;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                -ms-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
             }
 
-            /* style rules for the header part of the page */
-            header
+            /*set border to the form and background color of the form */
+            form
             {
-                border-radius: 25px;
-                background: white;
-                margin-right:100px;
-                margin-left:100px;
-                margin-top:30px;
+                border: 3px solid whitesmoke;
+                background-color: white ;
             }
 
-            /* style rules for every field of the table (inside the login form) */
-            td
+            /* When moving the mouse over the close button */
+            .closebtn:hover
             {
-                width:200px;
-                height:20px;
-                text-align:center;
-                color:white;
+                color: black;
             }
 
         </style>
 
     </head>
 
-    <br>
+    <!-- Show to user a message -->
+    <div class="alert">
+        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+        <strong>Success!</strong> Now you can use the application in order to manage your appointments or schedule a new one.
+    </div>
 
-    <body id="head">
+    <body>
 
-        <header>
-            <h1>Welcome to the online doctor appointments!</h1>
-        </header>
+        <article>
 
-        <br>
-        <br>
+            <!-- Form that contains a hidden input html tag. The value of the tag is being passed in the patient servlet -->
+            <form method="post" id="form" action="patient">
 
-        <nav>
+                <input type="hidden" id="patient_action" name="patient_action" value="">
+                <input type="hidden" id= "showby" name="showby" value="0">
+                <input type="hidden" id="value" name="value" value="0">
 
-            <table align="center">
+                <div class="imgcontainer">
+                    <img src="img/logo1.png" alt="logo_image" class="avatar">
+                </div>
 
-                <tr>
-                    <!-- Form that contains a hidden input html tag. The value of the tag is being passed in the patient servlet -->
-                    <form method="post" id="form" action="patient">
-                        <input type="hidden" id="patient_action" name="patient_action" value="">
-                        <input type="hidden" id= "showby" name="showby" value="0">
-                        <input type="hidden" id="value" name="value" value="0">
-                    </form>
+                <div class="container">
+                    <label><b style="color:#012A6C">Please select what do you want to do!</b></label>
+                </div>
 
-                    <td><button id="buttons" onclick="setAction(1);">Appointment history</button></td>
-                    <td><button id="buttons" onclick="setAction(2);">Book an appointment</button></td>
-                    <td><button id="buttons" onclick="setAction(3);">Scheduled appointments</button></td>
-                    <td><button id="buttons" onclick="setAction(4);">Logout</button></td>
-                </tr>
+                <center>
 
-            </table>
+                    <div class="container">
 
-        </nav>
+                        <button id="buttons" onclick="setAction(1);">Appointment history</button>
 
-        <br>
-        <br>
+                        <button id="buttons" onclick="setAction(2);">Book an appointment</button>
 
-        <article class="article1">
+                        <button id="buttons" onclick="setAction(3);">Scheduled appointments</button>
 
-            <br>
-            <br>
+                        <button id="buttons" onclick="setAction(4);">Logout</button>
 
-            <center>
-                <h5>Edo tha fenontai ta stoixeia tou kiriou astheni</h5>
-            </center>
+                    </div>
+
+                </center>
+
+            </form>
 
             <br>
-            <br>
+
+            <div class="navbar">
+                <p>Do you need help? Check the <a href="instructions.jsp" class="active" style="font-size: 18px;">instuctions</a></p>
+            </div>
 
         </article>
 
