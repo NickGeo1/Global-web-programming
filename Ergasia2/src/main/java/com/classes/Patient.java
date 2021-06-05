@@ -3,15 +3,12 @@ package com.classes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
-import java.awt.print.Printable;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * This is the model of a patient.A patient is able to register to the website,search for an available appointment and
@@ -93,6 +90,17 @@ public class Patient extends Users
             if (rs.next())
             {
                 this.Fail(response, "This username/AMKA is already taken!");
+                return;
+            }
+
+            //checking again, this time for Doctor AMKA.
+            statement = connection.prepareStatement("SELECT * FROM doctor WHERE doctorAMKA=?");
+            statement.setString(1, this.getAMKA());
+            rs = statement.executeQuery();
+
+            if (rs.next())
+            {
+                this.Fail(response, "This AMKA is already taken by a doctor!");
                 return;
             }
 
