@@ -28,10 +28,15 @@ public class Patient extends Users
     }
 
     /**
-     * Registers a Patient. All fields are processed and carefully injected to the database.
+     * Registers a Patient. Preceding the injection, all fields are carefully processed and tested for duplicates in the database.
+     * @param response A Servlet response required to provide error information.
+     * @param dataSource A Datasource to inject SQL statements into.
+     * @throws IOException if anything goes wrong with the HttpServletResponse.
      */
     public void Register(HttpServletResponse response, DataSource dataSource) throws IOException
     {
+        //Checks for all the fields. We use Users.Fail() to provide a plain-text HTML page to print any errors.
+
         if (this.getUsername().isBlank())
         {
             this.Fail(response, "Invalid Username! A username cannot be blank.");
@@ -72,18 +77,26 @@ public class Patient extends Users
         //checking for duplicates in the database
         try
         {
+            //Check if there are any duplicates in the database what comes to AMKA and username.
+            //preparing an sql statement
             Connection connection = dataSource.getConnection();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient WHERE patientAMKA=? OR username=?");
+
+            //setting the parameters
             statement.setString(1, this.getAMKA());
             statement.setString(2, this.getUsername());
+
+            //executing statement
             ResultSet rs = statement.executeQuery();
 
+            //if the statement yields any data, it means there is at least one duplicate. We don't continue.
             if (rs.next())
             {
                 this.Fail(response, "This username/AMKA is already taken!");
                 return;
             }
 
+            //getting to this point means that none of the above yield errors. We can safely inject database.
             Integer a = this.getAge();
 
             statement = connection.prepareStatement("INSERT INTO patient (patientAMKA,username,hashedpassword,name,surname,age) VALUES (?,?,?,?,?,?);");
@@ -97,6 +110,8 @@ public class Patient extends Users
         }
         catch (Exception exception)
         {
+            //if anything goes wrong it'll be printed on the user's screen.
+            this.Fail(response, "Cannot insert data. Exception message: \n" + exception.getMessage());
             exception.printStackTrace();
         }
 
