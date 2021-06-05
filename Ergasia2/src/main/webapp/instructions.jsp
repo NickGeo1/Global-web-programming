@@ -5,6 +5,7 @@
 <html>
 
     <head>
+
         <meta charset="utf-8">
         <title>Doctor appointmets: Instructions</title>
 
@@ -41,28 +42,15 @@
             /* set image properties */
             img.avatar
             {
-                width: 16%;
+                width: 8%;
                 border-radius: 70%;
             }
 
             /* set padding to the container */
             .container
             {
-                padding: 16px;
-            }
-
-            /* set styles for span and cancel button on small screens */
-            @media screen and (max-width: 300px)
-            {
-                span.psw
-                {
-                    display: block;
-                    float: none;
-                }
-                .cancelbtn
-                {
-                    width: 100%;
-                }
+                padding-right:16px;
+                padding-left:16px;
             }
 
             /* style rules when hyperlinks are pressed */
@@ -81,12 +69,13 @@
             /* style rules for the menu at the bottom of the page */
             .navbar
             {
-                font-size: 18px;
+                font-size: 16px;
                 bottom: 0;
                 text-align: center;
                 background-color: #f1f1f1;
-                width: 100%;
                 height:20px;
+                margin-left: 70px;
+                margin-right: 70px;
             }
 
         </style>
@@ -98,30 +87,35 @@
         <br>
         <br>
 
-        <center>
-            <div class="imgcontainer">
-                <img src="img/logo1.png" alt="logo_image" class="avatar">
-            </div>
-        </center>
-
-        <br>
-
         <article>
+
+            <center>
+                <div class="imgcontainer">
+                    <img src="img/logo1.png" alt="logo_image" class="avatar">
+                </div>
+            </center>
+
             <div class="container">
-                <label><h3 style="color:#012A6C">Hello user, view how to use this website:</h3></label>
+                <label><h3 style="color:#012A6C">&emsp;Hello user, view how to use this website:</h3></label>
             </div>
 
             <div class="container">
 
+                <p>&emsp;This application is a complete environment for booking, scheduling or managing all your
+                appointments you have with a doctor. Platfom supports three (3) kinds of users: Administrators,
+                Doctors and Patients. Each category of users have separate rights.</p>
 
 
-            </div>
-
-            <div class="navbar">
-                <p>Go back to the <a href="index.jsp" class="active" style="font-size: 18px;">start</a> page</p>
             </div>
 
         </article>
 
+        <br>
+
+        <div class="navbar">
+            <p>Go back to the <a href="index.jsp" class="active" style="font-size: 16px;">start</a> page</p>
+        </div>
+
     </body>
+
 </html>

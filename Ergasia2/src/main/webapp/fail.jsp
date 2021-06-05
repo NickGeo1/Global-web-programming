@@ -54,7 +54,7 @@
             /* style rules for the menu at the bottom of the page */
             .navbar
             {
-                font-size: 18px;
+                font-size: 16px;
                 bottom: 0;
                 text-align: center;
                 background-color: #f1f1f1;
@@ -75,7 +75,7 @@
         <br>
 
         <div class="navbar">
-                <p>Oops! Wrong credentials! <a href="login.jsp" class="active" style="font-size: 18px;">Login again?</a></p>
+                <p>Oops! Wrong credentials! <a href="login.jsp" class="active" style="font-size: 16px;">Login again?</a></p>
         </div>
 
     </body>

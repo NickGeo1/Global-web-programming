@@ -132,7 +132,7 @@
             /* style rules for the menu at the bottom of the page */
             .navbar
             {
-                font-size: 18px;
+                font-size: 16px;
                 bottom: 0;
                 text-align: center;
                 background-color: #f1f1f1;
@@ -178,7 +178,7 @@
         <br>
 
         <div class="navbar">
-            <p>Do you need help? Check the <a href="instructions.jsp" class="active" style="font-size: 18px;">instuctions</a></p>
+            <p>Do you need help? Check the <a href="instructions.jsp" class="active" style="font-size: 16px;">instuctions</a></p>
         </div>
 
     </body>
