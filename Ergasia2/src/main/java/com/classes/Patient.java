@@ -162,6 +162,7 @@ public class Patient extends Users
             return;
         }
 
+        System.out.println(showby + value);
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
@@ -215,26 +216,12 @@ public class Patient extends Users
                 showhtml.println("</table>");
 
                 showhtml.println("<br><br><br>"
-                                +"<script>"
-
-                                +"function search()"
-                                +"{"
-                                    +"var e = document.getElementById(\"searchby\");"
-                                    +"var choice = e.options[e.selectedIndex].text;"
-                                    +"document.getElementById(\"showby\").value = choice;"
-
-                                    +"document.getElementById(\"value\").value = document.getElementById(\"searchbyvalue\").value;"
-
-                                    +"document.getElementById(\"form\").submit();"
-                                +"}"
-
-                                +"</script>"
 
                                 +"<form action=\"patient\" method=\"post\" id=\"form\">"
 
                                     +"Choose a category to search appointments by:"
 
-                                    +"<select name=\"searchby\" id=\"searchby\">"
+                                    +"<select name=\"showby\" id=\"showby\">"
                                     +"<option value=\"Showall\">Showall</option>\""
                                     +"<option value=\"Doctor AMKA\">Doctor AMKA</option>"
                                     +"<option value=\"Date\">Date</option>"
@@ -242,13 +229,11 @@ public class Patient extends Users
 
                                     +"<br><br>"
 
-                                    +"<label for=\"searchbyvalue\">Insert the doctor's AMKA/appointment date:</label><br>"
+                                    +"<label for=\"value\">Insert the doctor's AMKA/appointment date:</label><br>"
 
-                                    +"<input type=\"text\" id=\"searchbyvalue\" name=\"searchbyvalue\"><button onclick=\"search();\">Search</button>"
+                                    +"<input type=\"text\" id=\"value\" name=\"value\"><input type=\"submit\" value=\"Search\">"
 
                                     +"<input type=\"hidden\" name=\"patient_action\" value=\"1\">"
-                                    +"<input type=\"hidden\" id=\"showby\" name=\"showby\" value=\"0\">"
-                                    +"<input type=\"hidden\" id=\"value\" name=\"value\" value=\"0\">"
 
                                 +"</form>");
             }
