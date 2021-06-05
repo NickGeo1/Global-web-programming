@@ -1,8 +1,5 @@
 package com.classes;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This is the model (class) of a Doctor. Each doctor has his speciality and
  * some other abilities, which are to be able to see his appointments, to create a new appointment,
