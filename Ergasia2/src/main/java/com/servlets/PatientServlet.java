@@ -1,16 +1,10 @@
 package com.servlets;
 
-import com.classes.Doctor;
 import com.classes.Patient;
 import com.classes.Users;
 
 import java.io.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.naming.InitialContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import javax.sql.DataSource;
