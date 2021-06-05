@@ -38,9 +38,9 @@ public class Patient extends Users
             return;
         }
 
-        else if (this.getPassword().isEmpty())
+        else if (this.getPassword().isEmpty() || this.getPassword().length() < 4)
         {
-            this.Fail(response, "Provide a password.");
+            this.Fail(response, "Provide a password with at least 4 characters.");
             return;
         }
 
