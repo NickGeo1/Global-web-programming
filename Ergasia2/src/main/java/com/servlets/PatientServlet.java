@@ -46,7 +46,7 @@ public class PatientServlet extends HttpServlet
         switch(PATIENT_SERVLET_ACTION)
         {
             case 1:         //appointment history
-                patient.showAppointmentHistory("","", request, response, datasource);
+                patient.showAppointmentHistory(request.getParameter("showby"), request.getParameter("value"), request, response, datasource);
                 break;
 
             case 2:         //Book an appointment

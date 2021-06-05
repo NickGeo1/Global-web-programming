@@ -211,6 +211,46 @@ public class Patient extends Users
                     showhtml.println(htmlRow);
 
                 }while(rs.next());
+
+                showhtml.println("</table>");
+
+                showhtml.println("<br><br><br>"
+                                +"<script>"
+
+                                +"function search()"
+                                +"{"
+                                    +"var e = document.getElementById(\"searchby\");"
+                                    +"var choice = e.options[e.selectedIndex].text;"
+                                    +"document.getElementById(\"showby\").value = choice;"
+
+                                    +"document.getElementById(\"value\").value = document.getElementById(\"searchbyvalue\").value;"
+
+                                    +"document.getElementById(\"form\").submit();"
+                                +"}"
+
+                                +"</script>"
+
+                                +"<form action=\"patient\" method=\"post\" id=\"form\">"
+
+                                    +"Choose a category to search appointments by:"
+
+                                    +"<select name=\"searchby\" id=\"searchby\">"
+                                    +"<option value=\"Showall\">Showall</option>\""
+                                    +"<option value=\"Doctor AMKA\">Doctor AMKA</option>"
+                                    +"<option value=\"Date\">Date</option>"
+                                    +"</select>"
+
+                                    +"<br><br>"
+
+                                    +"<label for=\"searchbyvalue\">Insert the doctor's AMKA/appointment date:</label><br>"
+
+                                    +"<input type=\"text\" id=\"searchbyvalue\" name=\"searchbyvalue\"><button onclick=\"search();\">Search</button>"
+
+                                    +"<input type=\"hidden\" name=\"patient_action\" value=\"1\">"
+                                    +"<input type=\"hidden\" id=\"showby\" name=\"showby\" value=\"0\">"
+                                    +"<input type=\"hidden\" id=\"value\" name=\"value\" value=\"0\">"
+
+                                +"</form>");
             }
             else
             {

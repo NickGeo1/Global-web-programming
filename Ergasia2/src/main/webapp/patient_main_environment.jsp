@@ -122,6 +122,8 @@
                     <!-- Form that contains a hidden input html tag. The value of the tag is being passed in the patient servlet -->
                     <form method="post" id="form" action="patient">
                         <input type="hidden" id="patient_action" name="patient_action" value="">
+                        <input type="hidden" id= "showby" name="showby" value="0">
+                        <input type="hidden" id="value" name="value" value="0">
                     </form>
 
                     <td><button id="buttons" onclick="setAction(1);">Appointment history</button></td>
