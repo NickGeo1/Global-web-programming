@@ -32,7 +32,19 @@ public class Patient extends Users
      */
     public void Register(HttpServletResponse response, DataSource dataSource) throws IOException
     {
-        if (!this.getFirstname().matches("[A-Z][a-z]+"))
+        if (this.getUsername().isBlank())
+        {
+            this.Fail(response, "Invalid Username! A username cannot be blank.");
+            return;
+        }
+
+        else if (this.getPassword().isEmpty())
+        {
+            this.Fail(response, "Provide a password.");
+            return;
+        }
+
+        else if (!this.getFirstname().matches("[A-Z][a-z]+"))
         {
             this.Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter.");
             return;
