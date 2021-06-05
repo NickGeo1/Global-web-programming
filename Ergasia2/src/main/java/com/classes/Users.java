@@ -34,119 +34,126 @@ public class Users
         UsersCount++;
     }
 
+    /**
+     * Provides an error HTML page with a title "Something went wrong!". A user can provide an error message to  specify
+     * what went wrong during any process of registration or login.
+     * @param response A response object to provide an HTML page.
+     * @param reason An error message specifying what went wrong.
+     * @throws IOException
+     */
     public void Fail(HttpServletResponse response, String reason) throws IOException
     {
+        if (reason.isBlank())
+            reason = "An unknown error occurred. Please try again.";
+
         PrintWriter writer = response.getWriter();
         writer.println("<h1> Something went wrong! </h1>");
         writer.println("<h3> " + reason + "</h3>");
     }
 
     /**
-     *
-     *
+     * Logs in a user, specified from the login page with all specified credentials.
+     * @param type The type of user to be logged in. (Patient/Doctor/Admin)
+     * @param request An HTTPServletRequest to acquire the username and password.
+     * @param response An HTTPServletResponse to redirect the user accoordingly.
+     * @param datasource The datasource required to search the username and password.
+     * @return The user, if found in the database. If the user is not found, returns null.
      */
     public static Users Login(String type, HttpServletRequest request, HttpServletResponse response, DataSource datasource)
     {
         String name = request.getParameter("username");
         String pass = request.getParameter("password");
-
         String table;
-
         Users user;
 
         try
         {
+            //establishing a connection to the database.
             Connection con = datasource.getConnection();
 
-            /*if(user instanceof Patient)
-                table = "patient";
-            else if(user instanceof Doctor)
-                table = "doctor";
-            else
-                table = "admin";*/
+            //specifying the type of user to log on.
+            table = type.toLowerCase();
 
-            if(type.equals("Patient"))
-                table = "patient";
-            else if(type.equals("Doctor"))
-                table = "doctor";
-            else
-                table = "admin";
-
+            //preparing a general statement.
             PreparedStatement stmnt = con.prepareStatement("SELECT hashedpassword FROM `"+ table +"` WHERE username=?");
-
-            //stmnt.setString(1, table);
-
             stmnt.setString(1, name);
 
             ResultSet rs = stmnt.executeQuery();
 
-            if(rs.next() && rs.getString("hashedpassword").equals(pass)) //correct details
+            //if this username exists and the password is correct
+            if(rs.next() && rs.getString("hashedpassword").equals(pass))
             {
                 stmnt = con.prepareStatement("SELECT * FROM `"+ table +"` WHERE username=?");
-
-                //stmnt.setString(1, table);
                 stmnt.setString(1,name);
 
                 rs = stmnt.executeQuery();
                 rs.next();
 
-                if(type.equals("Patient"))/*(user instanceof Patient)*/
+                switch (type)
                 {
-                    user = new Patient(rs.getString("username"), rs.getString("hashedpassword"),
-                            rs.getString("name"), rs.getString("surname"),
-                            rs.getInt("age"),rs.getString("patientAMKA") );
-                }
-                else if(type.equals("Doctor"))/*(user instanceof Doctor)*/
-                {
-                    user = new Doctor(rs.getString("username"), rs.getString("hashedpassword"),
-                            rs.getString("name"), rs.getString("surname"),
-                            rs.getInt("age"),rs.getString("specialty"),rs.getString("doctorAMKA"));
-                }
-                else
-                {
-                    user = new Admin(rs.getString("username"), rs.getString("hashedpassword"),
-                            rs.getString("name"), rs.getString("surname"),
-                            rs.getInt("age"));
-                }
+                    case "Patient":
+                        user = new Patient(
+                                rs.getString("username"),
+                                rs.getString("hashedpassword"),
+                                rs.getString("name"),
+                                rs.getString("surname"),
+                                rs.getInt   ("age"),
+                                rs.getString("patientAMKA")
+                        );
 
-                user.loggedOn = true;
+                        user.loggedOn = true;
+                        response.sendRedirect("patient_main_environment.jsp");
+                        break;
 
-                if(type.equals("Patient"))/*(user instanceof Patient)*/
-                {
-                    response.sendRedirect("patient_main_environment.jsp");
-                }
+                    case "Doctor":
+                        user = new Doctor(
+                                rs.getString("username"),
+                                rs.getString("hashedpassword"),
+                                rs.getString("name"),
+                                rs.getString("surname"),
+                                rs.getInt   ("age"),
+                                rs.getString("specialty"),
+                                rs.getString("doctorAMKA")
+                        );
 
-                else if(type.equals("Doctor"))/*(user instanceof Doctor)*/
-                {
-                    //page for doctor
-                }
+                        user.loggedOn = true;
+                        break;
 
-                else
-                {
-                    //page for admin
+                    default:
+                        user = new Admin(
+                                rs.getString("username"),
+                                rs.getString("hashedpassword"),
+                                rs.getString("name"),
+                                rs.getString("surname"),
+                                rs.getInt   ("age")
+                        );
+
+                        user.loggedOn = true;
+                        break;
                 }
 
                 rs.close();
                 con.close();
-
                 return user;
+            }
 
-            }else if(rs.next() && !rs.getString("hashedpassword").equals(pass)) //correct username wrong pass
+            else if(rs.next() && !rs.getString("hashedpassword").equals(pass)) //correct username wrong pass
             {
-
                 response.sendRedirect("fail.jsp");
+            }
 
-            }else //wrong username
+            else //wrong username
             {
                 response.sendRedirect("fail.jsp");
             }
 
             rs.close();
             con.close();
-
             return null;
 
-        }catch(Exception e)
+        }
+
+        catch(Exception e)
         {
             System.out.println("An exception occured during database connection: "+e.toString());
             return null;
