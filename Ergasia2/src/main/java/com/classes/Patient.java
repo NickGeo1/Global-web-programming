@@ -40,7 +40,7 @@ public class Patient extends Users
             return;
         }
 
-        else if (this.getPassword().isEmpty() || this.getPassword().length() < 4)
+        else if (this.getPassword().length() < 4)
         {
             this.Fail(response, "Provide a password with at least 4 characters.");
             return;
@@ -48,13 +48,13 @@ public class Patient extends Users
 
         else if (!this.getFirstname().matches("[A-Z][a-z]+"))
         {
-            this.Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter.");
+            this.Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.");
             return;
         }
 
         else if (!this.getSurname().matches("[A-Z][a-z]+"))
         {
-            this.Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter.");
+            this.Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.");
             return;
         }
 
