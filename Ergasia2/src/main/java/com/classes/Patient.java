@@ -37,37 +37,37 @@ public class Patient extends Users
 
         if (this.getUsername().isBlank())
         {
-            this.Fail(response, "Invalid Username! A username cannot be blank.");
+            Fail(response, "Invalid Username! A username cannot be blank.");
             return;
         }
 
         else if (this.getPassword().length() < 4)
         {
-            this.Fail(response, "Provide a password with at least 4 characters.");
+            Fail(response, "Provide a password with at least 4 characters.");
             return;
         }
 
         else if (!this.getFirstname().matches("[A-Z][a-z]+"))
         {
-            this.Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.");
+            Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.");
             return;
         }
 
         else if (!this.getSurname().matches("[A-Z][a-z]+"))
         {
-            this.Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.");
+            Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.");
             return;
         }
 
         else if (this.getAge() > 119 || this.getAge() < 0)
         {
-            this.Fail(response, "Invalid Age! A registered age cannot be greater than 119 years or a negative number.");
+            Fail(response, "Invalid Age! A registered age cannot be greater than 119 years or a negative number.");
             return;
         }
 
         else if (!this.getAMKA().matches("[0-9]{11}"))
         {
-            this.Fail(response, "Invalid AMKA! A social security number must have exactly 11 digits.");
+            Fail(response, "Invalid AMKA! A social security number must have exactly 11 digits.");
             return;
         }
 
@@ -91,7 +91,7 @@ public class Patient extends Users
             //if the statement yields any data, it means there is at least one duplicate. We don't continue.
             if (rs.next())
             {
-                this.Fail(response, "This username/AMKA is already taken!");
+                Fail(response, "This username/AMKA is already taken!");
                 rs.close();
                 connection.close();
                 return;
@@ -104,7 +104,7 @@ public class Patient extends Users
 
             if (rs.next())
             {
-                this.Fail(response, "This AMKA is already taken by a doctor!");
+                Fail(response, "This AMKA is already taken by a doctor!");
                 rs.close();
                 connection.close();
                 return;
@@ -128,7 +128,7 @@ public class Patient extends Users
         catch (Exception exception)
         {
             //if anything goes wrong it'll be printed on the user's screen.
-            this.Fail(response, "Cannot insert data. Exception message: \n" + exception.getMessage());
+            Fail(response, "Cannot insert data. Exception message: \n" + exception.getMessage());
             exception.printStackTrace();
         }
 
@@ -190,18 +190,16 @@ public class Patient extends Users
             switch (showby)
             {
                 case "Doctor AMKA":
+
+                    if(!value.matches("[0-9]{11}"))
+                        throw new ParseException("Invalid AMKA",0);
+
                     showHistory = con.prepareStatement("SELECT * FROM appointment WHERE DOCTOR_doctorAMKA = ? AND PATIENT_patientAMKA = ?");
                     showHistory.setString(1, value);
                     showHistory.setString(2, this.getAMKA());
                     break;
 
                 case "Date":
-
-                    if(!value.matches("(0?[1-9]|1[0-9]|2[0-9]|3[0-1])-(0?[1-9]|1[0-2])-[0-9]{4}"))
-                    {
-                        showhtml.println("<h1>Invalid date format<h1>");
-                        return;
-                    }
 
                     value = changeDateFormat("dd-MM-yyyy", "yyyy-MM-dd", value);
 
@@ -285,6 +283,7 @@ public class Patient extends Users
                                             +"if(o == \"Show all\")"
                                             +"{"
                                             +    "document.getElementById(\"value\").disabled = true;"
+                                            +    "document.getElementById(\"value\").value = \"\";"
                                             +"}"
                                             +"else"
                                             +"{"
@@ -309,9 +308,12 @@ public class Patient extends Users
             }
 
             rs.close();
-
             con.close();
 
+        }
+        catch (ParseException e)
+        {
+            showhtml.println("<h1>Invalid " + showby + " format</h1>");
         }
         catch(Exception e)
         {

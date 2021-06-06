@@ -159,7 +159,7 @@ scheduled in the past-->
 
                 <input type="hidden" id="patient_action" name="patient_action" value="">
                 <input type="hidden" id= "showby" name="showby" value="Show all">
-                <input type="hidden" id="value" name="value" value="0">
+                <input type="hidden" id="value" name="value" value="">
 
                 <div class="imgcontainer">
                     <img src="img/logo1.png" alt="logo_image" class="avatar">

@@ -59,16 +59,28 @@ public class PatientServlet extends HttpServlet
                 break;
 
             case 5:         //register
-                //getting the parameters as they are from the form.
+                //getting the age as it is from the form and try to cast it to integer
+                int age = 0;
+                try
+                {
+                    age = Integer.parseInt(request.getParameter("age"));
+
+                }catch (NumberFormatException e)
+                {
+                    Users.Fail(response,"Invalid Age! A registered age must be a number.");
+                    return;
+                }
+
+                //getting the rest parameters as they are from the form.
                 patient = new Patient(  request.getParameter("username"),
                                         request.getParameter("password"),
                                         request.getParameter("fn"),
                                         request.getParameter("ln"),
-                                        Integer.parseInt(request.getParameter("age")),
+                                        age,
                                         request.getParameter("AMKA")
                 );
 
-                //registering the patient as they are.
+                //registering the patient as he is.
                 patient.Register(response, datasource);
                 patient = null;
                 break;

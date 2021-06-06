@@ -41,7 +41,7 @@ public class Users
      * @param reason An error message specifying what went wrong.
      * @throws IOException
      */
-    public void Fail(HttpServletResponse response, String reason) throws IOException
+    public static void Fail(HttpServletResponse response, String reason) throws IOException
     {
         if (reason.isBlank())
             reason = "An unknown error occurred. Please try again.";
