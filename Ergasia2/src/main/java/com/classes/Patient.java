@@ -5,9 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 /**
@@ -170,7 +171,6 @@ public class Patient extends Users
             return;
         }
 
-        System.out.println(showby + value);
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
@@ -180,12 +180,43 @@ public class Patient extends Users
         showhtml.print("<head><title>Appointment History</title></head>");
         showhtml.println("<body>");
 
+        String category;
+
         try
         {
             Connection con = datasource.getConnection();
+            PreparedStatement showHistory = null;
 
-            PreparedStatement showHistory = con.prepareStatement("SELECT * FROM appointment WHERE PATIENT_patientAMKA=?");
-            showHistory.setString(1, this.AMKA);
+            switch (showby)
+            {
+                case "Doctor AMKA":
+                    showHistory = con.prepareStatement("SELECT * FROM appointment WHERE DOCTOR_doctorAMKA = ? AND PATIENT_patientAMKA = ?");
+                    showHistory.setString(1, value);
+                    showHistory.setString(2, this.getAMKA());
+                    break;
+
+                case "Date":
+
+                    if(!value.matches("(0?[1-9]|1[0-9]|2[0-9]|3[0-1])-(0?[1-9]|1[0-2])-[0-9]{4}"))
+                    {
+                        showhtml.println("<h1>Invalid date format<h1>");
+                        return;
+                    }
+
+                    value = changeDateFormat("dd-MM-yyyy", "yyyy-MM-dd", value);
+
+                    showHistory = con.prepareStatement("SELECT * FROM appointment WHERE date = ? AND PATIENT_patientAMKA = ?");
+                    showHistory.setString(1, value);
+                    showHistory.setString(2, this.getAMKA());
+
+                    break;
+
+                default:
+                    showHistory = con.prepareStatement("SELECT * FROM appointment WHERE PATIENT_patientAMKA = ?");
+                    showHistory.setString(1, this.getAMKA());
+                    break;
+
+            }
 
             ResultSet rs = showHistory.executeQuery();
 
@@ -210,6 +241,8 @@ public class Patient extends Users
                 do
                 {
                     date = rs.getString("date");
+
+                    date = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", date);
                     startSlotTime = rs.getString("startSlotTime");
                     endSlotTime = rs.getString("endSlotTime");
                     PATIENT_patientAMKA = rs.getString("PATIENT_patientAMKA");
@@ -229,32 +262,58 @@ public class Patient extends Users
 
                                     +"Choose a category to search appointments by:"
 
-                                    +"<select name=\"showby\" id=\"showby\">"
-                                    +"<option value=\"Showall\">Showall</option>\""
-                                    +"<option value=\"Doctor AMKA\">Doctor AMKA</option>"
-                                    +"<option value=\"Date\">Date</option>"
+                                    +"<select name=\"showby\" id=\"showby\" onclick=\"checkoption();\">"
+                                        +"<option value=\"Show all\">Show all</option>\""
+                                        +"<option value=\"Doctor AMKA\">Doctor AMKA</option>"
+                                        +"<option value=\"Date\">Date</option>"
                                     +"</select>"
 
                                     +"<br><br>"
 
                                     +"<label for=\"value\">Insert the doctor's AMKA/appointment date:</label><br>"
 
-                                    +"<input type=\"text\" id=\"value\" name=\"value\"><input type=\"submit\" value=\"Search\">"
+                                    +"<input type=\"text\" id=\"value\" name=\"value\" disabled=\"true\"><input type=\"submit\" value=\"Search\">"
 
                                     +"<input type=\"hidden\" name=\"patient_action\" value=\"1\">"
 
+                                    +"<script>"
+                                        +"function checkoption()"
+                                        +"{"
+                                            +"var s = document.getElementById(\"showby\");"
+                                            +"var o = s.options[s.selectedIndex].value;"
+
+                                            +"if(o == \"Show all\")"
+                                            +"{"
+                                            +    "document.getElementById(\"value\").disabled = true;"
+                                            +"}"
+                                            +"else"
+                                            +"{"
+                                            +    "document.getElementById(\"value\").disabled = false;"
+                                            +"}"
+
+                                        +"}"
+                                    +"</script>"
+
                                 +"</form>");
+            }
+            else if(!rs.next() && showby.equals("Show all"))
+            {
+                showhtml.println("<h1>Appointment history is empty</h1>");
             }
             else
             {
-                showhtml.println("<h1>Appointment history is empty</h1>");
+                if(showby.equals("Date"))
+                    value = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", value);
+
+                showhtml.println("<h1>No results found for "+showby + " " + value+ "<h1>");
             }
 
             rs.close();
 
             con.close();
 
-        } catch(Exception e)
+        }
+        catch(Exception e)
         {
             showhtml.println(e.toString());
         }
@@ -300,6 +359,16 @@ public class Patient extends Users
         tablerow.append("</tr>");
 
         return tablerow.toString();
+    }
+
+    private static String changeDateFormat(String oldformat, String newformat, String date) throws ParseException
+    {
+        SimpleDateFormat df = new SimpleDateFormat(oldformat);
+        Date d = df.parse(date);
+        df.applyPattern(newformat);
+        date = df.format(d);
+
+        return date;
     }
 
         /**

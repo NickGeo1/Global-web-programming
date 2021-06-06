@@ -158,7 +158,7 @@ scheduled in the past-->
             <form method="post" id="form" action="patient">
 
                 <input type="hidden" id="patient_action" name="patient_action" value="">
-                <input type="hidden" id= "showby" name="showby" value="0">
+                <input type="hidden" id= "showby" name="showby" value="Show all">
                 <input type="hidden" id="value" name="value" value="0">
 
                 <div class="imgcontainer">
