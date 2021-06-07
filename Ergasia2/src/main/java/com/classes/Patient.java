@@ -176,9 +176,23 @@ public class Patient extends Users
         request.setCharacterEncoding("UTF-8");
 
         PrintWriter showhtml = response.getWriter();
+
+        // print the html responce page from server
+        showhtml.println("<!DOCTYPE html>");
         showhtml.println("<html>");
-        showhtml.print("<head><title>Appointment History</title></head>");
+
+        showhtml.print("<head>");
+        showhtml.println("<title>View appointment history</title>");
+        showhtml.println("<link rel=\"stylesheet\" href=\"CSS/styles.css\">");
+        showhtml.print("</head>");
+
         showhtml.println("<body>");
+
+        showhtml.println("<form action=\"patient\" method=\"post\" id=\"form\">");
+        showhtml.println("<div class=\"imgcontainer\">");
+        showhtml.println("<img src=\"img/logo1.png\" alt=\"logo_image\" class=\"avatar\">");
+        showhtml.println("</div>");
+
 
         String category;
 
@@ -220,7 +234,8 @@ public class Patient extends Users
 
             if(rs.next())
             {
-                showhtml.println("<table border=\"1\">");
+
+                showhtml.println("<table border=\"1\" align=\"center\">");
                 showhtml.println("<tr>");
                 showhtml.println("<th>Date</th>");
                 showhtml.println("<th>Start time</th>");
@@ -256,9 +271,9 @@ public class Patient extends Users
 
                 showhtml.println("<br><br><br>"
 
-                                +"<form action=\"patient\" method=\"post\" id=\"form\">"
-
-                                    +"Choose a category to search appointments by:"
+                                    +"<div class=\"container\">"
+                                    +"<label><b style=\"color:#012A6C\">Choose a category to search appointments by:</b></label>"
+                                    +"</div>"
 
                                     +"<select name=\"showby\" id=\"showby\" onclick=\"checkoption();\">"
                                         +"<option value=\"Show all\">Show all</option>\""
@@ -270,7 +285,9 @@ public class Patient extends Users
 
                                     +"<label for=\"value\">Insert the doctor's AMKA/appointment date:</label><br>"
 
-                                    +"<input type=\"text\" id=\"value\" name=\"value\" disabled=\"true\"><input type=\"submit\" value=\"Search\">"
+                                    +"<input type=\"text\" id=\"value\" name=\"value\" disabled=\"true\">"
+
+                                    + "<button type=\"submit\">Search</button>"
 
                                     +"<input type=\"hidden\" name=\"patient_action\" value=\"1\">"
 
@@ -319,6 +336,11 @@ public class Patient extends Users
         {
             showhtml.println(e.toString());
         }
+
+        showhtml.println("<div class=\"navbar\">");
+        showhtml.println("<p>Do you need help? Check the <a href=\"instructions.jsp\" class=\"active\" style=\"font-size: 16px;\">instuctions</a></p>");
+        showhtml.println("</div>");
+
 
         showhtml.println("</body>");
         showhtml.println("</html>");

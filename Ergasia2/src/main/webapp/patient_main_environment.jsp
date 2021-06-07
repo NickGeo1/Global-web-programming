@@ -91,7 +91,7 @@ scheduled in the past-->
             /* set style rules for the container class */
             .container
             {
-                padding: 16px;
+                padding: 10px;
             }
 
             /* Style rules about the alert message box */
