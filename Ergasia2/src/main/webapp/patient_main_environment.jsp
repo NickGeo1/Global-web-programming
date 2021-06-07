@@ -190,7 +190,7 @@ scheduled in the past-->
             <br>
 
             <div class="navbar">
-                <p>Do you need help? Check the <a href="instructions.jsp" class="active" style="font-size: 16px;">instuctions</a></p>
+                <p>Do you need help? Check the <a href="instructions.jsp" class="active" style="font-size: 16px;">instructions</a></p>
             </div>
 
         </article>
