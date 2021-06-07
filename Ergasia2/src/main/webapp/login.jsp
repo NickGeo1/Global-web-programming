@@ -104,8 +104,8 @@
 
             /* style rules for the radio buttons */
             input[type=radio] {
-                height: 13px;
-                width: 13px;
+                height: 14px;
+                width: 14px;
             }
 
             /* set styles for span and cancel button on small screens */
