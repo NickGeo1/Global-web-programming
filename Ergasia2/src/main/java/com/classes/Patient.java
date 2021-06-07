@@ -194,7 +194,7 @@ public class Patient extends Users
                     if(!value.matches("[0-9]{11}"))
                         throw new ParseException("Invalid AMKA",0);
 
-                    showHistory = con.prepareStatement("SELECT * FROM appointment WHERE DOCTOR_doctorAMKA = ? AND PATIENT_patientAMKA = ?");
+                    showHistory = con.prepareStatement("SELECT * FROM appointment WHERE DOCTOR_doctorAMKA = ? AND PATIENT_patientAMKA = ? AND (date < cast(now() as date) OR date = cast(now() as date) AND endSlotTime < cast(now() as time))");
                     showHistory.setString(1, value);
                     showHistory.setString(2, this.getAMKA());
                     break;
@@ -203,14 +203,14 @@ public class Patient extends Users
 
                     value = changeDateFormat("dd-MM-yyyy", "yyyy-MM-dd", value);
 
-                    showHistory = con.prepareStatement("SELECT * FROM appointment WHERE date = ? AND PATIENT_patientAMKA = ?");
+                    showHistory = con.prepareStatement("SELECT * FROM appointment WHERE date = ? AND PATIENT_patientAMKA = ? AND (date < cast(now() as date) OR date = cast(now() as date) AND endSlotTime < cast(now() as time))");
                     showHistory.setString(1, value);
                     showHistory.setString(2, this.getAMKA());
 
                     break;
 
                 default:
-                    showHistory = con.prepareStatement("SELECT * FROM appointment WHERE PATIENT_patientAMKA = ?");
+                    showHistory = con.prepareStatement("SELECT * FROM appointment WHERE PATIENT_patientAMKA = ? AND (date < cast(now() as date) OR date = cast(now() as date) AND endSlotTime < cast(now() as time))");
                     showHistory.setString(1, this.getAMKA());
                     break;
 
