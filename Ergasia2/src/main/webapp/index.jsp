@@ -38,7 +38,7 @@
                 transform: translate(-50%, -50%);
             }
 
-            /* assign full width inputs */
+            /* style rules for the inputs boxes in the form */
             input[type=text],
             input[type=password]
             {
@@ -90,7 +90,7 @@
                 border-radius: 70%;
             }
 
-            /* set padding to the container */
+            /* set padding to the container class */
             .container
             {
                 padding: 16px;

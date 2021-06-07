@@ -47,8 +47,26 @@ public class Users
             reason = "An unknown error occurred. Please try again.";
 
         PrintWriter writer = response.getWriter();
+
+        // show an html web page back to the client
+        writer.println("<!DOCTYPE html>");
+
+        writer.println("<html>");
+
+        writer.println("<head>");
+        writer.println("<title>Error during register</title>");
+        writer.println("<meta http-equiv = \"refresh\" content = \"7; url = index.jsp\" />"); // redirect page after 7 seconds
+        writer.println("<link rel=\"stylesheet\" href=\"CSS/styles.css\">"); // use styles from the styles.css file
+        writer.print("</head>");
+
+        writer.println("<body>");
+        writer.println("<article>");
         writer.println("<h1> Something went wrong! </h1>");
         writer.println("<h3> " + reason + "</h3>");
+        writer.println("</article>");
+        writer.println("</body>");
+
+        writer.println("</html>");
     }
 
     /**

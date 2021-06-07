@@ -24,20 +24,6 @@ scheduled in the past-->
                 background-color: #012A6C;
             }
 
-            /*set styles for span and cancel button on small screens*/
-            @media screen and (max-width: 300px)
-            {
-                span.psw
-                {
-                    display: block;
-                    float: none;
-                }
-                .cancelbtn
-                {
-                    width: 100%;
-                }
-            }
-
             /* style rules when hyperlinks are pressed */
             a:visited
             {
@@ -98,7 +84,7 @@ scheduled in the past-->
             .alert
             {
                 padding: 20px;
-                background-color: #012A6C;
+                background-color: darkgoldenrod;
                 color: white;
                 margin-bottom: 15px;
             }
@@ -127,7 +113,7 @@ scheduled in the past-->
                 transform: translate(-50%, -50%);
             }
 
-            /*set border and background color of form */
+            /* set border and background color of form */
             form
             {
                 border: 3px solid whitesmoke;

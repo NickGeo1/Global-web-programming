@@ -37,7 +37,7 @@
                 transform: translate(-50%, -50%);
             }
 
-            /* assign full width inputs */
+            /* set styles for the inputs of the login form */
             input[type=text],
             input[type=password]
             {
@@ -100,6 +100,12 @@
             {
                 float: right;
                 padding-top: 16px;
+            }
+
+            /* style rules for the radio buttons */
+            input[type=radio] {
+                height: 13px;
+                width: 13px;
             }
 
             /* set styles for span and cancel button on small screens */
