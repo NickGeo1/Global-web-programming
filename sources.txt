@@ -3,3 +3,5 @@ www.w3schools.com
 https://www.youtube.com/watch?v=OuBUUkQfBYM -->Servlet & JSP Tutorial | Full Course
 Εργαστηριακα παραδειγματα
 https://www.geeksforgeeks.org/html-responsive-modal-login-form/
+
+form validation: https://youtu.be/WY4rvU4ImgE

@@ -141,19 +141,37 @@
                 height:20px;
             }
 
+            /* style rules for the error message box */
+            #error_message
+            {
+                background: #fe8b8e;
+                text-align: center;
+                font-size: 16px;
+                transition: all 0.5s ease;
+                width: 100%;
+                margin: 8px 0;
+                display: inline-block;
+                box-sizing: border-box;
+                color: white;
+                font-weight: bold;
+                padding: 0px;
+            }
+
         </style>
 
     </head>
 
     <body>
 
-        <form action="patient" method="post" name="signup">
+        <form action="patient" method="post" name="signup" onsubmit="return validation()">
 
             <input type="hidden", value="5", name="patient_action">
 
             <div class="imgcontainer">
                 <img src="img/logo1.png" alt="logo_image" class="avatar">
             </div>
+
+            <div id="error_message"></div>
 
             <div class="container">
                 <label><b style="color:#012A6C">Hello patient, please create your account!</b></label>
@@ -162,22 +180,22 @@
             <div class="container">
 
                 <label><b style="color:#012A6C">First name: *</b></label>
-                <input type="text" placeholder="Enter your first name" name="fn" required>
+                <input type="text" id="fn" placeholder="Enter your first name" name="fn" required>
 
                 <label><b style="color:#012A6C">Last name: *</b></label>
-                <input type="text" placeholder="Enter your last name" name="ln" required>
+                <input type="text" id="ln" placeholder="Enter your last name" name="ln" required>
 
                 <label><b style="color:#012A6C">Username: *</b></label>
-                <input type="text" placeholder="Enter username" name="username" required>
+                <input type="text" id="username" placeholder="Enter username" name="username" required>
 
                 <label><b style="color:#012A6C">Password: *</b></label>
-                <input type="password" placeholder="Enter password" name="password" required>
+                <input type="password" id="password" placeholder="Enter password" name="password" required>
 
                 <label><b style="color:#012A6C">Age: *</b></label>
-                <input type="text" placeholder="Enter your age" name="age" required>
+                <input type="text" id="age" placeholder="Enter your age" name="age" required>
 
                 <label><b style="color:#012A6C">AMKA: *</b></label>
-                <input type="text" placeholder="Enter your AMKA number" name="AMKA" required>
+                <input type="text" id="AMKA" placeholder="Enter your AMKA number" name="AMKA" required>
 
             </div>
 
@@ -194,6 +212,80 @@
         <div class="navbar">
             <p>Do you need help? Check the <a href="instructions.jsp" class="active" style="font-size: 16px;">instructions</a></p>
         </div>
+
+        <script>
+
+            // this function is used for form's validation on client's side
+            function validation()
+            {
+                // get the values of inputs that user gave in the form
+                var first_name = document.getElementById("fn").value;
+                var last_name = document.getElementById("ln").value;
+                var username = document.getElementById("username").value;
+                var password = document.getElementById("password").value;
+                var age = document.getElementById("age").value;
+                var AMKA = document.getElementById("AMKA").value;
+                var error_message = document.getElementById("error_message");
+
+                var text; // set a new variable
+
+                // use a new variable for storing the errors during validation
+                error_message.style.padding = "10px";
+
+                // validation check begins
+
+                // check first name
+                if (!/^[A-Z][a-z]+$/.test(first_name))
+                {
+                    text = "First name includes only letters and should begin with a capital letter!";
+                    error_message.innerHTML = text;
+                    return false;
+                }
+
+                // check last name
+                if (!/^[A-Z][a-z]+$/.test(last_name))
+                {
+                    text = "Last name includes only letters and should begin with a capital letter!";
+                    error_message.innerHTML = text;
+                    return false;
+                }
+
+                // check username
+                if (username.length == 0)
+                {
+                    text = "Username should not be empty!";
+                    error_message.innerHTML = text;
+                    return false;
+                }
+
+                // check password
+                if (password.length < 4)
+                {
+                    text = "Password consists of at least 4 characters!";
+                    error_message.innerHTML = text;
+                    return false;
+                }
+
+                // check age
+                if (!/^[0-9]+$/.test(age) || age > 119 || age < 0)
+                {
+                    text = "Age consist of numbers and is lower than 119!";
+                    error_message.innerHTML = text;
+                    return false;
+                }
+
+                // check AMKA
+                if (!/^\d{11}$/.test(AMKA))
+                {
+                    text = "AMKA should be a 11-digit number!";
+                    error_message.innerHTML = text;
+                    return false;
+                }
+
+                return true; // everything is fine, no errors occurred
+            }
+
+        </script>
 
     </body>
 
