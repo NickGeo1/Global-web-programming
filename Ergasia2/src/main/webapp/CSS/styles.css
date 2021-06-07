@@ -105,11 +105,32 @@ table
     align:center;
 }
 
+/* style rules for every field of the table */
+td
+{
+    width:200px;
+    height:20px;
+    text-align:center;
+    color:black;
+    border:1px solid #012A6C;
+    padding: 12px 20px;
+}
+
+tr
+{
+    width:200px;
+    height:20px;
+    text-align:center;
+    color:black;
+    border:1px solid #012A6C;
+    padding: 12px 20px;
+}
+
 /* style rules for every h1 */
 h1
 {
     font-size:25px;
     text-align:center;
-    color: white;
+    color: #012A6C;
     letter-spacing:6px;
 }

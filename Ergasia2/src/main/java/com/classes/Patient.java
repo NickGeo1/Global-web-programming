@@ -233,7 +233,7 @@ public class Patient extends Users
             if(rs.next())
             {
 
-                showhtml.println("<table border=\"1\" align=\"center\">");
+                showhtml.println("<table>");
                 showhtml.println("<tr>");
                 showhtml.println("<th>Date</th>");
                 showhtml.println("<th>Start time</th>");
@@ -338,7 +338,6 @@ public class Patient extends Users
         showhtml.println("<div class=\"navbar\">");
         showhtml.println("<p>Do you need help? Check the <a href=\"instructions.jsp\" class=\"active\" style=\"font-size: 16px;\">instuctions</a></p>");
         showhtml.println("</div>");
-
 
         showhtml.println("</body>");
         showhtml.println("</html>");
