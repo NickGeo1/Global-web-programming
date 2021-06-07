@@ -160,8 +160,6 @@ public class Patient extends Users
     /**
      * Show past doctor appointments by doctor attribute
      *
-     *
-     *
      */
     public void showAppointmentHistory(String showby, String value, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
     {

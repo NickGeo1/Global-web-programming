@@ -1,3 +1,5 @@
+/* This file contains style rules for the pages that each servlet returns to the client */
+
 /* set border and background colour to the form */
 form
 {
@@ -73,27 +75,6 @@ img.avatar
     padding: 16px;
 }
 
-/* set the forgot password text */
-span.psw
-{
-    float: right;
-    padding-top: 16px;
-}
-
-/* set styles for span and cancel button on small screens */
-@media screen and (max-width: 300px)
-{
-    span.psw
-    {
-        display: block;
-        float: none;
-    }
-    .cancelbtn
-    {
-        width: 100%;
-    }
-}
-
 /* style rules when hyperlinks are pressed */
 a:visited
 {
@@ -122,12 +103,6 @@ a
 table
 {
     align:center;
-}
-
-/* style rules for every cell of the table */
-td
-{
-
 }
 
 /* style rules for every h1 */
