@@ -94,7 +94,7 @@ scheduled in the past-->
                 padding: 10px;
             }
 
-            /* Style rules about the alert message box */
+            /* style rules about the alert message box */
             .alert
             {
                 padding: 20px;
@@ -127,14 +127,14 @@ scheduled in the past-->
                 transform: translate(-50%, -50%);
             }
 
-            /*set border to the form and background color of the form */
+            /*set border and background color of form */
             form
             {
                 border: 3px solid whitesmoke;
                 background-color: white ;
             }
 
-            /* When moving the mouse over the close button */
+            /* when moving the mouse over the close button, make it black */
             .closebtn:hover
             {
                 color: black;

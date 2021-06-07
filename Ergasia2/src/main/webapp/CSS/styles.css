@@ -1,10 +1,11 @@
 /* This file contains style rules for the pages that each servlet returns to the client */
 
-/* set border and background colour to the form */
+/* set border, padding and background colour to the form */
 form
 {
     border: 3px solid whitesmoke;
     background-color: white ;
+    padding: 16px;
 }
 
 /* the whole page has the same font */
@@ -25,16 +26,16 @@ body
     transform: translate(-50%, -50%);
 }
 
-/* assign full width inputs */
-input[type=text],
-input[type=password]
+/* style rules for the input of the form */
+input[type=text]
 {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
+    width: 25%;
+    height:30px;
+    padding: 12px;
+    margin: 10px;
     display: inline-block;
     box-sizing: border-box;
-    border:1px solid mediumseagreen;
+    border:1px solid #012A6C;
 }
 
 /* set a style for the buttons */
@@ -42,11 +43,12 @@ button
 {
     background-color: mediumseagreen;
     color: white;
-    padding: 10px 18px;
+    align:right;
+    height:30px;
     margin: 8px 0;
-    border: none;
+    border: 1px solid mediumseagreen;
     cursor: pointer;
-    width: auto;
+    width: 20%;
 }
 
 /* set a hover effect for the button */
@@ -69,19 +71,13 @@ img.avatar
     border-radius: 70%;
 }
 
-/* set padding to the container */
-.container
-{
-    padding: 16px;
-}
-
 /* style rules when hyperlinks are pressed */
 a:visited
 {
     color: #012A6C;
 }
 
-/* style the hyperlinks in the nav section */
+/* style style rules for the hyperlinks */
 a
 {
     font-size:16px;
@@ -105,32 +101,40 @@ table
     align:center;
 }
 
-/* style rules for every field of the table */
-td
+/* style rules for every table heading of the table */
+th
 {
-    width:200px;
+    width:150px;
     height:20px;
     text-align:center;
     color:black;
-    border:1px solid #012A6C;
+    border:1px solid mediumseagreen;
     padding: 12px 20px;
 }
 
+/* style rules for every table row of the table */
 tr
 {
-    width:200px;
-    height:20px;
-    text-align:center;
-    color:black;
-    border:1px solid #012A6C;
-    padding: 12px 20px;
+    text-align: center;
+    padding: 16px;
 }
 
-/* style rules for every h1 */
+/* style rules for every h1 in this web page */
 h1
 {
     font-size:25px;
     text-align:center;
     color: #012A6C;
     letter-spacing:6px;
+}
+
+/* style rules for the select section */
+select
+{
+    width: 25%;
+    height:30px;
+    margin: 8px 0;
+    display: inline-block;
+    box-sizing: border-box;
+    border:1px solid #012A6C;
 }

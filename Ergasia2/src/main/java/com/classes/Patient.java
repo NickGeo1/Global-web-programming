@@ -190,6 +190,7 @@ public class Patient extends Users
         showhtml.println("<div class=\"imgcontainer\">");
         showhtml.println("<img src=\"img/logo1.png\" alt=\"logo_image\" class=\"avatar\">");
         showhtml.println("</div>");
+        showhtml.println("<br>");
 
 
         String category;
@@ -267,59 +268,56 @@ public class Patient extends Users
 
                 showhtml.println("</table>");
 
-                showhtml.println("<br><br><br>"
+                showhtml.println("<br><br>"
 
-                                    +"<div class=\"container\">"
-                                    +"<label><b style=\"color:#012A6C\">Choose a category to search appointments by:</b></label>"
-                                    +"</div>"
+                                    + "<div class=\"container\">"
+                                    + "<label><b style=\"color:#012A6C\">Choose a category to search appointments by:  </b></label>"
+                                    + "<select name=\"showby\" id=\"showby\" onclick=\"checkoption();\">"
+                                        + "<option selected value=\"Show all\">Show all</option>\""
+                                        + "<option value=\"Doctor AMKA\">Doctor AMKA</option>"
+                                        + "<option value=\"Date\">Date</option>"
+                                    + "</select>"
+                                    + "</div>"
 
-                                    +"<select name=\"showby\" id=\"showby\" onclick=\"checkoption();\">"
-                                        +"<option value=\"Show all\">Show all</option>\""
-                                        +"<option value=\"Doctor AMKA\">Doctor AMKA</option>"
-                                        +"<option value=\"Date\">Date</option>"
-                                    +"</select>"
-
-                                    +"<br><br>"
-
-                                    +"<label for=\"value\">Insert the doctor's AMKA/appointment date:</label><br>"
-
-                                    +"<input type=\"text\" id=\"value\" name=\"value\" disabled=\"true\">"
-
+                                    + "<div class=\"container\">"
+                                    + "<label for=\"value\"><b style=\"color:#012A6C\">Insert the doctor's AMKA/appointment date:  </b></label>"
+                                    + "<input type=\"text\" id=\"value\" name=\"value\">"
                                     + "<button type=\"submit\">Search</button>"
+                                    + "<input type=\"hidden\" name=\"patient_action\" value=\"1\">"
+                                    + "</div>"
 
-                                    +"<input type=\"hidden\" name=\"patient_action\" value=\"1\">"
+                                    + "<script>"
+                                        + "function checkoption()"
+                                        + "{"
+                                            + "var s = document.getElementById(\"showby\");"
+                                            + "var o = s.options[s.selectedIndex].value;"
 
-                                    +"<script>"
-                                        +"function checkoption()"
-                                        +"{"
-                                            +"var s = document.getElementById(\"showby\");"
-                                            +"var o = s.options[s.selectedIndex].value;"
-
-                                            +"if(o == \"Show all\")"
-                                            +"{"
+                                            + "if(o == \"Show all\")"
+                                            + "{"
                                             +    "document.getElementById(\"value\").disabled = true;"
                                             +    "document.getElementById(\"value\").value = \"\";"
-                                            +"}"
-                                            +"else"
-                                            +"{"
+                                            + "}"
+                                            + "else"
+                                            + "{"
                                             +    "document.getElementById(\"value\").disabled = false;"
-                                            +"}"
+                                            + "}"
 
-                                        +"}"
-                                    +"</script>"
+                                        + "}"
+                                    + "</script>");
 
-                                +"</form>");
             }
             else if(!rs.next() && showby.equals("Show all"))
             {
                 showhtml.println("<h1>Appointment history is empty</h1>");
+                showhtml.println("<br><br>");
             }
             else
             {
                 if(showby.equals("Date"))
                     value = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", value);
 
-                showhtml.println("<h1>No results found for "+showby + " " + value+ "<h1>");
+                showhtml.println("<h1>No results found for "+showby + " " + value+ "</h1>");
+                showhtml.println("<br><br>");
             }
 
             rs.close();
@@ -330,17 +328,27 @@ public class Patient extends Users
         {
             showhtml.println("<h1>Invalid " + showby + " format</h1>");
         }
+
         catch(Exception e)
         {
             showhtml.println(e.toString());
+
         }
 
-        showhtml.println("<div class=\"navbar\">");
-        showhtml.println("<p>Do you need help? Check the <a href=\"instructions.jsp\" class=\"active\" style=\"font-size: 16px;\">instructions</a></p>");
-        showhtml.println("</div>");
+        finally
+        {
+            showhtml.println("</form>");
+            showhtml.println(
+                                "<br><br>"
+                                +"<div class=\"navbar\">"
+                                +"<p>Do you need help? Check the <a href=\"instructions.jsp\" class=\"active\" style=\"font-size: 16px;\">instructions</a></p>"
+                                +"</div>"
+                            );
 
-        showhtml.println("</body>");
-        showhtml.println("</html>");
+            showhtml.println("</body>");
+            showhtml.println("</html>");
+
+        }
 
     }
 
