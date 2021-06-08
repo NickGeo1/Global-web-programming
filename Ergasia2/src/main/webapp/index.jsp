@@ -148,7 +148,7 @@
                 text-align: center;
                 font-size: 16px;
                 transition: all 0.5s ease;
-                width: 100%;
+                width: 97%;
                 margin: 8px 0;
                 display: inline-block;
                 box-sizing: border-box;
@@ -171,7 +171,7 @@
                 <img src="img/logo1.png" alt="logo_image" class="avatar">
             </div>
 
-            <div id="error_message"></div>
+            <center><div id="error_message"></div></center>
 
             <div class="container">
                 <label><b style="color:#012A6C">Hello patient, please create your account!</b></label>
@@ -237,7 +237,7 @@
                 // check first name
                 if (!/^[A-Z][a-z]+$/.test(first_name))
                 {
-                    text = "First name includes only letters and should begin with a capital letter!";
+                    text = "First name includes al least two letters and should begin with a capital letter!";
                     error_message.innerHTML = text;
                     return false;
                 }
@@ -245,15 +245,15 @@
                 // check last name
                 if (!/^[A-Z][a-z]+$/.test(last_name))
                 {
-                    text = "Last name includes only letters and should begin with a capital letter!";
+                    text = "Last name includes includes al least two letters and should begin with a capital letter!";
                     error_message.innerHTML = text;
                     return false;
                 }
 
                 // check username
-                if (username.length == 0)
+                if (!/\S/.test(username))
                 {
-                    text = "Username should not be empty!";
+                    text = "Username should not consist of only spaces!";
                     error_message.innerHTML = text;
                     return false;
                 }
@@ -267,7 +267,7 @@
                 }
 
                 // check age
-                if (!/^[0-9]+$/.test(age) || age > 119 || age < 0)
+                if (!/^[0-9]+$/.test(age) || age >= 119 || age < 0)
                 {
                     text = "Age consist of numbers and is lower than 119!";
                     error_message.innerHTML = text;
