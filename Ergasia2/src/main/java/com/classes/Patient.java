@@ -341,7 +341,7 @@ public class Patient extends Users
             showhtml.println(
                                 "<br><br>"
                                 +"<div class=\"navbar\">"
-                                +"<p>Do you need help? Check the <a href=\"instructions.jsp\" class=\"active\" style=\"font-size: 16px;\">instructions</a></p>"
+                                +"<p>Do you want to go back? Click <a href=\"javascript:history.back()\">here</a></p>"
                                 +"</div>"
                             );
 

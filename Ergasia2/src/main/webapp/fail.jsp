@@ -9,6 +9,7 @@
     <head>
 
         <meta charset="utf-8">
+        <meta http-equiv = "refresh" content = "5; url = login.jsp" />
         <title>Doctor appointments: failed to login</title>
 
         <style>
@@ -69,14 +70,6 @@
     <body>
 
         <img src="img/failed_to_login.png" alt="failed to login">
-
-        <br>
-        <br>
-        <br>
-
-        <div class="navbar">
-                <p>Oops! Wrong credentials! <a href="login.jsp" class="active" style="font-size: 16px;">Login again?</a></p>
-        </div>
 
     </body>
 

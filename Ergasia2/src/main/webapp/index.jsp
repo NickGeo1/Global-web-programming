@@ -210,7 +210,7 @@
         <br>
 
         <div class="navbar">
-            <p>Do you need help? Check the <a href="instructions.jsp" class="active" style="font-size: 16px;">instructions</a></p>
+            <p>Do you want to go back? Click <a href="javascript:history.back()">here</a></p>
         </div>
 
         <script>
@@ -253,7 +253,7 @@
                 // check username
                 if (!/\S/.test(username))
                 {
-                    text = "Username should not consist of only spaces!";
+                    text = "Username should not consist of only space characters!";
                     error_message.innerHTML = text;
                     return false;
                 }

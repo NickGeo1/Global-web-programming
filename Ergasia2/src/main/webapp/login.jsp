@@ -104,8 +104,8 @@
 
             /* style rules for the radio buttons */
             input[type=radio] {
-                height: 14px;
-                width: 14px;
+                height: 16px;
+                width: 15px;
             }
 
             /* set styles for span and cancel button on small screens */
@@ -184,7 +184,7 @@
         <br>
 
         <div class="navbar">
-            <p>Do you need help? Check the <a href="instructions.jsp" class="active" style="font-size: 16px;">instructions</a></p>
+            <p>Do you want to go back? Click <a href="javascript:history.back()">here</a></p>
         </div>
 
     </body>
