@@ -73,8 +73,8 @@ scheduled in the past-->
             .alert
             {
                 padding: 20px;
-                background-color: darkgoldenrod;
-                color: white;
+                background-color: #f1f1f1;
+                color: #012A6C;
                 margin-bottom: 15px;
             }
 
@@ -82,7 +82,7 @@ scheduled in the past-->
             .closebtn
             {
                 margin-left: 15px;
-                color: white;
+                color: #012A6C;
                 font-weight: bold;
                 float: right;
                 font-size: 22px;

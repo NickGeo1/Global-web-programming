@@ -1,4 +1,4 @@
-<!-- This page is appeared when a user inserts wrong credentials to the login form -->
+<!-- This page is appeared when a user successfully registers in the application -->
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -9,8 +9,8 @@
     <head>
 
         <meta charset="utf-8">
-        <meta http-equiv = "refresh" content = "4; url = login.jsp" />
-        <title>Doctor appointments: failed to login</title>
+        <meta http-equiv = "refresh" content = "6; url = login.jsp" />
+        <title>Doctor appointments: register successful</title>
 
         <style>
 
@@ -56,13 +56,13 @@
 
     <body>
 
-        <center><img src="img/failed_to_login.png" alt="failed to login"></center>
+        <center><img src="img/check.png" alt="register was successful"></center>
 
         <br>
         <br>
 
         <div class="navbar">
-            <p>Wrong credentials! Please try again...</p>
+            <p><pre>  You have successfully registered to the application, welcome!  </pre></p>
         </div>
 
     </body>
