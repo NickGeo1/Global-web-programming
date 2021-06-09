@@ -316,8 +316,8 @@ public class Patient extends Users
             else if(!rs.next() && showby.equals("Show all"))
             {
                 showhtml.println("<h1>Appointment history is empty</h1>");
-                showhtml.println("<br><br>" +
-                        "</form><div class=\"navbar\">" +
+                showhtml.println("</form><br><br>" +
+                        "<div class=\"navbar\">" +
                         "<p>Do you want to go back? Click <a href=\"javascript:history.back()\">here</a></p>" +
                         "</div>");
             }
