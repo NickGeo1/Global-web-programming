@@ -237,7 +237,7 @@
                 // check first name
                 if (!/^[A-Z][a-z]+$/.test(first_name))
                 {
-                    text = "First name includes al least two letters and should begin with a capital letter!";
+                    text = "First name includes at least two letters and should begin with a capital letter!";
                     error_message.innerHTML = text;
                     return false;
                 }
@@ -245,7 +245,7 @@
                 // check last name
                 if (!/^[A-Z][a-z]+$/.test(last_name))
                 {
-                    text = "Last name includes includes al least two letters and should begin with a capital letter!";
+                    text = "Last name includes at least two letters and should begin with a capital letter!";
                     error_message.innerHTML = text;
                     return false;
                 }
@@ -269,7 +269,7 @@
                 // check age
                 if (!/^[0-9]+$/.test(age) || age >= 119 || age < 0)
                 {
-                    text = "Age consist of numbers and is lower than 119!";
+                    text = "Age consist of positive integer numbers and is lower than 119!";
                     error_message.innerHTML = text;
                     return false;
                 }
