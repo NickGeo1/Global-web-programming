@@ -46,7 +46,7 @@ public class PatientServlet extends HttpServlet
         switch(PATIENT_SERVLET_ACTION)
         {
             case 1:         //appointment history
-                patient.showAppointmentHistory(request.getParameter("showby"), request.getParameter("value"), request, response, datasource);
+                patient.showAppointmentHistory(request.getParameter("showby"), request.getParameter("value"), response, datasource);
                 break;
 
             case 2:         //Book an appointment
@@ -87,14 +87,15 @@ public class PatientServlet extends HttpServlet
 
             //login
 
-            //login case makes a connection with the database, it is
-            //searching the patient's attributes from it
-            //and initializes the patient object with these attributes
-
             case 6:
                 patient = (Patient) Users.Login("Patient", request, response, datasource);
                 break;
         }
+    }
+
+    public static Patient getPatient() //returns the logged on patient object
+    {
+        return patient;
     }
 
 }

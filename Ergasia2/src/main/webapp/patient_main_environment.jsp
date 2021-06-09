@@ -1,8 +1,9 @@
-<!-- This is the main environment of the patient. From this page, every patient that successfully logs in, will be
+<!-- This is the main environment of the patient. From this page, every patient who successfully logs in, will be
 able to view the history of his appointments, to book a new appointment or watch all the appointments that he has
 scheduled in the past-->
-
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.classes.Patient" %>
+<%@ page import="com.servlets.PatientServlet" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>  <!-- JSP import packages -->
 
 <!DOCTYPE html>
 
@@ -157,6 +158,16 @@ scheduled in the past-->
                         <button id="buttons" onclick="setAction(4);">Logout</button>
 
                     </div>
+                    <br><br>
+
+                    <% Patient p = PatientServlet.getPatient();%>     <!-- JSP patient instantiation.
+                                                                        The patient is the one who
+                                                                         just logged on-->
+                    AMKA:<%= p.getAMKA() %><br>
+                    Username: <%= p.getUsername() %><br>
+                    Name: <%= p.getFirstname() %><br>
+                    Surname: <%= p.getSurname() %><br>
+                    Age: <%= p.getAge() %><br>          <!--Showing patient's attributes-->
 
                 </center>
 

@@ -27,6 +27,9 @@ public class Patient extends Users
 
     /**
      * Registers a Patient. Preceding the injection, all fields are carefully processed and tested for duplicates in the database.
+     * If patient's register is successful, he is being redirected to 'patient_main_environment.jsp' page and his data are being
+     * stored into the database.
+     *
      * @param response A Servlet response required to provide error information.
      * @param dataSource A Datasource to inject SQL statements into.
      * @throws IOException if anything goes wrong with the HttpServletResponse.
@@ -122,8 +125,11 @@ public class Patient extends Users
             statement.setString(6, a.toString());
             statement.execute();
 
+            response.sendRedirect("register-success.jsp");
+
             rs.close();
             connection.close();
+
         }
         catch (Exception exception)
         {
@@ -158,12 +164,22 @@ public class Patient extends Users
     }
 
     /**
-     * Show past doctor appointments by doctor attribute
+     *  Show past doctor appointments by doctor attribute
+     *
+     *  @param showby The doctor attribute to search history appointments by
+     *  @param value The actual value of the above attribute
+     *  @param response A Servlet response required to provide html content to client.
+     *  @param datasource A Datasource to inject SQL statements into.
+     *  @throws IOException if anything goes wrong with the HttpServletResponse.
+     *
+     *  Makes a html table which contains, on each row, the details about the patient's history appointments.
+     *  Each row contains the following information: the date, the start time and the ending time of the appointment and
+     *  the patient and doctor's AMKA.If the patient has not any history appointments a 'Appointment history is empty' message appears.
      *
      */
-    public void showAppointmentHistory(String showby, String value, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
+    public void showAppointmentHistory(String showby, String value, HttpServletResponse response, DataSource datasource) throws IOException
     {
-        if (!isLoggedOn())
+        if (!isLoggedOn()) //in case patient is not any more logged on, print a message
         {
             System.out.println("You must be logged on to show appointment history.");
             return;
@@ -171,11 +187,11 @@ public class Patient extends Users
 
         response.setContentType("text/html; charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF-8");
 
         PrintWriter showhtml = response.getWriter();
 
-        // print the html responce page from server
+        // print the html response page from server
+
         showhtml.println("<!DOCTYPE html>");
         showhtml.println("<html>");
 
@@ -192,20 +208,21 @@ public class Patient extends Users
         showhtml.println("</div>");
         showhtml.println("<br>");
 
-
-        String category;
+        //The user has the option(from an option box) to choose by which doctor attribute(doctor AMKA or appointment date)
+        //his appointments are going to be shown(there is also a 'Show All' option to show appointments without a restriction).
+        //The desirable value of an attribute is being submitted in a textbox before the results are shown.
 
         try
         {
-            Connection con = datasource.getConnection();
-            PreparedStatement showHistory = null;
+            Connection con = datasource.getConnection();    //connection object for database connection
+            PreparedStatement showHistory = null;       //A prepared statement object, on which we are going to store our sql statement
 
-            switch (showby)
+            switch (showby)     //depending on the showby value we execute the corresponding sql statement
             {
                 case "Doctor AMKA":
 
                     if(!value.matches("[0-9]{11}"))
-                        throw new ParseException("Invalid AMKA",0);
+                        throw new ParseException("Invalid AMKA",0); //in case of invalid AMKA format, we throw a parse exception
 
                     showHistory = con.prepareStatement("SELECT * FROM appointment WHERE DOCTOR_doctorAMKA = ? AND PATIENT_patientAMKA = ? AND (date < cast(now() as date) OR date = cast(now() as date) AND endSlotTime < cast(now() as time))");
                     showHistory.setString(1, value);
@@ -214,6 +231,7 @@ public class Patient extends Users
 
                 case "Date":
 
+                    //in case we want to search by date, we have to change its format because the format is different in the database
                     value = changeDateFormat("dd-MM-yyyy", "yyyy-MM-dd", value);
 
                     showHistory = con.prepareStatement("SELECT * FROM appointment WHERE date = ? AND PATIENT_patientAMKA = ? AND (date < cast(now() as date) OR date = cast(now() as date) AND endSlotTime < cast(now() as time))");
@@ -229,9 +247,11 @@ public class Patient extends Users
 
             }
 
+            //after executing the correct statement we check the results.
+
             ResultSet rs = showHistory.executeQuery();
 
-            if(rs.next())
+            if(rs.next()) //in case there is at least one record, make the table headers
             {
 
                 showhtml.println("<table>");
@@ -250,10 +270,11 @@ public class Patient extends Users
                 String DOCTOR_doctorAMKA;
                 String htmlRow;
 
-                do
+                do  //add the result's rows on the table
                 {
                     date = rs.getString("date");
 
+                    //change the date to the correct format before storing it into the variable
                     date = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", date);
                     startSlotTime = rs.getString("startSlotTime");
                     endSlotTime = rs.getString("endSlotTime");
@@ -265,6 +286,8 @@ public class Patient extends Users
                     showhtml.println(htmlRow);
 
                 }while(rs.next());
+
+                //html code for the option box and input text.If option 'Show all' is selected, the input text is being disabled(Javascript)
 
                 showhtml.println("</table>");
 
@@ -313,16 +336,18 @@ public class Patient extends Users
                                 +"</div>");
 
             }
-            else if(!rs.next() && showby.equals("Show all"))
-            {
+            else if(!rs.next() && showby.equals("Show all")) //if there is not any record on the results and the option
+            {                                                // is 'Show all', that means history is empty
+
                 showhtml.println("<h1>Appointment history is empty</h1>");
                 showhtml.println("</form><br><br>" +
                         "<div class=\"navbar\">" +
                         "<p>Do you want to go back? Click <a href=\"javascript:history.back()\">here</a></p>" +
                         "</div>");
             }
-            else
-            {
+            else  //In this case, there is not any record on the results but the option wasn't 'Show all'.
+            {     //That means there is not any results JUST for the restrictions we had set
+
                 if(showby.equals("Date"))
                     value = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", value);
 
@@ -334,10 +359,10 @@ public class Patient extends Users
             }
 
             rs.close();
-            con.close();
+            con.close(); //close ResultSet and Connection
 
         }
-        catch (ParseException e)
+        catch (ParseException e) //parse exception occurs if we try to search a date or an AMKA with invalid format typed
         {
             showhtml.println("<h1>Invalid " + showby + " format</h1>");
             showhtml.println("</form><br><br>" +
@@ -345,12 +370,10 @@ public class Patient extends Users
                     "<p>Do you want to go back? Click <a href=\"javascript:history.back()\">here</a></p>" +
                     "</div>");
         }
-
         catch(Exception e)
         {
             showhtml.println(e.toString());
         }
-
         finally
         {
             showhtml.println("</body>");
@@ -382,6 +405,16 @@ public class Patient extends Users
             System.out.println("Show scheduled appointments by "+showby+", where "+showby+" is "+value);
     }
 
+    /**
+     * Makes an html row in string format with the attributes that passed as parameters
+     *
+     * @param date appointment's date
+     * @param startSlotTime appointment's startSlotTime
+     * @param endSlotTime appointment's endSlotTime
+     * @param PATIENT_patientAMKA appointment's PATIENT_patientAMKA
+     * @param DOCTOR_doctorAMKA appointment's DOCTOR_doctorAMKA
+     * @return string format of html row
+     */
     private static String createTableRow(String date, String startSlotTime, String endSlotTime, String PATIENT_patientAMKA, String DOCTOR_doctorAMKA)
     {
         StringBuilder tablerow = new StringBuilder();
@@ -397,6 +430,15 @@ public class Patient extends Users
         return tablerow.toString();
     }
 
+    /**
+     * Takes a date in string format as a parameter and converts it from it's old format to the new one
+     *
+     * @param oldformat the old format of the date
+     * @param newformat the new format of the date
+     * @param date the date in string format
+     * @return the given date at it's new format(as string)
+     * @throws ParseException
+     */
     private static String changeDateFormat(String oldformat, String newformat, String date) throws ParseException
     {
         SimpleDateFormat df = new SimpleDateFormat(oldformat);

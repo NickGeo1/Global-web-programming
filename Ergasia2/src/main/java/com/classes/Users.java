@@ -71,9 +71,17 @@ public class Users
 
     /**
      * Logs in a user, specified from the login page with all specified credentials.
+     *
+     * Makes a connection with the database, it is
+     * searching the patient's attributes from it,
+     * it initializes the patient object with these attributes
+     * and redirects him to the corresponding page.
+     *
+     * If the user is not found, it redirects him to the 'fail.jsp' page.
+     *
      * @param type The type of user to be logged in. (Patient/Doctor/Admin)
      * @param request An HTTPServletRequest to acquire the username and password.
-     * @param response An HTTPServletResponse to redirect the user accoordingly.
+     * @param response An HTTPServletResponse to redirect the user accordingly.
      * @param datasource The datasource required to search the username and password.
      * @return The user, if found in the database. If the user is not found, returns null.
      */
