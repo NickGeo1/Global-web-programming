@@ -281,7 +281,7 @@ public class Patient extends Users
 
                                     + "<div class=\"container\">"
                                     + "<label for=\"value\"><b style=\"color:#012A6C\">Insert the doctor's AMKA/appointment date:  </b></label>"
-                                    + "<input type=\"text\" id=\"value\" name=\"value\">"
+                                    + "<input type=\"text\" id=\"value\" name=\"value\" disabled=\"true\">"
                                     + "<button type=\"submit\">Search</button>"
                                     + "<input type=\"hidden\" name=\"patient_action\" value=\"1\">"
                                     + "</div>"
@@ -303,13 +303,23 @@ public class Patient extends Users
                                             + "}"
 
                                         + "}"
-                                    + "</script>");
+                                    + "</script>"
+
+                                    +"</form>"
+
+                                +"<br><br>"
+                                +"<div class=\"navbar\">"
+                                +"<p>Do you want to go back? Click <a href=\"patient_main_environment.jsp\">here</a></p>"
+                                +"</div>");
 
             }
             else if(!rs.next() && showby.equals("Show all"))
             {
                 showhtml.println("<h1>Appointment history is empty</h1>");
-                showhtml.println("<br><br>");
+                showhtml.println("<br><br>" +
+                        "</form><div class=\"navbar\">" +
+                        "<p>Do you want to go back? Click <a href=\"javascript:history.back()\">here</a></p>" +
+                        "</div>");
             }
             else
             {
@@ -317,7 +327,10 @@ public class Patient extends Users
                     value = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", value);
 
                 showhtml.println("<h1>No results found for "+showby + " " + value+ "</h1>");
-                showhtml.println("<br><br>");
+                showhtml.println("</form><br><br>" +
+                        "<div class=\"navbar\">" +
+                        "<p>Do you want to go back? Click <a href=\"javascript:history.back()\">here</a></p>" +
+                        "</div>");
             }
 
             rs.close();
@@ -327,27 +340,21 @@ public class Patient extends Users
         catch (ParseException e)
         {
             showhtml.println("<h1>Invalid " + showby + " format</h1>");
+            showhtml.println("</form><br><br>" +
+                    "<div class=\"navbar\">" +
+                    "<p>Do you want to go back? Click <a href=\"javascript:history.back()\">here</a></p>" +
+                    "</div>");
         }
 
         catch(Exception e)
         {
             showhtml.println(e.toString());
-
         }
 
         finally
         {
-            showhtml.println("</form>");
-            showhtml.println(
-                                "<br><br>"
-                                +"<div class=\"navbar\">"
-                                +"<p>Do you want to go back? Click <a href=\"javascript:history.back()\">here</a></p>"
-                                +"</div>"
-                            );
-
             showhtml.println("</body>");
             showhtml.println("</html>");
-
         }
 
     }

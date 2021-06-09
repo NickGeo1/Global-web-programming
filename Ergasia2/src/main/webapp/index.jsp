@@ -208,11 +208,6 @@
         </form>
 
         <br>
-
-        <div class="navbar">
-            <p>Do you want to go back? Click <a href="javascript:history.back()">here</a></p>
-        </div>
-
         <script>
 
             // this function is used for form's validation on client's side

@@ -174,11 +174,6 @@ scheduled in the past-->
             </form>
 
             <br>
-
-            <div class="navbar">
-                <p>Do you want to go back? Click <a href="javascript:history.back()">here</a></p>
-            </div>
-
         </article>
 
         <script>
