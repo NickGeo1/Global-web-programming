@@ -9,7 +9,7 @@
     <head>
 
         <meta charset="utf-8">
-        <meta http-equiv = "refresh" content = "5; url = login.jsp" />
+        <meta http-equiv = "refresh" content = "4; url = login.jsp" />
         <title>Doctor appointments: failed to login</title>
 
         <style>
@@ -37,30 +37,6 @@
             {
                 width:400px;
                 height:400px;
-            }
-
-            /* style rules when hyperlinks are pressed */
-            a:visited
-            {
-                color: #012A6C;
-            }
-
-            /* style the hyperlinks in the nav section */
-            a
-            {
-                font-size:16px;
-                color: #012A6C;
-            }
-
-            /* style rules for the menu at the bottom of the page */
-            .navbar
-            {
-                font-size: 16px;
-                bottom: 0;
-                text-align: center;
-                background-color: #f1f1f1;
-                width: 100%;
-                height:20px;
             }
 
         </style>

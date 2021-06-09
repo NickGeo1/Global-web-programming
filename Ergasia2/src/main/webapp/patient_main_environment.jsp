@@ -37,17 +37,6 @@ scheduled in the past-->
                 color: #012A6C;
             }
 
-            /* style rules for the menu at the bottom of the page */
-            .navbar
-            {
-                font-size: 16px;
-                bottom: 0;
-                text-align: center;
-                background-color: #f1f1f1;
-                width: 100%;
-                height:20px;
-            }
-
             /* the whole page has the same font */
             *
             {
