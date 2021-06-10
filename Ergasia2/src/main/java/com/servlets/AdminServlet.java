@@ -11,6 +11,7 @@ public class AdminServlet extends HttpServlet
 {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
-
+        //for the time being, nothing happens here.
+        //these servlets will be implemented at some later date.
     }
 }
