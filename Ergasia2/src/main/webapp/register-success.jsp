@@ -9,7 +9,7 @@
     <head>
 
         <meta charset="utf-8">
-        <meta http-equiv = "refresh" content = "6; url = login.jsp" />
+        <meta http-equiv = "refresh" content = "5; url = login.jsp" />
         <title>Doctor appointments: register successful</title>
 
         <style>
