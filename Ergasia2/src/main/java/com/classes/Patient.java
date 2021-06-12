@@ -62,9 +62,9 @@ public class Patient extends Users
             return;
         }
 
-        else if (this.getAge() > 119 || this.getAge() < 0)
+        else if (this.getAge() > 119 || this.getAge() <= 0)
         {
-            Fail(response, "Invalid Age! A registered age cannot be greater than 119 years or a negative number.");
+            Fail(response, "Invalid Age! A registered age cannot be greater than 119 years or a non-positive number.");
             return;
         }
 

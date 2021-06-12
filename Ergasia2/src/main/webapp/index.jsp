@@ -251,9 +251,9 @@
                 }
 
                 // check age
-                if (!/^[0-9]+$/.test(age) || age >= 119 || age < 0)
+                if (!/^[0-9]+$/.test(age) || age > 119 || age <= 0)
                 {
-                    text = "Age consist of positive integer numbers and is lower than 119!";
+                    text = "Age consist of positive integer numbers and is lower than or equal to 119!";
                     error_message.innerHTML = text;
                     return false;
                 }
