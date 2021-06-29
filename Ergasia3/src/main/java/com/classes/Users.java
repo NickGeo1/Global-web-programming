@@ -187,10 +187,10 @@ public class Users
     /**
      * Terminates access from the user logged on.
      */
-    public void Logout()
+    public void Logout(HttpServletResponse response) throws IOException
     {
-        System.out.println("Successfully logged out user " + this.username + ".");
-        loggedOn = false;
+        this.loggedOn = false;
+        response.sendRedirect("login.jsp");
     }
 
     /**
