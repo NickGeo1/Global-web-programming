@@ -41,7 +41,7 @@ public class Users
      * @param reason An error message specifying what went wrong.
      * @throws IOException
      */
-    public static void Fail(HttpServletResponse response, String reason) throws IOException
+    public static void Fail(HttpServletResponse response, String reason, String redirect_to) throws IOException
     {
         if (reason.isBlank())
             reason = "An unknown error occurred. Please try again.";
@@ -52,18 +52,21 @@ public class Users
         writer.println("<!DOCTYPE html>");
 
         writer.println("<html>");
-
         writer.println("<head>");
         writer.println("<title>Error during register</title>");
-        writer.println("<meta http-equiv = \"refresh\" content = \"7; url = index.jsp\" />"); // redirect page after 7 seconds
+        writer.println("<meta http-equiv = \"refresh\" content = \"7; url = "+ redirect_to +" \" />"); // redirect page after 7 seconds
         writer.println("<link rel=\"stylesheet\" href=\"CSS/styles.css\">"); // use styles from the styles.css file
         writer.print("</head>");
-
         writer.println("<body>");
+        writer.println("<form>");
+        writer.println("<div class=\"imgcontainer\">");
+        writer.println("<img src=\"img/logo1.png\" alt=\"logo_image\" class=\"avatar\">");
+        writer.println("</div>");
         writer.println("<article>");
         writer.println("<h1> Something went wrong! </h1>");
         writer.println("<h3> " + reason + "</h3>");
         writer.println("</article>");
+        writer.println("</form>");
         writer.println("</body>");
 
         writer.println("</html>");

@@ -53,7 +53,7 @@ public class PatientServlet extends HttpServlet
                 break;
 
             case 3:         //Scheduled appointments
-
+                patient.showScheduledAppointments(request.getParameter("showby"), request.getParameter("value"), request, response, datasource);
                 break;
 
             case 4:         //logout
@@ -70,7 +70,7 @@ public class PatientServlet extends HttpServlet
 
                 }catch (NumberFormatException e)
                 {
-                    Users.Fail(response,"Invalid Age! A registered age must be a number.");
+                    Users.Fail(response,"Invalid Age! A registered age must be a number.","index.jsp");
                     return;
                 }
 
@@ -100,5 +100,4 @@ public class PatientServlet extends HttpServlet
     {
         return patient;
     }
-
 }

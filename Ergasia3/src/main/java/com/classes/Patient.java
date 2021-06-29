@@ -1,5 +1,6 @@
 package com.classes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -20,6 +21,7 @@ public class Patient extends Users
     private static Connection connection;
     private static PreparedStatement statement;
     private static ResultSet rs;
+    private static StringBuilder html;
 
     private final String AMKA; // This is the unique AMKA of each patient
 
@@ -44,37 +46,37 @@ public class Patient extends Users
 
         if (this.getUsername().isBlank())
         {
-            Fail(response, "Invalid Username! A username cannot be blank.");
+            Fail(response, "Invalid Username! A username cannot be blank.","index.jsp");
             return;
         }
 
         else if (this.getPassword().length() < 4)
         {
-            Fail(response, "Provide a password with at least 4 characters.");
+            Fail(response, "Provide a password with at least 4 characters.","index.jsp");
             return;
         }
 
         else if (!this.getFirstname().matches("[A-Z][a-z]+"))
         {
-            Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.");
+            Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.","index.jsp");
             return;
         }
 
         else if (!this.getSurname().matches("[A-Z][a-z]+"))
         {
-            Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.");
+            Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.","index.jsp");
             return;
         }
 
         else if (this.getAge() > 119 || this.getAge() <= 0)
         {
-            Fail(response, "Invalid Age! A registered age cannot be greater than 119 years or a non-positive number.");
+            Fail(response, "Invalid Age! A registered age cannot be greater than 119 years or a non-positive number.","index.jsp");
             return;
         }
 
         else if (!this.getAMKA().matches("[0-9]{11}"))
         {
-            Fail(response, "Invalid AMKA! A social security number must have exactly 11 digits.");
+            Fail(response, "Invalid AMKA! A social security number must have exactly 11 digits.","index.jsp");
             return;
         }
 
@@ -98,7 +100,7 @@ public class Patient extends Users
             //if the statement yields any data, it means there is at least one duplicate. We don't continue.
             if (rs.next())
             {
-                Fail(response, "This username/AMKA is already taken!");
+                Fail(response, "This username/AMKA is already taken!","index.jsp");
                 rs.close();
                 connection.close();
                 return;
@@ -111,7 +113,7 @@ public class Patient extends Users
 
             if (rs.next())
             {
-                Fail(response, "This AMKA is already taken by a doctor!");
+                Fail(response, "This AMKA is already taken by a doctor!","index.jsp");
                 rs.close();
                 connection.close();
                 return;
@@ -138,7 +140,7 @@ public class Patient extends Users
         catch (Exception exception)
         {
             //if anything goes wrong it'll be printed on the user's screen.
-            Fail(response, "Cannot insert data. Exception message: \n" + exception.getMessage());
+            Fail(response, "Cannot insert data. Exception message: \n" + exception.getMessage(),"index.jsp");
             exception.printStackTrace();
         }
 
@@ -408,16 +410,127 @@ public class Patient extends Users
      * @param value The actual value of 'showby' attribute we are looking for
      *
      */
-    public void showScheduledAppointments(String showby, String value, HttpServletResponse response, DataSource datasource)
-    {
+    public void showScheduledAppointments(String showby, String value, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException {
         if (!isLoggedOn())
         {
             System.out.println("You must be logged on to show all scheduled appointments.");
             return;
         }
 
+        try
+        {
+            connection = datasource.getConnection();    //connection object for database connection
 
+            String query =  "SELECT date,startSlotTime,endSlotTime,PATIENT_patientAMKA,DOCTOR_doctorAMKA,specialty,name,surname " +
+                    "FROM appointment JOIN doctor ON DOCTOR_doctorAMKA = doctorAMKA " +
+                    "WHERE PATIENT_patientAMKA = ? AND (date > cast(now() as date) OR date = cast(now() as date) AND startSlotTime > cast(now() as time))";
 
+            switch (showby)     //depending on the showby value we execute the corresponding sql statement
+            {
+                case "Doctor AMKA":
+
+                    if(!value.matches("[0-9]{11}"))
+                        throw new ParseException("Invalid AMKA",0); //in case of invalid AMKA format, we throw a parse exception
+
+                    query+= " AND DOCTOR_doctorAMKA = ?";
+                    break;
+
+                case "Date":
+                    //in case we want to search by date, we have to change its format because the format is different in the database
+                    value = changeDateFormat("dd-MM-yyyy", "yyyy-MM-dd", value);
+
+                    query += " AND date = ?";
+                    break;
+
+                case "Specialty":
+
+                    query += " AND specialty = ?";
+                    break;
+            }
+
+            statement = connection.prepareStatement(query);  //A prepared statement object, on which we are going to store our sql statement
+            statement.setString(1, this.getAMKA());
+
+            if(!showby.equals("Show all"))
+                statement.setString(2, value);
+
+            //after executing the correct statement we check the results.
+
+            rs = statement.executeQuery();
+
+            if(rs.next()) //in case there is at least one record, make the table headers
+            {
+                 html = new StringBuilder(
+                                "<table>"
+                                +"<tr>"
+                                +"<th>Date</th>"
+                                +"<th>Start time</th>"
+                                +"<th>End time</th>"
+                                +"<th>Patient AMKA</th>"
+                                +"<th>Doctor AMKA</th>"
+                                +"<th>Doctor specialty</th>"
+                                +"<th>Doctor name</th>"
+                                +"<th>Doctor surname</th>"
+                                +"</tr>");
+
+                String date;
+                String startSlotTime;
+                String endSlotTime;
+                String PATIENT_patientAMKA;
+                String DOCTOR_doctorAMKA;
+                String Doctor_specialty;
+                String Doctor_name;
+                String Doctor_surname;
+                String htmlRow;
+
+                do  //add the result's rows on the table
+                {
+                    date = rs.getString("date");
+
+                    //change the date to the correct format before storing it into the variable
+                    date = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", date);
+                    startSlotTime = rs.getString("startSlotTime");
+                    endSlotTime = rs.getString("endSlotTime");
+                    PATIENT_patientAMKA = rs.getString("PATIENT_patientAMKA");
+                    DOCTOR_doctorAMKA = rs.getString("DOCTOR_doctorAMKA");
+                    Doctor_specialty = rs.getString("specialty");
+                    Doctor_name = rs.getString("name");
+                    Doctor_surname = rs.getString("surname");
+
+                    htmlRow = createTableRow(date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
+                    html.append(htmlRow);
+
+                }while(rs.next());
+
+                response.sendRedirect("ScheduledAppointments.jsp");
+            }
+            else if(!rs.next() && showby.equals("Show all")) //if there is not any record on the results and the option
+            {                                                // is 'Show all', that means history is empty
+
+                Fail(response,"You have not any scheduled appointments yet","patient_main_environment.jsp");
+            }
+            else  //In this case, there is not any record on the results but the option wasn't 'Show all'.
+            {     //That means there is not any results JUST for the restrictions we had set
+
+                if(showby.equals("Date"))
+                    value = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", value);
+
+                Fail(response,"No results found for "+showby + " " + value,"ScheduledAppointments.jsp");
+            }
+
+            rs.close();
+            connection.close(); //close ResultSet and Connection
+
+        }
+        catch (ParseException e) //parse exception occurs if we try to search a date or an AMKA with invalid format typed
+        {
+            Fail(response,"Invalid " + showby + " format","ScheduledAppointments.jsp");
+        }
+        catch(Exception e)
+        {
+            PrintWriter showhtml = response.getWriter();
+            showhtml.println(e.toString());
+        }
     }
 
     /**
@@ -486,6 +599,10 @@ public class Patient extends Users
     public boolean isAvailable(){
 
         return true;
+    }
 
+    public static String getHTML()
+    {
+        return html.toString();
     }
 }
