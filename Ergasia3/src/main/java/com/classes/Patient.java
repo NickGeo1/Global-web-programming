@@ -1,6 +1,5 @@
 package com.classes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -17,6 +16,11 @@ import java.util.Date;
  */
 public class Patient extends Users
 {
+    //Objects we are going to need during database access
+    private static Connection connection;
+    private static PreparedStatement statement;
+    private static ResultSet rs;
+
     private final String AMKA; // This is the unique AMKA of each patient
 
     public Patient(String username, String password, String firstname, String lastname, int age, String AMKA)
@@ -81,15 +85,15 @@ public class Patient extends Users
         {
             //Check if there are any duplicates in the database what comes to AMKA and username.
             //preparing an sql statement
-            Connection connection = dataSource.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM patient WHERE patientAMKA=? OR username=?");
+            connection = dataSource.getConnection();
+            statement = connection.prepareStatement("SELECT * FROM patient WHERE patientAMKA=? OR username=?");
 
             //setting the parameters
             statement.setString(1, this.getAMKA());
             statement.setString(2, this.getUsername());
 
             //executing statement
-            ResultSet rs = statement.executeQuery();
+            rs = statement.executeQuery();
 
             //if the statement yields any data, it means there is at least one duplicate. We don't continue.
             if (rs.next())
@@ -214,8 +218,12 @@ public class Patient extends Users
 
         try
         {
-            Connection con = datasource.getConnection();    //connection object for database connection
-            PreparedStatement showHistory = null;       //A prepared statement object, on which we are going to store our sql statement
+            connection = datasource.getConnection();    //connection object for database connection
+            statement = null;       //A prepared statement object, on which we are going to store our sql statement
+
+            String query =  "SELECT date,startSlotTime,endSlotTime,PATIENT_patientAMKA,DOCTOR_doctorAMKA,specialty,name,surname " +
+                            "FROM appointment JOIN doctor ON DOCTOR_doctorAMKA = doctorAMKA " +
+                            "WHERE PATIENT_patientAMKA = ? AND (date < cast(now() as date) OR date = cast(now() as date) AND endSlotTime < cast(now() as time))";
 
             switch (showby)     //depending on the showby value we execute the corresponding sql statement
             {
@@ -224,32 +232,31 @@ public class Patient extends Users
                     if(!value.matches("[0-9]{11}"))
                         throw new ParseException("Invalid AMKA",0); //in case of invalid AMKA format, we throw a parse exception
 
-                    showHistory = con.prepareStatement("SELECT * FROM appointment WHERE DOCTOR_doctorAMKA = ? AND PATIENT_patientAMKA = ? AND (date < cast(now() as date) OR date = cast(now() as date) AND endSlotTime < cast(now() as time))");
-                    showHistory.setString(1, value);
-                    showHistory.setString(2, this.getAMKA());
+                    query+= " AND DOCTOR_doctorAMKA = ?";
                     break;
 
                 case "Date":
-
                     //in case we want to search by date, we have to change its format because the format is different in the database
                     value = changeDateFormat("dd-MM-yyyy", "yyyy-MM-dd", value);
 
-                    showHistory = con.prepareStatement("SELECT * FROM appointment WHERE date = ? AND PATIENT_patientAMKA = ? AND (date < cast(now() as date) OR date = cast(now() as date) AND endSlotTime < cast(now() as time))");
-                    showHistory.setString(1, value);
-                    showHistory.setString(2, this.getAMKA());
-
+                    query += " AND date = ?";
                     break;
 
-                default:
-                    showHistory = con.prepareStatement("SELECT * FROM appointment WHERE PATIENT_patientAMKA = ? AND (date < cast(now() as date) OR date = cast(now() as date) AND endSlotTime < cast(now() as time))");
-                    showHistory.setString(1, this.getAMKA());
-                    break;
+                case "Specialty":
 
+                    query += " AND specialty = ?";
+                    break;
             }
+
+            statement = connection.prepareStatement(query);
+            statement.setString(1, this.getAMKA());
+
+            if(!showby.equals("Show all"))
+                statement.setString(2, value);
 
             //after executing the correct statement we check the results.
 
-            ResultSet rs = showHistory.executeQuery();
+            rs = statement.executeQuery();
 
             if(rs.next()) //in case there is at least one record, make the table headers
             {
@@ -261,6 +268,9 @@ public class Patient extends Users
                 showhtml.println("<th>End time</th>");
                 showhtml.println("<th>Patient AMKA</th>");
                 showhtml.println("<th>Doctor AMKA</th>");
+                showhtml.println("<th>Doctor specialty</th>");
+                showhtml.println("<th>Doctor name</th>");
+                showhtml.println("<th>Doctor surname</th>");
                 showhtml.println("</tr>");
 
                 String date;
@@ -268,6 +278,9 @@ public class Patient extends Users
                 String endSlotTime;
                 String PATIENT_patientAMKA;
                 String DOCTOR_doctorAMKA;
+                String Doctor_specialty;
+                String Doctor_name;
+                String Doctor_surname;
                 String htmlRow;
 
                 do  //add the result's rows on the table
@@ -280,8 +293,11 @@ public class Patient extends Users
                     endSlotTime = rs.getString("endSlotTime");
                     PATIENT_patientAMKA = rs.getString("PATIENT_patientAMKA");
                     DOCTOR_doctorAMKA = rs.getString("DOCTOR_doctorAMKA");
+                    Doctor_specialty = rs.getString("specialty");
+                    Doctor_name = rs.getString("name");
+                    Doctor_surname = rs.getString("surname");
 
-                    htmlRow = createTableRow(date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA);
+                    htmlRow = createTableRow(date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
 
                     showhtml.println(htmlRow);
 
@@ -299,11 +315,12 @@ public class Patient extends Users
                                         + "<option selected value=\"Show all\">Show all</option>\""
                                         + "<option value=\"Doctor AMKA\">Doctor AMKA</option>"
                                         + "<option value=\"Date\">Date</option>"
+                                        + "<option value=\"Specialty\">Specialty</option>"
                                     + "</select>"
                                     + "</div>"
 
                                     + "<div class=\"container\">"
-                                    + "<label for=\"value\"><b style=\"color:#012A6C\">Insert the doctor's AMKA/appointment date:  </b></label>"
+                                    + "<label for=\"value\"><b style=\"color:#012A6C\">Insert the doctor's AMKA/appointment date/speciality:  </b></label>"
                                     + "<input type=\"text\" id=\"value\" name=\"value\" disabled=\"true\">"
                                     + "<button type=\"submit\">Search</button>"
                                     + "<input type=\"hidden\" name=\"patient_action\" value=\"1\">"
@@ -359,7 +376,7 @@ public class Patient extends Users
             }
 
             rs.close();
-            con.close(); //close ResultSet and Connection
+            connection.close(); //close ResultSet and Connection
 
         }
         catch (ParseException e) //parse exception occurs if we try to search a date or an AMKA with invalid format typed
@@ -391,7 +408,7 @@ public class Patient extends Users
      * @param value The actual value of 'showby' attribute we are looking for
      *
      */
-    public void showScheduledAppointments(String showby, String value)
+    public void showScheduledAppointments(String showby, String value, HttpServletResponse response, DataSource datasource)
     {
         if (!isLoggedOn())
         {
@@ -399,10 +416,8 @@ public class Patient extends Users
             return;
         }
 
-        if(showby.equals(""))
-            System.out.println("Show all scheduled appointments");
-        else
-            System.out.println("Show scheduled appointments by "+showby+", where "+showby+" is "+value);
+
+
     }
 
     /**
@@ -415,7 +430,7 @@ public class Patient extends Users
      * @param DOCTOR_doctorAMKA appointment's DOCTOR_doctorAMKA
      * @return string format of html row
      */
-    private static String createTableRow(String date, String startSlotTime, String endSlotTime, String PATIENT_patientAMKA, String DOCTOR_doctorAMKA)
+    private static String createTableRow(String date, String startSlotTime, String endSlotTime, String PATIENT_patientAMKA, String DOCTOR_doctorAMKA, String Doctor_specialty, String Doctor_name, String Doctor_surname)
     {
         StringBuilder tablerow = new StringBuilder();
 
@@ -425,6 +440,9 @@ public class Patient extends Users
         tablerow.append("<td>" + endSlotTime + "</td>");
         tablerow.append("<td>" + PATIENT_patientAMKA + "</td>");
         tablerow.append("<td>" + DOCTOR_doctorAMKA + "</td>");
+        tablerow.append("<td>" + Doctor_specialty + "</td>");
+        tablerow.append("<td>" + Doctor_name + "</td>");
+        tablerow.append("<td>" + Doctor_surname + "</td>");
         tablerow.append("</tr>");
 
         return tablerow.toString();

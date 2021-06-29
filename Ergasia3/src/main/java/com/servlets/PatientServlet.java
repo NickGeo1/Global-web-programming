@@ -53,6 +53,7 @@ public class PatientServlet extends HttpServlet
                 break;
 
             case 3:         //Scheduled appointments
+
                 break;
 
             case 4:         //logout
