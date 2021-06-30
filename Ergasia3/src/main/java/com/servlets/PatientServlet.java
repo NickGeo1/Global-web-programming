@@ -52,6 +52,7 @@ public class PatientServlet extends HttpServlet
                 break;
 
             case 2:         //Book an appointment
+                response.sendRedirect("AvailableDoctorAppointments.jsp");
                 break;
 
             case 3:         //Scheduled appointments
@@ -103,6 +104,7 @@ public class PatientServlet extends HttpServlet
                 patient = (Patient) Users.Login("Patient", request, response, datasource);
                 break;
 
+            //cancel appointment
             case 7:
                 String date = request.getParameter("datevalue");
                 String pAMKA = request.getParameter("patientAMKA");

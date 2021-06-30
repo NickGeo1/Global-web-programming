@@ -5,7 +5,6 @@
   Time: 10:33 μ.μ.
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="com.servlets.PatientServlet" %>
 <%@ page import="com.classes.Patient" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
