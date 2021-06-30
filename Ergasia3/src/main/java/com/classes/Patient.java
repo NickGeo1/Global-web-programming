@@ -613,7 +613,7 @@ public class Patient extends Users
         tablerow.append("<td>" + Doctor_name + "</td>");
         tablerow.append("<td>" + Doctor_surname + "</td>");
         if(show_btn)
-            tablerow.append("<td><button type=\"submit\" onclick=\"setvalue(7); setappointment('"+date+"','"+PATIENT_patientAMKA+"','"+DOCTOR_doctorAMKA+"');\">Cancel</button></td>");
+            tablerow.append("<td><button onclick=\"setvalue(7); setappointment('"+date+"','"+PATIENT_patientAMKA+"','"+DOCTOR_doctorAMKA+"');\">Cancel</button></td>");
         tablerow.append("</tr>");
 
         return tablerow.toString();
