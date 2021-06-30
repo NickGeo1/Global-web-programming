@@ -11,19 +11,41 @@
 <html>
 <head>
     <title>Book an appointment</title>
-    <h1>Please select the time interval you want to search appointments in:</h1><br>
-    <form action="patient" method="post" id="form">
+    <h1>Book an appointment</h1>
+</head>
+<body>
 
-        <%  Date now = new Date();
-            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+<form action="patient" method="post" id="form">
 
-            String date_now = df.format(now);
-        %>
+    <%  Date now = new Date();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-        Starting date:<input type="date" name="start" id="start" onchange="set_min_end_date();" min=<%= date_now %>>
+        String date_now = df.format(now);
+    %>
+
+    <b>Please select the time interval you want to search appointments in:</b>
+    <br>
+    Starting date:<input type="date" name="start" id="start" onchange="set_min_end_date();" min=<%= date_now %>>
     Ending date:<input type="date" name="end" id="end" min="">
+    <br><br>
 
-    </form>
+    <b>Please select the category you want to search appointments by:</b>
+    <br>
+    <select name="showby" id="showby" onclick="checkoption();">
+        <option selected value="Show all">Show all</option>
+        <option value="Doctor AMKA">Doctor AMKA</option>
+        <option value="Specialty">Specialty</option>
+        <option value="Full name">Full name</option>
+    </select>
+    <br><br>
+    <b>Please insert the value of the category you want to search appointments by:</b>
+    <br>
+    <div id="firstname"></div>
+    <input type="text" id="value" name="value" disabled="true"><br>
+    <div id="lastname"></div>
+    <input type="text" id="value2" name="value2" hidden="true">
+
+
 
     <script>
         function set_min_end_date() //set min date for ending date tag equal to start_date + 1
@@ -54,10 +76,36 @@
             return start_date;
         }
 
+        function checkoption()
+        {
+            var s = document.getElementById("showby");
+            var o = s.options[s.selectedIndex].value;
+
+            if(o == "Show all")
+            {
+                document.getElementById("value").value = document.getElementById("value2").value = document.getElementById("lastname").innerHTML = document.getElementById("firstname").innerHTML = "";
+                document.getElementById("value2").hidden = document.getElementById("value").disabled = true;
+            }
+            else if(o == "Full name")
+            {
+                document.getElementById("firstname").innerHTML = "Firstname:";
+
+                document.getElementById("value").disabled = false;
+                document.getElementById("value2").hidden = false;
+                document.getElementById("lastname").innerHTML = "Lastname:";
+            }
+            else
+            {
+                document.getElementById("value").value = document.getElementById("value2").value = document.getElementById("lastname").innerHTML = document.getElementById("firstname").innerHTML = "";
+                document.getElementById("value").disabled = false;
+                document.getElementById("value2").hidden = true;
+            }
+
+        }
+
     </script>
 
-</head>
-<body>
+</form>
 
 </body>
 </html>
