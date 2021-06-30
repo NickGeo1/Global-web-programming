@@ -70,7 +70,7 @@ public class PatientServlet extends HttpServlet
 
                 }catch (NumberFormatException e)
                 {
-                    Users.Fail(response,"Invalid Age! A registered age must be a number.","register.html");
+                    Users.Fail(response,"Invalid Age! A registered age must be a number.","index.jsp");
                     return;
                 }
 
@@ -93,6 +93,10 @@ public class PatientServlet extends HttpServlet
             case 6:
                 patient = (Patient) Users.Login("Patient", request, response, datasource);
                 break;
+
+            case 7:
+                String btn = request.getParameter("Cancel");
+                //if(btn.equals("1"))
         }
     }
 
