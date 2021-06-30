@@ -4,6 +4,7 @@ import com.classes.Patient;
 import com.classes.Users;
 
 import java.io.*;
+import java.text.ParseException;
 import javax.naming.InitialContext;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -95,8 +96,10 @@ public class PatientServlet extends HttpServlet
                 break;
 
             case 7:
-                String btn = request.getParameter("Cancel");
-                System.out.println(btn);
+                String date = request.getParameter("datevalue");
+                String pAMKA = request.getParameter("patientAMKA");
+                String dAMKA = request.getParameter("doctorAMKA");
+                patient.cancelScheduledAppointment(date,pAMKA,dAMKA,request,response,datasource);
         }
     }
 

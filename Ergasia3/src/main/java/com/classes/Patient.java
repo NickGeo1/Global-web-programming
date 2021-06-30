@@ -544,23 +544,50 @@ public class Patient extends Users
      *
      * @param date
      */
-    public void cancelScheduledAppointment(String date, HttpServletResponse response) throws ParseException, IOException
+    public void cancelScheduledAppointment(String date, String pAMKA, String dAMKA, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
     {
         Date now = new Date(); //today's date
-
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-        Date appointment_date = df.parse(date); //appointment date
+        Date appointment_date = null;
 
-        Calendar cal =  Calendar.getInstance();
-        cal.setTime(now);
-        cal.add(Calendar.DAY_OF_MONTH, 3);
-        Date nowplus3 = cal.getTime(); //appointment date + 3 days
+        try
+        {
+            appointment_date = df.parse(date); //appointment date
 
-        if(nowplus3.after(appointment_date))
-            Fail(response, "You cannot cancel an appointment that is scheduled in less than 3 days from now", "ScheduledAppointments.jsp");
-        //else
+            Calendar cal =  Calendar.getInstance();
+            cal.setTime(now);
+            cal.add(Calendar.DAY_OF_MONTH, 3);
+            Date nowplus3 = cal.getTime(); //appointment date + 3 days
 
+            if(nowplus3.after(appointment_date))
+            {
+                Fail(response, "You cannot cancel an appointment that is scheduled in less than 3 days from now", "ScheduledAppointments.jsp");
+                return;
+            }
 
+            connection = datasource.getConnection();
+            statement = connection.prepareStatement("DELETE FROM appointment WHERE date = ? AND PATIENT_patientAMKA = ? AND DOCTOR_doctorAMKA = ?");
+            date = changeDateFormat("dd-MM-yyyy","yyyy-MM-dd",date);
+            statement.setString(1, date);
+            statement.setString(2, pAMKA);
+            statement.setString(3, dAMKA);
+            statement.execute();
+            connection.close();
+
+            System.out.println(statement.toString());
+            System.out.println(date + pAMKA + " "+dAMKA);
+            showScheduledAppointments("Show all","",request,response,datasource);
+        }
+        catch(ParseException e)
+        {
+            PrintWriter exc = response.getWriter();
+            exc.println("Parse exception during date parsing: "+e.toString());
+        }
+        catch(Exception e)
+        {
+            PrintWriter showhtml = response.getWriter();
+            showhtml.println(e.toString());
+        }
     }
 
     /**
@@ -578,7 +605,7 @@ public class Patient extends Users
         StringBuilder tablerow = new StringBuilder();
 
 
-        tablerow.append("<tr>");
+        tablerow.append("<tr id=\""+row+"\">");
         tablerow.append("<td>" + date + "</td>");
         tablerow.append("<td>" + startSlotTime + "</td>");
         tablerow.append("<td>" + endSlotTime + "</td>");
@@ -588,7 +615,7 @@ public class Patient extends Users
         tablerow.append("<td>" + Doctor_name + "</td>");
         tablerow.append("<td>" + Doctor_surname + "</td>");
         if(show_btn)
-            tablerow.append("<td><button type=\"submit\" name=\"Cancel\" value=\""+row+"\" onclick=\"cancel();\">Cancel</button></td>");
+            tablerow.append("<td><button type=\"submit\" name=\"Cancel\" value=\""+row+"\" onclick=\"setvalue(7); setappointment('"+date+"','"+PATIENT_patientAMKA+"','"+DOCTOR_doctorAMKA+"');\">Cancel</button></td>");
         tablerow.append("</tr>");
 
         return tablerow.toString();
