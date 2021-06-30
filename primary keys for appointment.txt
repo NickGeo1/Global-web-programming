@@ -1,2 +1,3 @@
 UNIQUE (`PATIENT_patientAMKA`, `DOCTOR_doctorAMKA`, `date`),
 UNIQUE (`date`,`startSlotTime`, `endSlotTime`,`DOCTOR_doctorAMKA`),
+UNIQUE (`date`,`startSlotTime`, `endSlotTime`,`PATIENT_patientAMKA`),
