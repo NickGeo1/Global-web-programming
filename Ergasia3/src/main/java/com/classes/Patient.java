@@ -49,37 +49,37 @@ public class Patient extends Users
 
         if (this.getUsername().isBlank())
         {
-            Fail(response, "Invalid Username! A username cannot be blank.","index.jsp");
+            Fail(response, "Invalid Username! A username cannot be blank.","index.html");
             return;
         }
 
         else if (this.getPassword().length() < 4)
         {
-            Fail(response, "Provide a password with at least 4 characters.","index.jsp");
+            Fail(response, "Provide a password with at least 4 characters.","index.html");
             return;
         }
 
         else if (!this.getFirstname().matches("[A-Z][a-z]+"))
         {
-            Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.","index.jsp");
+            Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.","index.html");
             return;
         }
 
         else if (!this.getSurname().matches("[A-Z][a-z]+"))
         {
-            Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.","index.jsp");
+            Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.","index.html");
             return;
         }
 
         else if (this.getAge() > 119 || this.getAge() <= 0)
         {
-            Fail(response, "Invalid Age! A registered age cannot be greater than 119 years or a non-positive number.","index.jsp");
+            Fail(response, "Invalid Age! A registered age cannot be greater than 119 years or a non-positive number.","index.html");
             return;
         }
 
         else if (!this.getAMKA().matches("[0-9]{11}"))
         {
-            Fail(response, "Invalid AMKA! A social security number must have exactly 11 digits.","index.jsp");
+            Fail(response, "Invalid AMKA! A social security number must have exactly 11 digits.","index.html");
             return;
         }
 
@@ -103,7 +103,7 @@ public class Patient extends Users
             //if the statement yields any data, it means there is at least one duplicate. We don't continue.
             if (rs.next())
             {
-                Fail(response, "This username/AMKA is already taken!","index.jsp");
+                Fail(response, "This username/AMKA is already taken!","index.html");
                 rs.close();
                 connection.close();
                 return;
@@ -116,7 +116,7 @@ public class Patient extends Users
 
             if (rs.next())
             {
-                Fail(response, "This AMKA is already taken by a doctor!","index.jsp");
+                Fail(response, "This AMKA is already taken by a doctor!","index.html");
                 rs.close();
                 connection.close();
                 return;
@@ -134,7 +134,7 @@ public class Patient extends Users
             statement.setString(6, a.toString());
             statement.execute();
 
-            response.sendRedirect("register-success.jsp");
+            response.sendRedirect("register-success.html");
 
             rs.close();
             connection.close();
@@ -143,7 +143,7 @@ public class Patient extends Users
         catch (Exception exception)
         {
             //if anything goes wrong it'll be printed on the user's screen.
-            Fail(response, "Cannot insert data. Exception message: \n" + exception.getMessage(),"index.jsp");
+            Fail(response, "Cannot insert data. Exception message: \n" + exception.getMessage(),"index.html");
             exception.printStackTrace();
         }
 
@@ -558,7 +558,7 @@ public class Patient extends Users
 
         if(nowplus3.after(appointment_date))
             Fail(response, "You cannot cancel an appointment that is scheduled in less than 3 days from now", "ScheduledAppointments.jsp");
-        else
+        //else
 
     }
 

@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: nikos
-  Date: 29/6/2021
-  Time: 10:33 μ.μ.
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page import="com.servlets.PatientServlet" %>
 <%@ page import="com.classes.Patient" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -73,7 +66,7 @@
 
 <br><br>
 <div class=navbar>
-<p>Do you want to go back? Click <a href="patient_main_environment.jsp">here</a></p>
+<p>Do you want to go back? Click <a href="patient_main_environment.html">here</a></p>
 </div>
 
 

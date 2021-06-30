@@ -80,7 +80,7 @@ public class Users
      * it initializes the patient object with these attributes
      * and redirects him to the corresponding page.
      *
-     * If the user is not found, it redirects him to the 'fail.jsp' page.
+     * If the user is not found, it redirects him to the 'fail.html' page.
      *
      * @param type The type of user to be logged in. (Patient/Doctor/Admin)
      * @param request An HTTPServletRequest to acquire the username and password.
@@ -166,12 +166,12 @@ public class Users
 
             else if(rs.next() && !rs.getString("hashedpassword").equals(pass)) //correct username wrong pass
             {
-                response.sendRedirect("fail.jsp");
+                response.sendRedirect("fail.html");
             }
 
             else //wrong username
             {
-                response.sendRedirect("fail.jsp");
+                response.sendRedirect("fail.html");
             }
 
             rs.close();
@@ -193,7 +193,7 @@ public class Users
     public void Logout(HttpServletResponse response) throws IOException
     {
         this.loggedOn = false;
-        response.sendRedirect("login.jsp");
+        response.sendRedirect("login.html");
     }
 
     /**

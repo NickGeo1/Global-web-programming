@@ -1,6 +1,7 @@
-<!-- This is the main environment of the patient. From this page, every patient who successfully logs in, will be
-able to view the history of his appointments, to book a new appointment or watch all the appointments that he has
-scheduled in the past-->
+<!-- This is the main environment of the Doctor. From this page, every doctor who successfully logs in, will be
+able to set their availability (in appointments), watch the complete table with all of his appointments and
+cancel an appointment -->
+
 <%@ page import="com.classes.Patient" %>
 <%@ page import="com.servlets.PatientServlet" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>  <!-- JSP import packages -->
@@ -147,7 +148,7 @@ scheduled in the past-->
     <!-- Show to user a message -->
     <div class="alert">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        <strong>Welcome patient!</strong> Feel free to use the menu, in order to use the application.
+        <strong>Welcome doctor!</strong> Feel free to use the menu, in order to use the application.
     </div>
 
     <body>
@@ -172,7 +173,7 @@ scheduled in the past-->
                 <br>
 
                 <div class="container">
-                    <label><pre><b style="color:#012A6C"> Hello patient! Here are your data:</b></pre></label>
+                    <label><pre><b style="color:#012A6C"> Hello doctor! Here are your data:</b></pre></label>
                 </div>
 
                 <div class="container">
@@ -198,11 +199,11 @@ scheduled in the past-->
 
                     <div class="container">
 
-                        <button id="buttons" onclick="setAction(1);">Appointment history</button>
+                        <button id="buttons" onclick="setAction(1);">Set availability</button>
 
-                        <button id="buttons" onclick="setAction(2);">Book an appointment</button>
+                        <button id="buttons" onclick="setAction(2);">View appointments</button>
 
-                        <button id="buttons" onclick="setAction(3);">Scheduled appointments</button>
+                        <button id="buttons" onclick="setAction(3);">Cancel appointment</button>
 
                         <button id="buttons" onclick="setAction(4);">Logout</button>
 

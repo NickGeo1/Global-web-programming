@@ -1,6 +1,6 @@
-<!-- This is the main environment of the patient. From this page, every patient who successfully logs in, will be
-able to view the history of his appointments, to book a new appointment or watch all the appointments that he has
-scheduled in the past-->
+<!-- This is the main environment of the Administrator. From this page, every admin who successfully logs in, will be
+able to insert a new doctor to the system or delete one doctor from the system -->
+
 <%@ page import="com.classes.Patient" %>
 <%@ page import="com.servlets.PatientServlet" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>  <!-- JSP import packages -->
@@ -147,7 +147,7 @@ scheduled in the past-->
     <!-- Show to user a message -->
     <div class="alert">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        <strong>Welcome patient!</strong> Feel free to use the menu, in order to use the application.
+        <strong>Welcome administrator!</strong> Feel free to use the menu, in order to use the application.
     </div>
 
     <body>
@@ -172,7 +172,7 @@ scheduled in the past-->
                 <br>
 
                 <div class="container">
-                    <label><pre><b style="color:#012A6C"> Hello patient! Here are your data:</b></pre></label>
+                    <label><pre><b style="color:#012A6C"> Hello admin! Here are your data:</b></pre></label>
                 </div>
 
                 <div class="container">
@@ -182,8 +182,8 @@ scheduled in the past-->
 
                     <!--Showing patient's attributes-->
                     <table>
-                        <tr><th>Username</th><th>Name</th><th>Surname</th><th>Age</th><th>AMKA</th></tr>
-                        <tr><td><%= p.getUsername() %></td><td><%= p.getFirstname() %></td><td><%= p.getSurname() %></td><td><%= p.getAge() %></td><td><%= p.getAMKA() %></td></tr>
+                        <tr><th>Username</th><th>Name</th><th>Surname</th><th>Age</th></tr>
+                        <tr><td><%= p.getUsername() %></td><td><%= p.getFirstname() %></td><td><%= p.getSurname() %></td><td><%= p.getAge() %></td></tr>
                     </table>
 
                 </div>
@@ -198,11 +198,9 @@ scheduled in the past-->
 
                     <div class="container">
 
-                        <button id="buttons" onclick="setAction(1);">Appointment history</button>
+                        <button id="buttons" onclick="setAction(1);">Add new doctor</button>
 
-                        <button id="buttons" onclick="setAction(2);">Book an appointment</button>
-
-                        <button id="buttons" onclick="setAction(3);">Scheduled appointments</button>
+                        <button id="buttons" onclick="setAction(2);">Delete doctor</button>
 
                         <button id="buttons" onclick="setAction(4);">Logout</button>
 
