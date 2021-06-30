@@ -70,7 +70,7 @@ public class PatientServlet extends HttpServlet
 
                 }catch (NumberFormatException e)
                 {
-                    Users.Fail(response,"Invalid Age! A registered age must be a number.","index.html");
+                    Users.Fail(response,"Invalid Age! A registered age must be a number.","register.html");
                     return;
                 }
 

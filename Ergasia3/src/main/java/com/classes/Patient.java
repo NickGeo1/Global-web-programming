@@ -49,37 +49,37 @@ public class Patient extends Users
 
         if (this.getUsername().isBlank())
         {
-            Fail(response, "Invalid Username! A username cannot be blank.","index.html");
+            Fail(response, "Invalid Username! A username cannot be blank.","register.html");
             return;
         }
 
         else if (this.getPassword().length() < 4)
         {
-            Fail(response, "Provide a password with at least 4 characters.","index.html");
+            Fail(response, "Provide a password with at least 4 characters.","register.html");
             return;
         }
 
         else if (!this.getFirstname().matches("[A-Z][a-z]+"))
         {
-            Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.","index.html");
+            Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.","register.html");
             return;
         }
 
         else if (!this.getSurname().matches("[A-Z][a-z]+"))
         {
-            Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.","index.html");
+            Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.","register.html");
             return;
         }
 
         else if (this.getAge() > 119 || this.getAge() <= 0)
         {
-            Fail(response, "Invalid Age! A registered age cannot be greater than 119 years or a non-positive number.","index.html");
+            Fail(response, "Invalid Age! A registered age cannot be greater than 119 years or a non-positive number.","register.html");
             return;
         }
 
         else if (!this.getAMKA().matches("[0-9]{11}"))
         {
-            Fail(response, "Invalid AMKA! A social security number must have exactly 11 digits.","index.html");
+            Fail(response, "Invalid AMKA! A social security number must have exactly 11 digits.","register.html");
             return;
         }
 
@@ -103,7 +103,7 @@ public class Patient extends Users
             //if the statement yields any data, it means there is at least one duplicate. We don't continue.
             if (rs.next())
             {
-                Fail(response, "This username/AMKA is already taken!","index.html");
+                Fail(response, "This username/AMKA is already taken!","register.html");
                 rs.close();
                 connection.close();
                 return;
@@ -116,7 +116,7 @@ public class Patient extends Users
 
             if (rs.next())
             {
-                Fail(response, "This AMKA is already taken by a doctor!","index.html");
+                Fail(response, "This AMKA is already taken by a doctor!","register.html");
                 rs.close();
                 connection.close();
                 return;
@@ -143,7 +143,7 @@ public class Patient extends Users
         catch (Exception exception)
         {
             //if anything goes wrong it'll be printed on the user's screen.
-            Fail(response, "Cannot insert data. Exception message: \n" + exception.getMessage(),"index.html");
+            Fail(response, "Cannot insert data. Exception message: \n" + exception.getMessage(),"register.html");
             exception.printStackTrace();
         }
 
