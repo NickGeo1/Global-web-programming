@@ -8,6 +8,9 @@ import java.io.PrintWriter;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -299,7 +302,7 @@ public class Patient extends Users
                     Doctor_name = rs.getString("name");
                     Doctor_surname = rs.getString("surname");
 
-                    htmlRow = createTableRow(date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
+                    htmlRow = createTableRow(0,false, date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
 
                     showhtml.println(htmlRow);
 
@@ -410,7 +413,8 @@ public class Patient extends Users
      * @param value The actual value of 'showby' attribute we are looking for
      *
      */
-    public void showScheduledAppointments(String showby, String value, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException {
+    public void showScheduledAppointments(String showby, String value, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
+    {
         if (!isLoggedOn())
         {
             System.out.println("You must be logged on to show all scheduled appointments.");
@@ -483,8 +487,11 @@ public class Patient extends Users
                 String Doctor_surname;
                 String htmlRow;
 
+                int row = 0;
+
                 do  //add the result's rows on the table
                 {
+                    row++;
                     date = rs.getString("date");
 
                     //change the date to the correct format before storing it into the variable
@@ -497,7 +504,7 @@ public class Patient extends Users
                     Doctor_name = rs.getString("name");
                     Doctor_surname = rs.getString("surname");
 
-                    htmlRow = createTableRow(date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
+                    htmlRow = createTableRow(row,true, date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
                     html.append(htmlRow);
 
                 }while(rs.next());
@@ -534,6 +541,28 @@ public class Patient extends Users
     }
 
     /**
+     *
+     * @param date
+     */
+    public void cancelScheduledAppointment(String date, HttpServletResponse response) throws ParseException, IOException
+    {
+        Date now = new Date(); //today's date
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Date appointment_date = df.parse(date); //appointment date
+
+        Calendar cal =  Calendar.getInstance();
+        cal.setTime(now);
+        cal.add(Calendar.DAY_OF_MONTH, 3);
+        Date nowplus3 = cal.getTime(); //appointment date + 3 days
+
+        if(nowplus3.after(appointment_date))
+            Fail(response, "You cannot cancel an appointment that is scheduled in less than 3 days from now", "ScheduledAppointments.jsp");
+        else
+
+    }
+
+    /**
      * Makes an html row in string format with the attributes that passed as parameters
      *
      * @param date appointment's date
@@ -543,9 +572,10 @@ public class Patient extends Users
      * @param DOCTOR_doctorAMKA appointment's DOCTOR_doctorAMKA
      * @return string format of html row
      */
-    private static String createTableRow(String date, String startSlotTime, String endSlotTime, String PATIENT_patientAMKA, String DOCTOR_doctorAMKA, String Doctor_specialty, String Doctor_name, String Doctor_surname)
+    private static String createTableRow(int row, boolean show_btn, String date, String startSlotTime, String endSlotTime, String PATIENT_patientAMKA, String DOCTOR_doctorAMKA, String Doctor_specialty, String Doctor_name, String Doctor_surname)
     {
         StringBuilder tablerow = new StringBuilder();
+
 
         tablerow.append("<tr>");
         tablerow.append("<td>" + date + "</td>");
@@ -556,6 +586,8 @@ public class Patient extends Users
         tablerow.append("<td>" + Doctor_specialty + "</td>");
         tablerow.append("<td>" + Doctor_name + "</td>");
         tablerow.append("<td>" + Doctor_surname + "</td>");
+        if(show_btn)
+            tablerow.append("<td><input type=\"submit\" name=\""+row+"\" id=\""+row+"\" value=\"Cancel\"</td>");
         tablerow.append("</tr>");
 
         return tablerow.toString();
