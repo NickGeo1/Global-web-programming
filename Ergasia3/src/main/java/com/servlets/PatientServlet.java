@@ -42,6 +42,12 @@ public class PatientServlet extends HttpServlet
 
         PATIENT_SERVLET_ACTION = Integer.parseInt(request.getParameter("patient_action"));
 
+        if (!request.getParameter("category").equals("Patient"))
+        {
+            Users.Fail(response, "Wrong Users Category!", "login.html");
+            return;
+        }
+
         //Depending on the action value, execute the corresponding method
 
         switch(PATIENT_SERVLET_ACTION)
@@ -69,7 +75,8 @@ public class PatientServlet extends HttpServlet
                 {
                     age = Integer.parseInt(request.getParameter("age"));
 
-                }catch (NumberFormatException e)
+                }
+                catch (NumberFormatException e)
                 {
                     Users.Fail(response,"Invalid Age! A registered age must be a number.","index.jsp");
                     return;
