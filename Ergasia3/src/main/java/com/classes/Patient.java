@@ -134,7 +134,7 @@ public class Patient extends Users
             statement.setString(6, a.toString());
             statement.execute();
 
-            response.sendRedirect("register-success.jsp");
+            response.sendRedirect("register-success.html");
 
             rs.close();
             connection.close();

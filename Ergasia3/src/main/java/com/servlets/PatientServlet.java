@@ -96,7 +96,7 @@ public class PatientServlet extends HttpServlet
 
             case 7:
                 String btn = request.getParameter("Cancel");
-                //if(btn.equals("1"))
+                System.out.println(btn);
         }
     }
 
