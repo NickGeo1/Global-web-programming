@@ -138,9 +138,11 @@
 
     </head>
 
+
+
     <body>
 
-        <form action="patient" method="post" name="login">
+        <form action="" method="post" name="login" id="login">
 
             <input type="hidden" name="patient_action" value="6">
 
@@ -156,9 +158,9 @@
                 <input type="password" placeholder="Enter Password" name="password" required>
 
                 <label><b style="color:#012A6C">Category: *</b></label>
-                <input type="radio" id="Admin" name="category" value="Admin" required><label for="Admin">Admin</label>
-                <input type="radio" id="Patient" name="category" value="Patient" required><label for="Patient">Patient</label>
-                <input type="radio" id="Doctor" name="category" value="Doctor" required><label for="Doctor">Doctor</label>
+                <input type="radio" id="Admin"   name="category" value="Admin"   required onchange="AdminAction();" ><label for="Admin">Admin</label>
+                <input type="radio" id="Patient" name="category" value="Patient" required onchange="PatientAction();"><label for="Patient">Patient</label>
+                <input type="radio" id="Doctor"  name="category" value="Doctor"  required onchange="DoctorAction();"><label for="Doctor">Doctor</label>
             </div>
 
             <div class="container" style="background-color:#f1f1f1">
@@ -171,5 +173,30 @@
 
         <br>
     </body>
+
+    <script>
+        const form = document.getElementById("login");
+
+        function AdminAction()
+        {
+            if (document.getElementById("Admin").checked)
+                form.action = "admin";
+            //form.setAttribute("action", "admin");
+        }
+
+        function PatientAction()
+        {
+            if (document.getElementById("Patient").checked)
+                form.action = "patient";
+            //form.setAttribute("action", "patient");
+        }
+
+        function DoctorAction()
+        {
+            if (document.getElementById("Admin").checked)
+                form.action = "doctor";
+            //form.setAttribute("action", "doctor");
+        }
+    </script>
 
 </html>
