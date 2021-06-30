@@ -574,8 +574,6 @@ public class Patient extends Users
             statement.execute();
             connection.close();
 
-            System.out.println(statement.toString());
-            System.out.println(date + pAMKA + " "+dAMKA);
             showScheduledAppointments("Show all","",request,response,datasource);
         }
         catch(ParseException e)
@@ -605,7 +603,7 @@ public class Patient extends Users
         StringBuilder tablerow = new StringBuilder();
 
 
-        tablerow.append("<tr id=\""+row+"\">");
+        tablerow.append("<tr>");
         tablerow.append("<td>" + date + "</td>");
         tablerow.append("<td>" + startSlotTime + "</td>");
         tablerow.append("<td>" + endSlotTime + "</td>");
@@ -615,7 +613,7 @@ public class Patient extends Users
         tablerow.append("<td>" + Doctor_name + "</td>");
         tablerow.append("<td>" + Doctor_surname + "</td>");
         if(show_btn)
-            tablerow.append("<td><button type=\"submit\" name=\"Cancel\" value=\""+row+"\" onclick=\"setvalue(7); setappointment('"+date+"','"+PATIENT_patientAMKA+"','"+DOCTOR_doctorAMKA+"');\">Cancel</button></td>");
+            tablerow.append("<td><button type=\"submit\" onclick=\"setvalue(7); setappointment('"+date+"','"+PATIENT_patientAMKA+"','"+DOCTOR_doctorAMKA+"');\">Cancel</button></td>");
         tablerow.append("</tr>");
 
         return tablerow.toString();
