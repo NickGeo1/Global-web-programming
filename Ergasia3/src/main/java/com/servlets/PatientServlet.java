@@ -42,11 +42,6 @@ public class PatientServlet extends HttpServlet
 
         PATIENT_SERVLET_ACTION = Integer.parseInt(request.getParameter("patient_action"));
 
-        if (!request.getParameter("category").equals("Patient"))
-        {
-            Users.Fail(response, "Wrong Users Category!", "login.html");
-            return;
-        }
 
         //Depending on the action value, execute the corresponding method
 
@@ -99,6 +94,12 @@ public class PatientServlet extends HttpServlet
             //login
 
             case 6:
+                if (!request.getParameter("category").equals("Patient"))
+                {
+                    Users.Fail(response, "Wrong Users Category!", "login.html");
+                    return;
+                }
+
                 patient = (Patient) Users.Login("Patient", request, response, datasource);
                 break;
 
