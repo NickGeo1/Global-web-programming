@@ -81,7 +81,9 @@
 
         function setappointment(d,pAMKA,dAMKA)
         {
-            if(confirm("Are you sure that you want to cancel this appointmnt?"))
+            var choice = confirm("Are you sure that you want to cancel this appointmnt?");
+
+            if(choice)
             {
                 document.getElementById("datevalue").value = d;
                 document.getElementById("patientAMKA").value = pAMKA;
