@@ -761,9 +761,9 @@ public class Patient extends Users
         tablerow.append("<td>" + Doctor_name + "</td>");
         tablerow.append("<td>" + Doctor_surname + "</td>");
         if(table_case == 1)
-            tablerow.append("<td><button type=\"button\" onclick=\"setvalue(7); cancelappointment('"+date+"','"+PATIENT_patientAMKA+"','"+DOCTOR_doctorAMKA+"');\">Cancel</button></td>");
+            tablerow.append("<td><button style=\"width:60px;\" type=\"button\" onclick=\"setvalue(7); cancelappointment('"+date+"','"+PATIENT_patientAMKA+"','"+DOCTOR_doctorAMKA+"');\">Cancel</button></td>");
         else if(table_case == 2)
-            tablerow.append("<td><button type=\"button\" onclick=\"setvalue(8); bookappointment('"+date+"','"+startSlotTime+"','"+endSlotTime+"','"+DOCTOR_doctorAMKA+"');\">Book</button></td>");
+            tablerow.append("<td><button style=\"width:60px;\" type=\"button\" onclick=\"setvalue(8); bookappointment('"+date+"','"+startSlotTime+"','"+endSlotTime+"','"+DOCTOR_doctorAMKA+"');\">Book</button></td>");
         tablerow.append("</tr>");
 
         return tablerow.toString();
