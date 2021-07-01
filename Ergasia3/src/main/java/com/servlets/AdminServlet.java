@@ -37,8 +37,19 @@ public class AdminServlet extends HttpServlet
 
         switch (ADMIN_SERVLET_ACTION)
         {
+            //login
             case 1:
                 admin = (Admin) Users.Login("Admin", request, response, datasource);
+                break;
+
+            //add new doctor
+            case 2:
+                break;
+
+            //logout
+            case 4:
+                admin.Logout(response);
+                admin = null;
                 break;
         }
     }

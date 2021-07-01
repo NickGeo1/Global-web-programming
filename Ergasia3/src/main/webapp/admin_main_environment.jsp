@@ -158,12 +158,9 @@ able to insert a new doctor to the system or delete one doctor from the system -
             <br>
 
             <!-- Form that contains a hidden input html tag. The value of the tag is being passed in the patient servlet -->
-            <form method="post" id="form" action="patient">
+            <form method="post" id="form" action="admin">
 
-                <input type="hidden" id="patient_action" name="patient_action" value="">
-
-                <input type="hidden" id= "showby" name="showby" value="Show all">
-                <input type="hidden" id="value" name="value" value="">
+                <input type="hidden" id="admin_action" name="admin_action" value="">
 
                 <div class="imgcontainer">
                     <img src="img/logo1.png" alt="logo_image" class="avatar">
@@ -172,7 +169,7 @@ able to insert a new doctor to the system or delete one doctor from the system -
                 <br>
 
                 <div class="container">
-                    <label><pre><b style="color:#012A6C"> Hello admin! Here are your data:</b></pre></label>
+                    <label><pre><b style="color:#012A6C"> Welcome back, admin!</b></pre></label>
                 </div>
 
                 <div class="container">
@@ -180,7 +177,7 @@ able to insert a new doctor to the system or delete one doctor from the system -
                     <!-- JSP patient instantiation.The patient is the one who just logged on -->
                     <% Admin a = AdminServlet.getAdmin();%>
 
-                    <!--Showing patient's attributes-->
+                    <!--Showing admin's attributes-->
                     <table>
                         <tr><th>Username</th><th>Name</th><th>Surname</th><th>Age</th></tr>
                         <tr><td><%= a.getUsername() %></td><td><%= a.getFirstname() %></td><td><%= a.getSurname() %></td><td><%= a.getAge() %></td></tr>
@@ -198,9 +195,9 @@ able to insert a new doctor to the system or delete one doctor from the system -
 
                     <div class="container">
 
-                        <button id="buttons" onclick="setAction(1);">Add new doctor</button>
+                        <button id="buttons" onclick="setAction(2);">Add new doctor</button>
 
-                        <button id="buttons" onclick="setAction(2);">Delete doctor</button>
+                        <button id="buttons" onclick="setAction(3);">Delete doctor</button>
 
                         <button id="buttons" onclick="setAction(4);">Logout</button>
 
@@ -226,7 +223,7 @@ able to insert a new doctor to the system or delete one doctor from the system -
 
             function setAction(a)
             {
-                document.getElementById("patient_action").value = a;
+                document.getElementById("admin_action").value = a;
 
                 document.getElementById("form").submit();
             }
