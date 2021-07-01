@@ -1,10 +1,10 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Calendar" %>
 <%@ page import="com.classes.Patient" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!-- Τhis is the page in which a patient will be able to book an appointment with a doctor -->
-
 <!DOCTYPE html>
 
 <html>
@@ -48,7 +48,6 @@
                 width: 30%;
                 padding: 12px 20px;
                 margin: 8px 0;
-                display: inline-block;
                 box-sizing: border-box;
                 border:1px solid mediumseagreen;
             }
@@ -131,10 +130,14 @@
             <br>
 
             <center>
+
                 <b style="color:#012A6C;">Starting date:  </b><input type="date" name="start" id="start" onchange="set_min_end_date();" required min=<%= date_now %>>
+
                 <br>
                 <br>
+
                 <b style="color:#012A6C;">Ending date:  </b><input type="date" name="end" id="end" min="" required>
+
             </center>
 
             <br>
