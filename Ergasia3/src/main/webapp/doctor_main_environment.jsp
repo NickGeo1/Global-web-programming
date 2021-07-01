@@ -159,10 +159,10 @@ cancel an appointment -->
             <br>
             <br>
 
-            <!-- Form that contains a hidden input html tag. The value of the tag is being passed in the patient servlet -->
+            <!-- Form that contains a hidden input html tag. The value of the tag is being passed in the doctor servlet -->
             <form method="post" id="form" action="doctor">
 
-                <input type="hidden" id="doctor_action" name="patient_action" value="">
+                <input type="hidden" id="doctor_action" name="doctor_action" value="">
 
                 <div class="imgcontainer">
                     <img src="img/logo1.png" alt="logo_image" class="avatar">
@@ -179,7 +179,7 @@ cancel an appointment -->
                     <!-- JSP patient instantiation.The patient is the one who just logged on -->
                     <% Doctor d = DoctorServlet.getDoctor();%>
 
-                    <!--Showing patient's attributes-->
+                    <!--Showing doctor's attributes-->
                     <table>
                         <tr><th>Username</th><th>Name</th><th>Surname</th><th>Age</th><th>AMKA</th></tr>
                         <tr><td><%= d.getUsername() %></td><td><%= d.getFirstname() %></td><td><%= d.getSurname() %></td><td><%= d.getAge() %></td><td><%= d.getAMKA() %></td></tr>
@@ -222,7 +222,7 @@ cancel an appointment -->
 
             //Depending on the button clicked that describes the action,
             //an action value is being stored in the hidden html input
-            //tag (name="patient_action").At the end, we submit the
+            //tag (name="doctor_action").At the end, we submit the
             //form and we are being redirected to the patient servlet.
 
             function setAction(a)

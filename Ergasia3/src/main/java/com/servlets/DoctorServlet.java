@@ -43,12 +43,8 @@ public class DoctorServlet extends HttpServlet
                 doctor = (Doctor) Users.Login("Doctor", request, response, datasource);
                 break;
 
-            //add new doctor
-            case 2:
-                break;
-
             //logout
-            case 4:
+            case 5:
                 doctor.Logout(response);
                 doctor = null;
                 break;
