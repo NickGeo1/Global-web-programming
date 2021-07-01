@@ -8,8 +8,6 @@ import java.io.PrintWriter;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.chrono.ChronoLocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -24,7 +22,7 @@ public class Patient extends Users
     private static Connection connection;
     private static PreparedStatement statement;
     private static ResultSet rs;
-    private static StringBuilder html;
+    private static StringBuilder html = new StringBuilder("");
 
     private final String AMKA; // This is the unique AMKA of each patient
 
@@ -150,15 +148,10 @@ public class Patient extends Users
     }
 
     /**
-     * Search available doctor appointments by doctor attribute
      *
-     * @param searchby The attribute of a doctor we want to search an appointment for.
-     * If 'searchby' value is not set, the method searches all available appointments
-     *
-     * @param value The actual value of 'searchby' attribute we are looking for
      *
      */
-    public void searchAvailableAppointments(String searchby, String value)
+    public void searchAvailableAppointments(String start_date, String end_date, String searchby, String value, HttpServletResponse response, DataSource datasource) throws IOException
     {
         if (!isLoggedOn())
         {
@@ -167,9 +160,167 @@ public class Patient extends Users
         }
 
         if(searchby.equals(""))
-            System.out.println("Searching every speciality/doctor appointment...");
-        else
-            System.out.println("Searching appointment by "+ searchby +", where "+searchby+" is "+value);
+        {
+            System.out.println("search by is null");
+            response.sendRedirect("AvailableDoctorAppointments.jsp");
+            return;
+        }
+        try
+        {
+            connection = datasource.getConnection();    //connection object for database connection
+
+            String query = "SELECT date,startSlotTime,endSlotTime,DOCTOR_doctorAMKA,specialty,name,surname " +
+                    "FROM appointment JOIN doctor ON DOCTOR_doctorAMKA = doctorAMKA " +
+                    "WHERE PATIENT_patientAMKA = 0 AND date BETWEEN ? AND ?";
+
+            switch (searchby)     //depending on the showby value we execute the corresponding sql statement
+            {
+                case "Doctor AMKA":
+
+                    if (!value.matches("[0-9]{11}"))
+                    {
+                        html.append("Invalid AMKA format");
+                        connection.close();
+                        return;
+                    }
+
+                    query += " AND DOCTOR_doctorAMKA = ?";
+                    statement = connection.prepareStatement(query);
+                    statement.setString(1, start_date);
+                    statement.setString(2, end_date);
+                    statement.setString(3, value);
+                    break;
+
+                case "Full name":
+
+                    String[] names = value.split(" ");
+
+                    query += " AND name = ? and surname=?";
+                    statement = connection.prepareStatement(query);
+                    statement.setString(1, start_date);
+                    statement.setString(2, end_date);
+                    statement.setString(3, names[0]);
+                    statement.setString(4, names[1]);
+                    break;
+
+                case "Specialty":
+
+                    query += " AND specialty = ?";
+                    statement = connection.prepareStatement(query);
+                    statement.setString(1, start_date);
+                    statement.setString(2, end_date);
+                    statement.setString(3, value);
+                    break;
+
+                default:
+                    System.out.println("default");
+                    statement = connection.prepareStatement(query);
+                    statement.setString(1, start_date);
+                    statement.setString(2, end_date);
+            }
+
+            rs = statement.executeQuery();
+
+            if (rs.next()) //in case there is at least one record, make the table headers
+            {
+                html = new StringBuilder(
+                        "<table>"
+                                + "<tr>"
+                                + "<th>Date</th>"
+                                + "<th>Start time</th>"
+                                + "<th>End time</th>"
+                                + "<th>Doctor AMKA</th>"
+                                + "<th>Doctor specialty</th>"
+                                + "<th>Doctor name</th>"
+                                + "<th>Doctor surname</th>"
+                                + "</tr>");
+
+                String date;
+                String startSlotTime;
+                String endSlotTime;
+                String DOCTOR_doctorAMKA;
+                String Doctor_specialty;
+                String Doctor_name;
+                String Doctor_surname;
+                String htmlRow;
+
+                do  //add the result's rows on the table
+                {
+                    date = rs.getString("date");
+
+                    //change the date to the correct format before storing it into the variable
+                    date = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", date);
+                    startSlotTime = rs.getString("startSlotTime");
+                    endSlotTime = rs.getString("endSlotTime");
+                    DOCTOR_doctorAMKA = rs.getString("DOCTOR_doctorAMKA");
+                    Doctor_specialty = rs.getString("specialty");
+                    Doctor_name = rs.getString("name");
+                    Doctor_surname = rs.getString("surname");
+
+                    htmlRow = createTableRow(2, date, startSlotTime, endSlotTime, "", DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
+                    html.append(htmlRow);
+
+                } while (rs.next());
+            }
+            else if (!rs.next() && searchby.equals("Show all"))
+            {
+                start_date = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", start_date);
+                end_date = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", end_date);
+
+                html.append("There is not any appointment available on interval "+start_date+" through "+end_date);
+            }
+            else  //In this case, there is not any record on the results but the option wasn't 'Show all'.
+            {     //That means there is not any results JUST for the restrictions we had set
+
+                start_date = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", start_date);
+                end_date = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", end_date);
+
+                html.append("No results found for interval "+start_date+" through "+end_date+" and "+searchby + " " + value);
+            }
+
+            rs.close();
+            connection.close(); //close ResultSet and Connection
+
+        }
+        catch (ArrayIndexOutOfBoundsException e)
+        {
+            html.append("Invalid firstname/lastname format");
+        }
+        catch(Exception e)
+        {
+            System.out.println(e.toString());
+        }
+        finally
+        {
+            response.sendRedirect("AvailableDoctorAppointments.jsp");
+        }
+    }
+
+
+    public void bookAppointment(String date, String start, String end, String dAMKA, HttpServletResponse response, DataSource datasource) throws IOException
+    {
+        try
+        {
+            connection = datasource.getConnection();
+
+            statement = connection.prepareStatement("UPDATE appointment SET PATIENT_patientAMKA = ? WHERE date = ? AND startSlotTime=? AND endSlotTime=? AND DOCTOR_doctorAMKA=?");
+            statement.setString(1, getAMKA());
+            statement.setString(2, changeDateFormat("dd-MM-yyyy","yyyy-MM-dd",date));
+            statement.setString(3, start);
+            statement.setString(4, end);
+            statement.setString(5, dAMKA);
+            statement.execute();
+            connection.close();
+            html.append("Thank you for using our web application to book your appointment "+getSurname() +
+                    "!\nYour appointment has been booked on "+date+" at "+ start +" until "+end +"(Doctor's AMKA: "+dAMKA +")");
+
+            searchAvailableAppointments("","","","",response,datasource);
+        }
+        catch(Exception e)
+        {
+            PrintWriter showhtml = response.getWriter();
+            showhtml.println(e.toString());
+        }
     }
 
     /**
@@ -302,7 +453,7 @@ public class Patient extends Users
                     Doctor_name = rs.getString("name");
                     Doctor_surname = rs.getString("surname");
 
-                    htmlRow = createTableRow(0,false, date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
+                    htmlRow = createTableRow(0, date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
 
                     showhtml.println(htmlRow);
 
@@ -326,7 +477,7 @@ public class Patient extends Users
 
                                     + "<div class=\"container\">"
                                     + "<label for=\"value\"><b style=\"color:#012A6C\">Insert the doctor's AMKA/appointment date/speciality:  </b></label>"
-                                    + "<input type=\"text\" id=\"value\" name=\"value\" disabled=\"true\">"
+                                    + "<input type=\"text\" id=\"value\" name=\"value\" required disabled=\"true\">"
                                     + "<button type=\"submit\">Search</button>"
                                     + "<input type=\"hidden\" name=\"patient_action\" value=\"1\">"
                                     + "</div>"
@@ -413,7 +564,7 @@ public class Patient extends Users
      * @param value The actual value of 'showby' attribute we are looking for
      *
      */
-    public void showScheduledAppointments(String showby, String value, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
+    public void showScheduledAppointments(String showby, String value, HttpServletResponse response, DataSource datasource) throws IOException
     {
         if (!isLoggedOn())
         {
@@ -487,11 +638,8 @@ public class Patient extends Users
                 String Doctor_surname;
                 String htmlRow;
 
-                int row = 0;
-
                 do  //add the result's rows on the table
                 {
-                    row++;
                     date = rs.getString("date");
 
                     //change the date to the correct format before storing it into the variable
@@ -504,7 +652,7 @@ public class Patient extends Users
                     Doctor_name = rs.getString("name");
                     Doctor_surname = rs.getString("surname");
 
-                    htmlRow = createTableRow(row,true, date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
+                    htmlRow = createTableRow(1, date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
                     html.append(htmlRow);
 
                 }while(rs.next());
@@ -566,7 +714,7 @@ public class Patient extends Users
             }
 
             connection = datasource.getConnection();
-            statement = connection.prepareStatement("DELETE FROM appointment WHERE date = ? AND PATIENT_patientAMKA = ? AND DOCTOR_doctorAMKA = ?");
+            statement = connection.prepareStatement("UPDATE appointment SET PATIENT_patientAMKA=0 WHERE date = ? AND PATIENT_patientAMKA = ? AND DOCTOR_doctorAMKA = ?");
             date = changeDateFormat("dd-MM-yyyy","yyyy-MM-dd",date);
             statement.setString(1, date);
             statement.setString(2, pAMKA);
@@ -574,7 +722,7 @@ public class Patient extends Users
             statement.execute();
             connection.close();
 
-            showScheduledAppointments("Show all","",request,response,datasource);
+            showScheduledAppointments("Show all","", response, datasource);
         }
         catch(ParseException e)
         {
@@ -598,7 +746,7 @@ public class Patient extends Users
      * @param DOCTOR_doctorAMKA appointment's DOCTOR_doctorAMKA
      * @return string format of html row
      */
-    private static String createTableRow(int row, boolean show_btn, String date, String startSlotTime, String endSlotTime, String PATIENT_patientAMKA, String DOCTOR_doctorAMKA, String Doctor_specialty, String Doctor_name, String Doctor_surname)
+    private static String createTableRow(int table_case, String date, String startSlotTime, String endSlotTime, String PATIENT_patientAMKA, String DOCTOR_doctorAMKA, String Doctor_specialty, String Doctor_name, String Doctor_surname)
     {
         StringBuilder tablerow = new StringBuilder();
 
@@ -606,13 +754,16 @@ public class Patient extends Users
         tablerow.append("<td>" + date + "</td>");
         tablerow.append("<td>" + startSlotTime + "</td>");
         tablerow.append("<td>" + endSlotTime + "</td>");
-        tablerow.append("<td>" + PATIENT_patientAMKA + "</td>");
+        if(table_case != 2)
+            tablerow.append("<td>" + PATIENT_patientAMKA + "</td>");
         tablerow.append("<td>" + DOCTOR_doctorAMKA + "</td>");
         tablerow.append("<td>" + Doctor_specialty + "</td>");
         tablerow.append("<td>" + Doctor_name + "</td>");
         tablerow.append("<td>" + Doctor_surname + "</td>");
-        if(show_btn)
-            tablerow.append("<td><button type=\"button\" onclick=\"setvalue(7); setappointment('"+date+"','"+PATIENT_patientAMKA+"','"+DOCTOR_doctorAMKA+"');\">Cancel</button></td>");
+        if(table_case == 1)
+            tablerow.append("<td><button type=\"button\" onclick=\"setvalue(7); cancelappointment('"+date+"','"+PATIENT_patientAMKA+"','"+DOCTOR_doctorAMKA+"');\">Cancel</button></td>");
+        else if(table_case == 2)
+            tablerow.append("<td><button type=\"button\" onclick=\"setvalue(8); bookappointment('"+date+"','"+startSlotTime+"','"+endSlotTime+"','"+DOCTOR_doctorAMKA+"');\">Book</button></td>");
         tablerow.append("</tr>");
 
         return tablerow.toString();
@@ -661,5 +812,10 @@ public class Patient extends Users
     public static String getHTML()
     {
         return html.toString();
+    }
+
+    public static void clearHTML()
+    {
+        html.setLength(0);
     }
 }

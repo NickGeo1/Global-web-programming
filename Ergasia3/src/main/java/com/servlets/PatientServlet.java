@@ -6,6 +6,8 @@ import com.classes.Users;
 import java.io.*;
 import java.text.ParseException;
 import javax.naming.InitialContext;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import javax.sql.DataSource;
@@ -36,12 +38,10 @@ public class PatientServlet extends HttpServlet
         }
 
     }
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
     {
         //Get the action value from the hidden html input tag(see patient_main_environment.jsp)
-
         PATIENT_SERVLET_ACTION = Integer.parseInt(request.getParameter("patient_action"));
-
 
         //Depending on the action value, execute the corresponding method
 
@@ -52,11 +52,22 @@ public class PatientServlet extends HttpServlet
                 break;
 
             case 2:         //Book an appointment
-                response.sendRedirect("AvailableDoctorAppointments.jsp");
+                String value_param = "";
+
+                if(request.getParameter("searchby").equals("Full name"))
+                {
+                    value_param = request.getParameter("value") + " " + request.getParameter("value2");
+                }
+                else
+                {
+                    value_param = request.getParameter("value");
+                }
+                //dates are being passed in yyyy-MM-dd format from the form
+                patient.searchAvailableAppointments(request.getParameter("start"), request.getParameter("end"), request.getParameter("searchby"), value_param, response, datasource);
                 break;
 
             case 3:         //Scheduled appointments
-                patient.showScheduledAppointments(request.getParameter("showby"), request.getParameter("value"), request, response, datasource);
+                patient.showScheduledAppointments(request.getParameter("showby"), request.getParameter("value"), response, datasource);
                 break;
 
             case 4:         //logout
@@ -110,6 +121,15 @@ public class PatientServlet extends HttpServlet
                 String pAMKA = request.getParameter("patientAMKA");
                 String dAMKA = request.getParameter("doctorAMKA");
                 patient.cancelScheduledAppointment(date,pAMKA,dAMKA,request,response,datasource);
+                break;
+
+            //book appointment
+            case 8:
+                String date2 = request.getParameter("datevalue");
+                String start = request.getParameter("startvalue");
+                String end = request.getParameter("endvalue");
+                String dAMKA2 = request.getParameter("dAMKA");
+                patient.bookAppointment(date2,start,end,dAMKA2,response,datasource);
         }
     }
 

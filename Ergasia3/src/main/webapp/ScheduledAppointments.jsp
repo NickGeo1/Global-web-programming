@@ -24,10 +24,9 @@
     </div>
     <br>
 
-    <%=
-    Patient.getHTML()
-    %>
+    <%= Patient.getHTML() %>
 
+    <% Patient.clearHTML();%>
 
     </table>
 
@@ -44,7 +43,7 @@
 
     <div class="container">
         <label for="value"><b style="color:#012A6C">Insert the doctor's AMKA/appointment date/speciality:  </b></label>
-        <input type="text" id="value" name="value" disabled="true">
+        <input type="text" id="value" name="value" disabled="true" required>
         <button type="submit" onclick="setvalue(3);">Search</button>
 
         <input type="hidden" name="patient_action" id="patient_action" value="3">
@@ -78,7 +77,7 @@
             document.getElementById("patient_action").value = v;
         }
 
-        function setappointment(d,pAMKA,dAMKA)
+        function cancelappointment(d,pAMKA,dAMKA)
         {
             var choice = confirm("Are you sure that you want to cancel this appointmnt?");
 
