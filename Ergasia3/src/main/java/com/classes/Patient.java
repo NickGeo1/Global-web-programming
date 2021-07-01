@@ -166,7 +166,7 @@ public class Patient extends Users
         }
         try
         {
-            connection = datasource.getConnection();    //connection object for database connection
+            connection = datasource.getConnection(); //connection object for database connection
 
             String query = "SELECT date,startSlotTime,endSlotTime,DOCTOR_doctorAMKA,specialty,name,surname " +
                     "FROM appointment JOIN doctor ON DOCTOR_doctorAMKA = doctorAMKA " +

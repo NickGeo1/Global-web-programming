@@ -54,7 +54,7 @@ public class Users
         writer.println("<html>");
         writer.println("<head>");
         writer.println("<title>Error during register</title>");
-        writer.println("<meta http-equiv = \"refresh\" content = \"7; url = "+ redirect_to +" \" />"); // redirect page after 7 seconds
+        writer.println("<meta http-equiv = \"refresh\" content = \"5; url = "+ redirect_to +" \" />"); // redirect page after 7 seconds
         writer.println("<link rel=\"stylesheet\" href=\"CSS/styles.css\">"); // use styles from the styles.css file
         writer.print("</head>");
         writer.println("<body>");

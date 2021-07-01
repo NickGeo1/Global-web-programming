@@ -100,6 +100,30 @@
                 border:1px solid #012A6C;
             }
 
+            /* style rules when hyperlinks are pressed */
+            a:visited
+            {
+                color: #012A6C;
+            }
+
+            /* style style rules for the hyperlinks */
+            a
+            {
+                font-size:16px;
+                color: #012A6C;
+            }
+
+            /* style rules for the menu at the bottom of the page */
+            .navbar
+            {
+                font-size: 16px;
+                bottom: 0;
+                text-align: center;
+                background-color: #f1f1f1;
+                width: 100%;
+                height:20px;
+            }
+
         </style>
 
     </head>
@@ -186,14 +210,22 @@
             <input type="hidden" name="endvalue" id="endvalue" value="">
             <input type="hidden" name="dAMKA" id="dAMKA" value="">
 
-
-            <br>
             <br>
 
-            <%= Patient.getHTML() %>
-            <% Patient.clearHTML(); %>
+            <center style="color:#012A6C">
+                <%= Patient.getHTML() %>
+                <% Patient.clearHTML(); %>
+            </center>
+
+            <br>
 
         </form>
+
+        <br>
+
+        <div class="navbar">
+            <p>Do you want to go back? Click <a href="patient_main_environment.jsp">here</a></p>
+        </div>
 
         <script>
 

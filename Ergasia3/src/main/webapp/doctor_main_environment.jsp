@@ -13,7 +13,7 @@ cancel an appointment -->
     <head>
 
         <meta charset="utf-8">
-        <title>Doctor appointments: Dashboard</title>
+        <title>Doctor appointments: dashboard</title>
 
         <style>
 
@@ -148,7 +148,7 @@ cancel an appointment -->
     <!-- Show to user a message -->
     <div class="alert">
         <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-        <strong>Welcome doctor!</strong> Feel free to use the menu, in order to use the application.
+        <strong>Welcome!</strong> Feel free to use the menu, in order to use the application.
     </div>
 
     <body>

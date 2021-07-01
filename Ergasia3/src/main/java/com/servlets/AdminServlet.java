@@ -26,7 +26,7 @@ public class AdminServlet extends HttpServlet
         }
         catch(Exception e)
         {
-            System.out.println("A Datasource exception has occured: " + e.toString());
+            System.out.println("A Datasource exception has occurred: " + e.toString());
         }
 
     }
