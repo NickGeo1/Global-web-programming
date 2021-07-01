@@ -1,40 +1,73 @@
 package com.classes;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
 /**
  * This is the model of an Admin. Admins are the only ones who can add,modify and delete doctors from the
  * application
  */
 public class Admin extends Users
 {
+    private static Connection connection;
+    private static PreparedStatement statement;
+    private static ResultSet rs;
+
     // Constructor method
-    public Admin(String username, String password, String firstname, String surname, int age) {
+    public Admin(String username, String password, String firstname, String surname, int age)
+    {
 
         super(username, password, firstname, surname, age);
 
     }
 
-    /**
-     * @param doctor is a type of User. So, the function takes an object of type User and destroyes it.
-     * This function is used to delete a doctor that already exists.
-     */
-    public void delete_doctor(Users doctor){
-
+    public void DeleteDoctor(HttpServletResponse response, DataSource datasource, String AMKA) throws IOException
+    {
+        //an admin must be logged on to perform delete
         if (!isLoggedOn())
         {
-
-            System.out.println("You must be logged on to delete a doctor.");
+            Users.Fail(response, "An admin must be logged on, in order to delete a doctor. Please login!", "login.html");
             return;
         }
 
-        System.out.println("Doctor " + doctor.getUsername() + " has been deleted!");
+        //executing sql at this point.
+        try
+        {
+            //getting the connection and preparing the sql statement.
+            connection = datasource.getConnection();
+            statement  = connection.prepareStatement("DELETE FROM doctor WHERE doctorAMKA=?");
+            statement.setString(1, AMKA);
+
+            rs = statement.executeQuery();
+            if (!rs.rowDeleted())
+            {
+                Users.Fail(response, "There is no such AMKA.", "admin_main_environment.jsp");
+                rs.close();
+                connection.close();
+                return;
+            }
+
+            connection.close();
+            rs.close();
+            response.sendRedirect("register-success.html");
+        }
+        catch (Exception e)
+        {
+            Users.Fail(response, "An error has occurred. MESSAGE: " + e.getMessage(), "admin_main_environment.jsp");
+        }
+
     }
 
     /**
      * This function is used to add/create a new doctor.
      * @return an object of type Doctor
      */
-    public Doctor add_doctor(String username, String password, String firstname, String surname, int age, String speciality, String AMKA){
-
+    public Doctor add_doctor(String username, String password, String firstname, String surname, int age, String speciality, String AMKA)
+    {
         if (!isLoggedOn())
         {
             System.out.println("You must be logged on to add a new Doctor.");

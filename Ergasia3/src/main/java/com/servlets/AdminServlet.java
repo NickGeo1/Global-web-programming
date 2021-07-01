@@ -43,7 +43,8 @@ public class AdminServlet extends HttpServlet
                 break;
 
             //add new doctor
-            case 2:
+            case 3:
+
                 break;
 
             //logout
