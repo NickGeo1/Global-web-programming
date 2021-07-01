@@ -8,6 +8,7 @@
     <head>
         <title>Doctor appointments: scheduled appointments</title>
         <link rel="stylesheet" href="CSS/styles.css">
+        <meta charset="utf-8">
     </head>
 
         <body>
