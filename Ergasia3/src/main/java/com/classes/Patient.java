@@ -194,7 +194,7 @@ public class Patient extends Users
 
                     String[] names = value.split(" ");
 
-                    query += " AND name = ? and surname=?";
+                    query += " AND name = ? OR surname=?";
                     statement = connection.prepareStatement(query);
                     statement.setString(1, start_date);
                     statement.setString(2, end_date);

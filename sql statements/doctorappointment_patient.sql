@@ -42,7 +42,7 @@ CREATE TABLE `patient` (
 
 LOCK TABLES `patient` WRITE;
 /*!40000 ALTER TABLE `patient` DISABLE KEYS */;
-INSERT INTO `patient` VALUES ('00000000001','patient1','patient','Name1','Surname1',NULL,22),('00000000002','patient2','patient','Name2','Surname2',NULL,12),('00000000003','patient3','patient','Name3','Surname3',NULL,42),('00000000004','patient4','patient','Name4','Surname4',NULL,56),('00000000005','patient5','patient','Name5','Surname5',NULL,78),('00000000006','patient6','patient','Name6','Surname6',NULL,44);
+INSERT INTO `patient` VALUES ('0','0','0','0','0','0',0),('00000000001','patient1','p','Name1','Surname1',NULL,22),('00000000002','patient2','patient','Name2','Surname2',NULL,12),('00000000003','patient3','patient','Name3','Surname3',NULL,42),('00000000004','patient4','patient','Name4','Surname4',NULL,56),('00000000005','patient5','patient','Name5','Surname5',NULL,78),('00000000006','patient6','patient','Name6','Surname6',NULL,44);
 /*!40000 ALTER TABLE `patient` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-06-13 18:51:55
+-- Dump completed on 2021-07-01 17:40:43

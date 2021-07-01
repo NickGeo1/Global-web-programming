@@ -1,6 +1,5 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Calendar" %>
 <%@ page import="com.classes.Patient" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
