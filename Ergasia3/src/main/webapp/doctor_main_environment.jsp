@@ -2,8 +2,9 @@
 able to set their availability (in appointments), watch the complete table with all of his appointments and
 cancel an appointment -->
 
-<%@ page import="com.classes.Patient" %>
-<%@ page import="com.servlets.PatientServlet" %>
+<%@ page import="com.classes.Doctor" %>
+<%@ page import="com.servlets.DoctorServlet" %>
+<%@ page import="javax.print.Doc" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>  <!-- JSP import packages -->
 
 <!DOCTYPE html>
@@ -159,12 +160,9 @@ cancel an appointment -->
             <br>
 
             <!-- Form that contains a hidden input html tag. The value of the tag is being passed in the patient servlet -->
-            <form method="post" id="form" action="patient">
+            <form method="post" id="form" action="doctor">
 
-                <input type="hidden" id="patient_action" name="patient_action" value="">
-
-                <input type="hidden" id= "showby" name="showby" value="Show all">
-                <input type="hidden" id="value" name="value" value="">
+                <input type="hidden" id="doctor_action" name="patient_action" value="">
 
                 <div class="imgcontainer">
                     <img src="img/logo1.png" alt="logo_image" class="avatar">
@@ -179,12 +177,12 @@ cancel an appointment -->
                 <div class="container">
 
                     <!-- JSP patient instantiation.The patient is the one who just logged on -->
-                    <% Patient p = PatientServlet.getPatient();%>
+                    <% Doctor d = DoctorServlet.getDoctor();%>
 
                     <!--Showing patient's attributes-->
                     <table>
                         <tr><th>Username</th><th>Name</th><th>Surname</th><th>Age</th><th>AMKA</th></tr>
-                        <tr><td><%= p.getUsername() %></td><td><%= p.getFirstname() %></td><td><%= p.getSurname() %></td><td><%= p.getAge() %></td><td><%= p.getAMKA() %></td></tr>
+                        <tr><td><%= d.getUsername() %></td><td><%= d.getFirstname() %></td><td><%= d.getSurname() %></td><td><%= d.getAge() %></td><td><%= d.getAMKA() %></td></tr>
                     </table>
 
                 </div>
@@ -199,13 +197,13 @@ cancel an appointment -->
 
                     <div class="container">
 
-                        <button id="buttons" onclick="setAction(1);">Set availability</button>
+                        <button id="buttons" onclick="setAction(2);">Set availability</button>
 
-                        <button id="buttons" onclick="setAction(2);">View appointments</button>
+                        <button id="buttons" onclick="setAction(3);">View appointments</button>
 
-                        <button id="buttons" onclick="setAction(3);">Cancel appointment</button>
+                        <button id="buttons" onclick="setAction(4);">Cancel appointment</button>
 
-                        <button id="buttons" onclick="setAction(4);">Logout</button>
+                        <button id="buttons" onclick="setAction(5);">Logout</button>
 
                         <br>
                         <br>
@@ -229,7 +227,7 @@ cancel an appointment -->
 
             function setAction(a)
             {
-                document.getElementById("patient_action").value = a;
+                document.getElementById("doctor_action").value = a;
 
                 document.getElementById("form").submit();
             }

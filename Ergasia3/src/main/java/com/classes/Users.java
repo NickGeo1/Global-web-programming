@@ -144,6 +144,7 @@ public class Users
                                 rs.getString("doctorAMKA")
                         );
 
+                        response.sendRedirect("doctor_main_environment.jsp");
                         break;
 
                     default:

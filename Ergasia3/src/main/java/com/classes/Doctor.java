@@ -109,7 +109,7 @@ public class Doctor extends Users
     }
 
     // Getter for the attribute AMKA
-    public String GetAMKA() { return this.AMKA; }
+    public String getAMKA() { return this.AMKA; }
 
     /**
      * @return The characteristics of each Doctor (firstname,username,surname, age and his speciality)
@@ -117,7 +117,7 @@ public class Doctor extends Users
     @Override
     public String toString()
     {
-        return super.toString() + ", speciality: "+getSpeciality() + ", AMKA: "+GetAMKA();
+        return super.toString() + ", speciality: "+getSpeciality() + ", AMKA: "+ getAMKA();
     }
 
 }
