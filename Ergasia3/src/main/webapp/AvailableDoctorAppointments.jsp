@@ -1,10 +1,11 @@
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="java.util.Calendar" %>
 <%@ page import="com.classes.Patient" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!-- Τhis is the page in which a patient will be able to book an appointment with a doctor -->
+
+<!DOCTYPE html>
 
 <html>
 
@@ -161,12 +162,12 @@
 
             <center>
 
-                <b style="color:#012A6C;">First name: </b>
-                <input type="text" id="value" name="value" disabled="true">
+                <b style="color:#012A6C;"  id="firstname"></b>
+                <input type="text" id="value" name="value" disabled="true" required>
 
                 <br>
 
-                <b style="color:#012A6C;">Last name: </b>
+                <b style="color:#012A6C;"  id="lastname" ></b>
                 <input type="text" id="value2" name="value2" hidden="true">
 
                 <br>
@@ -241,10 +242,10 @@
                 }
                 else if(o == "Full name")
                 {
-                    document.getElementById("firstname").innerHTML = "Firstname:";
+                    document.getElementById("firstname").innerHTML = "Firstname: ";
                     document.getElementById("value2").hidden = document.getElementById("value").disabled = false;
                     document.getElementById("value2").required = true;
-                    document.getElementById("lastname").innerHTML = "Lastname:";
+                    document.getElementById("lastname").innerHTML = "Lastname: ";
                 }
                 else
                 {

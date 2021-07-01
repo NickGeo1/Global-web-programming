@@ -161,7 +161,6 @@ public class Patient extends Users
 
         if(searchby.equals(""))
         {
-            System.out.println("search by is null");
             response.sendRedirect("AvailableDoctorAppointments.jsp");
             return;
         }
@@ -213,7 +212,6 @@ public class Patient extends Users
                     break;
 
                 default:
-                    System.out.println("default");
                     statement = connection.prepareStatement(query);
                     statement.setString(1, start_date);
                     statement.setString(2, end_date);
