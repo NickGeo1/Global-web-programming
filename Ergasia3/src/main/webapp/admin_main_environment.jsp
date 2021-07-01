@@ -1,8 +1,8 @@
 <!-- This is the main environment of the Administrator. From this page, every admin who successfully logs in, will be
 able to insert a new doctor to the system or delete one doctor from the system -->
 
-<%@ page import="com.classes.Patient" %>
-<%@ page import="com.servlets.PatientServlet" %>
+<%@ page import="com.classes.Admin" %>
+<%@ page import="com.servlets.AdminServlet" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>  <!-- JSP import packages -->
 
 <!DOCTYPE html>
@@ -178,12 +178,12 @@ able to insert a new doctor to the system or delete one doctor from the system -
                 <div class="container">
 
                     <!-- JSP patient instantiation.The patient is the one who just logged on -->
-                    <% Patient p = PatientServlet.getPatient();%>
+                    <% Admin a = AdminServlet.getAdmin();%>
 
                     <!--Showing patient's attributes-->
                     <table>
                         <tr><th>Username</th><th>Name</th><th>Surname</th><th>Age</th></tr>
-                        <tr><td><%= p.getUsername() %></td><td><%= p.getFirstname() %></td><td><%= p.getSurname() %></td><td><%= p.getAge() %></td></tr>
+                        <tr><td><%= a.getUsername() %></td><td><%= a.getFirstname() %></td><td><%= a.getSurname() %></td><td><%= a.getAge() %></td></tr>
                     </table>
 
                 </div>

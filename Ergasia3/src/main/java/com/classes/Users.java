@@ -155,6 +155,7 @@ public class Users
                                 rs.getInt   ("age")
                         );
 
+                        response.sendRedirect("admin_main_environment.jsp");
                         break;
                 }
 
