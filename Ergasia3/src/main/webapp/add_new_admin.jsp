@@ -87,7 +87,7 @@
 
             </div>
 
-            <button type="submit" name="admin_action" id="admin_action" value="add_doctor">Add Administrator</button>
+            <button style="font-size:15px;" type="submit" name="admin_action" id="admin_action" value="add_doctor">Add Administrator</button>
 
         </form>
 

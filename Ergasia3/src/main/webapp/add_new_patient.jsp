@@ -87,12 +87,12 @@
         <label><b style="color:#012A6C">Age: *</b></label>
         <input type="number"   id="age"        name="age"       max="119" min="1" required>
 
-        <label><b style="color:#012A6C">Doctor's AMKA: *</b></label>
+        <label><b style="color:#012A6C">Patient's AMKA: *</b></label>
         <input type="text"     id="AMKA"       name="AMKA"       size="11" maxlength="11" minlength="11" required>
 
       </div>
 
-      <button type="submit" name="admin_action" id="admin_action" value="add_patient">Add patient</button>
+      <button type="submit" style="font-size:15px;" name="admin_action" id="admin_action" value="add_patient">Add patient</button>
 
     </form>
 

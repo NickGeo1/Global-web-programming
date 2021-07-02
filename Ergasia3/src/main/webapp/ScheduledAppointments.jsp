@@ -57,7 +57,6 @@
         </form>
 
         <br>
-        <br>
 
         <div class=navbar>
             <p>Do you want to go back? Click <a href="patient_main_environment.jsp">here</a></p>
