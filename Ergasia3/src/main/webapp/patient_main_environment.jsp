@@ -174,13 +174,10 @@ scheduled in the past-->
 
                 <div class="container">
 
-                    <!-- JSP patient instantiation.The patient is the one who just logged on -->
-                    <% Patient p = PatientServlet.getPatient();%>
-
                     <!--Showing patient's attributes-->
                     <table>
                         <tr><th>Username</th><th>Name</th><th>Surname</th><th>Age</th><th>AMKA</th></tr>
-                        <tr><td><%= p.getUsername() %></td><td><%= p.getFirstname() %></td><td><%= p.getSurname() %></td><td><%= p.getAge() %></td><td><%= p.getAMKA() %></td></tr>
+                        <tr><td><%= session.getAttribute("username") %></td><td><%= session.getAttribute("name") %></td><td><%= session.getAttribute("surname") %></td><td><%= session.getAttribute("age") %></td><td><%= session.getAttribute("patientAMKA") %></td></tr>
                     </table>
 
                 </div>

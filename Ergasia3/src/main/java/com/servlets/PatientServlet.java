@@ -19,8 +19,6 @@ public class PatientServlet extends HttpServlet
 
     private static int PATIENT_SERVLET_ACTION; //Variable that describes what action the servlet should perform for the patient
 
-    private static Patient patient; //Patient variable that is being initialized at login and uninitialized at logout
-
     //init method runs at the very start of a servlet.
     //Here, init gets the datasource which corresponds
     //to our database
@@ -52,7 +50,7 @@ public class PatientServlet extends HttpServlet
                 if (requestedURL.endsWith("patient_main_environment.jsp"))
                     response.sendRedirect("appointmenthistory.jsp");
                 else
-                    patient.showAppointmentHistory(request.getParameter("showby"), request.getParameter("value"), response, datasource);
+                    Patient.showAppointmentHistory(request.getParameter("showby"), request.getParameter("value"), response, request, datasource);
                 break;
 
             case 2:         //Search available appointment
@@ -69,19 +67,18 @@ public class PatientServlet extends HttpServlet
                 else
                     value_param = request.getParameter("value");
 
-                patient.searchAvailableAppointments(request.getParameter("start"), request.getParameter("end"), request.getParameter("searchby"), value_param, response, datasource);
+                Patient.searchAvailableAppointments(request.getParameter("start"), request.getParameter("end"), request.getParameter("searchby"), value_param, response, datasource);
                 break;
 
             case 3:         //Scheduled appointments
                 if(requestedURL.endsWith("patient_main_environment.jsp"))
                     response.sendRedirect("ScheduledAppointments.jsp");
                 else
-                    patient.showScheduledAppointments(request.getParameter("showby"), request.getParameter("value"), response, datasource);
+                    Patient.showScheduledAppointments(request.getParameter("showby"), request.getParameter("value"), response, request, datasource);
                 break;
 
             case 4:         //logout
-                patient.Logout(response);
-                patient = null;
+                Patient.Logout2(response, request);
                 break;
 
             case 5:         //register
@@ -99,7 +96,7 @@ public class PatientServlet extends HttpServlet
                 }
 
                 //getting the rest parameters as they are from the form.
-                patient = new Patient(  request.getParameter("username"),
+                Patient patient = new Patient(  request.getParameter("username"),
                                         request.getParameter("password"),
                                         request.getParameter("fn"),
                                         request.getParameter("ln"),
@@ -109,7 +106,6 @@ public class PatientServlet extends HttpServlet
 
                 //registering the patient as he is.
                 patient.Register(response, datasource);
-                patient = null;
                 break;
 
             //login
@@ -121,7 +117,7 @@ public class PatientServlet extends HttpServlet
                     return;
                 }
 
-                patient = (Patient) Users.Login("Patient", request, response, datasource);
+                Users.Login("Patient",request,response,datasource);
                 break;
 
             //cancel appointment
@@ -129,7 +125,7 @@ public class PatientServlet extends HttpServlet
                 String date = request.getParameter("datevalue");
                 String pAMKA = request.getParameter("patientAMKA");
                 String dAMKA = request.getParameter("doctorAMKA");
-                patient.cancelScheduledAppointment(date,pAMKA,dAMKA,request,response,datasource);
+                Patient.cancelScheduledAppointment(date,pAMKA,dAMKA,request,response,datasource);
                 break;
 
             //book appointment
@@ -138,12 +134,7 @@ public class PatientServlet extends HttpServlet
                 String start = request.getParameter("startvalue");
                 String end = request.getParameter("endvalue");
                 String dAMKA2 = request.getParameter("dAMKA");
-                patient.bookAppointment(date2,start,end,dAMKA2,response,datasource);
+                Patient.bookAppointment(date2,start,end,dAMKA2,response,request,datasource);
         }
-    }
-
-    public static Patient getPatient() //returns the logged on patient object
-    {
-        return patient;
     }
 }

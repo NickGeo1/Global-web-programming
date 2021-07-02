@@ -40,13 +40,13 @@ public class DoctorServlet extends HttpServlet
         {
             //login
             case 1:
-                doctor = (Doctor) Users.Login("Doctor", request, response, datasource);
+                //doctor = (Doctor) Users.Login("Doctor", request, response, datasource);
                 break;
 
             //logout
             case 5:
-                doctor.Logout(response);
-                doctor = null;
+                //doctor.Logout(response);
+                //doctor = null;
                 break;
         }
     }

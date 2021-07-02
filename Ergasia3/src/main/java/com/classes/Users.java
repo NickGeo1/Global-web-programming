@@ -2,6 +2,7 @@ package com.classes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -88,12 +89,13 @@ public class Users
      * @param datasource The datasource required to search the username and password.
      * @return The user, if found in the database. If the user is not found, returns null.
      */
-    public static Users Login(String type, HttpServletRequest request, HttpServletResponse response, DataSource datasource)
+    public static void Login(String type, HttpServletRequest request, HttpServletResponse response, DataSource datasource)
     {
         String name = request.getParameter("username");
         String pass = request.getParameter("password");
         String table;
-        Users user;
+
+        HttpSession user_session = request.getSession();
 
         try
         {
@@ -121,49 +123,38 @@ public class Users
                 switch (type)
                 {
                     case "Patient":
-                        user = new Patient(
-                                rs.getString("username"),
-                                rs.getString("hashedpassword"),
-                                rs.getString("name"),
-                                rs.getString("surname"),
-                                rs.getInt   ("age"),
-                                rs.getString("patientAMKA")
-                        );
+                        user_session.setAttribute("username" , rs.getString("username"));
+                        user_session.setAttribute("name", rs.getString("name"));
+                        user_session.setAttribute("surname", rs.getString("surname"));
+                        user_session.setAttribute("age", rs.getString("age"));
+                        user_session.setAttribute("patientAMKA", rs.getString("patientAMKA"));
 
                         response.sendRedirect("patient_main_environment.jsp");
                         break;
 
                     case "Doctor":
-                        user = new Doctor(
-                                rs.getString("username"),
-                                rs.getString("hashedpassword"),
-                                rs.getString("name"),
-                                rs.getString("surname"),
-                                rs.getInt   ("age"),
-                                rs.getString("specialty"),
-                                rs.getString("doctorAMKA")
-                        );
+                        user_session.setAttribute("username" , rs.getString("username"));
+                        user_session.setAttribute("name", rs.getString("name"));
+                        user_session.setAttribute("surname", rs.getString("surname"));
+                        user_session.setAttribute("age", rs.getString("age"));
+                        user_session.setAttribute("specialty", rs.getString("specialty"));
+                        user_session.setAttribute("doctorAMKA", rs.getString("doctorAMKA"));
 
                         response.sendRedirect("doctor_main_environment.jsp");
                         break;
 
-                    default:
-                        user = new Admin(
-                                rs.getString("username"),
-                                rs.getString("hashedpassword"),
-                                rs.getString("name"),
-                                rs.getString("surname"),
-                                rs.getInt   ("age")
-                        );
+                    default: //Admin
+                        user_session.setAttribute("username" , rs.getString("username"));
+                        user_session.setAttribute("name", rs.getString("name"));
+                        user_session.setAttribute("surname", rs.getString("surname"));
+                        user_session.setAttribute("age", rs.getString("age"));
 
                         response.sendRedirect("admin_main_environment.jsp");
                         break;
                 }
 
-                user.loggedOn = true;
                 rs.close();
                 con.close();
-                return user;
             }
 
             else if(rs.next() && !rs.getString("hashedpassword").equals(pass)) //correct username wrong pass
@@ -178,14 +169,11 @@ public class Users
 
             rs.close();
             con.close();
-            return null;
-
         }
 
         catch(Exception e)
         {
             System.out.println("An exception occured during database connection: "+e.toString());
-            return null;
         }
     }
 
@@ -198,6 +186,20 @@ public class Users
         response.sendRedirect("login.html");
     }
 
+    public static void Logout2(HttpServletResponse response, HttpServletRequest request) throws IOException
+    {
+        HttpSession session = request.getSession();
+
+        session.removeAttribute("username");
+        session.removeAttribute("name");
+        session.removeAttribute("surname");
+        session.removeAttribute("age");
+        session.removeAttribute("patientAMKA");
+
+        session.invalidate();
+        response.sendRedirect("login.html");
+
+    }
     /**
      * This method returns the characteristics of each User
      * @return firstname,username,surname and age

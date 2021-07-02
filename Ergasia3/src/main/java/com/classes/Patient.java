@@ -2,6 +2,7 @@ package com.classes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -151,13 +152,13 @@ public class Patient extends Users
      *
      *
      */
-    public void searchAvailableAppointments(String start_date, String end_date, String searchby, String value, HttpServletResponse response, DataSource datasource) throws IOException
+    public static void searchAvailableAppointments(String start_date, String end_date, String searchby, String value, HttpServletResponse response, DataSource datasource) throws IOException
     {
-        if (!isLoggedOn())
-        {
-            System.out.println("You must be logged on to search for available appointments.");
-            return;
-        }
+//        if (!isLoggedOn())
+//        {
+//            System.out.println("You must be logged on to search for available appointments.");
+//            return;
+//        }
 
         try
         {
@@ -292,21 +293,23 @@ public class Patient extends Users
     }
 
 
-    public void bookAppointment(String date, String start, String end, String dAMKA, HttpServletResponse response, DataSource datasource) throws IOException
+    public static void bookAppointment(String date, String start, String end, String dAMKA, HttpServletResponse response, HttpServletRequest request, DataSource datasource) throws IOException
     {
+        HttpSession session = request.getSession();
+
         try
         {
             connection = datasource.getConnection();
 
             statement = connection.prepareStatement("UPDATE appointment SET PATIENT_patientAMKA = ? WHERE date = ? AND startSlotTime=? AND endSlotTime=? AND DOCTOR_doctorAMKA=?");
-            statement.setString(1, getAMKA());
+            statement.setString(1, session.getAttribute("patientAMKA").toString());
             statement.setString(2, changeDateFormat("dd-MM-yyyy","yyyy-MM-dd",date));
             statement.setString(3, start);
             statement.setString(4, end);
             statement.setString(5, dAMKA);
             statement.execute();
             connection.close();
-            html.append("Thank you for using our web application to book your appointment "+getSurname() +
+            html.append("Thank you for using our web application to book your appointment "+session.getAttribute("name") +
                     "!\nYour appointment has been booked on "+date+" at "+ start +" until "+end +"(Doctor's AMKA: "+dAMKA +")");
 
             searchAvailableAppointments("","","","",response,datasource);
@@ -332,13 +335,9 @@ public class Patient extends Users
      *  the patient and doctor's AMKA.If the patient has not any history appointments a 'Appointment history is empty' message appears.
      *
      */
-    public void showAppointmentHistory(String showby, String value, HttpServletResponse response, DataSource datasource) throws IOException
+    public static void showAppointmentHistory(String showby, String value, HttpServletResponse response, HttpServletRequest request, DataSource datasource) throws IOException
     {
-        if (!isLoggedOn()) //in case patient is not any more logged on, print a message
-        {
-            System.out.println("You must be logged on to show appointment history.");
-            return;
-        }
+        HttpSession session  = request.getSession();
 
         PrintWriter showhtml = response.getWriter();
 
@@ -379,7 +378,7 @@ public class Patient extends Users
             }
 
             statement = connection.prepareStatement(query);
-            statement.setString(1, this.getAMKA());
+            statement.setString(1, session.getAttribute("patientAMKA").toString());
 
             if(!showby.equals("Show all"))
                 statement.setString(2, value);
@@ -473,13 +472,9 @@ public class Patient extends Users
      * @param value The actual value of 'showby' attribute we are looking for
      *
      */
-    public void showScheduledAppointments(String showby, String value, HttpServletResponse response, DataSource datasource) throws IOException
+    public static void showScheduledAppointments(String showby, String value, HttpServletResponse response, HttpServletRequest request , DataSource datasource) throws IOException
     {
-        if (!isLoggedOn())
-        {
-            System.out.println("You must be logged on to show all scheduled appointments.");
-            return;
-        }
+        HttpSession session = request.getSession();
 
         try
         {
@@ -513,7 +508,7 @@ public class Patient extends Users
             }
 
             statement = connection.prepareStatement(query);  //A prepared statement object, on which we are going to store our sql statement
-            statement.setString(1, this.getAMKA());
+            statement.setString(1, session.getAttribute("patientAMKA").toString());
 
             if(!showby.equals("Show all"))
                 statement.setString(2, value);
@@ -602,7 +597,7 @@ public class Patient extends Users
      *
      * @param date
      */
-    public void cancelScheduledAppointment(String date, String pAMKA, String dAMKA, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
+    public static void cancelScheduledAppointment(String date, String pAMKA, String dAMKA, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
     {
         Date now = new Date(); //today's date
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -632,7 +627,7 @@ public class Patient extends Users
             statement.execute();
             connection.close();
 
-            showScheduledAppointments("Show all","", response, datasource);
+            showScheduledAppointments("Show all","", response, request, datasource);
         }
         catch(ParseException e)
         {

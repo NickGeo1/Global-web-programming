@@ -44,7 +44,7 @@ public class AdminServlet extends HttpServlet
         {
                 //login
             case "login":
-                admin = (Admin) Users.Login("Admin", request, response, datasource);
+                //admin = (Admin) Users.Login("Admin", request, response, datasource);
                 break;
 
             case "add_admin":
