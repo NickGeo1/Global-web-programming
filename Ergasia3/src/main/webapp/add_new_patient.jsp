@@ -92,7 +92,7 @@
 
       </div>
 
-      <button type="submit" name="admin_action" id="admin_action" value="add_doctor">Add patient</button>
+      <button type="submit" name="admin_action" id="admin_action" value="add_patient">Add patient</button>
 
     </form>
 
