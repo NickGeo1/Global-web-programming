@@ -49,9 +49,18 @@ public class AdminServlet extends HttpServlet
 
             case "add_admin":
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
-                {
                     response.sendRedirect("add_new_admin.jsp");
+                else if (requestedURL.endsWith("add_new_admin.jsp"))
+                {
+                    String username  = request.getParameter("username");
+                    String password  = request.getParameter("password");
+                    String firstname = request.getParameter("firstname");
+                    String surname   = request.getParameter("surname");
+                    Integer age      = Integer.parseInt(request.getParameter("age"));
+
+                    admin.add_admin(response, datasource, username, password, firstname, surname, age);
                 }
+
                 break;
 
             case "add_patient":
@@ -59,12 +68,13 @@ public class AdminServlet extends HttpServlet
                 {
                     response.sendRedirect("add_new_patient.jsp");
                 }
+
                 break;
 
             case "add_doctor":
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
                     response.sendRedirect("add_new_doctor.jsp");
-                else
+                else if (requestedURL.endsWith("add_new_doctor.jsp"))
                 {
                     String username   = request.getParameter("username");
                     String password   = request.getParameter("password");
@@ -74,7 +84,6 @@ public class AdminServlet extends HttpServlet
                     String speciality = request.getParameter("speciality");
                     String AMKA       = request.getParameter("AMKA");
 
-                    Admin admin = this.getAdmin();
                     admin.add_doctor(response, datasource, username, password, firstname, surname, age, speciality, AMKA);
                 }
 

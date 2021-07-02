@@ -41,7 +41,7 @@
         <input type="number"   id="age"       name="age"       max="119" min="1">
         <br>
 
-        <button type="submit" name="admin_action" id="admin_action" value="add_doctor">Add Administrator</button>
+        <button type="submit" name="admin_action" id="admin_action" value="add_admin">Add Administrator</button>
 
     </form>
 
