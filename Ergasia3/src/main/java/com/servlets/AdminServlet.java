@@ -13,7 +13,7 @@ import com.classes.Users;
 @WebServlet(name = "AdminServlet", value = "/admin")
 public class AdminServlet extends HttpServlet
 {
-    private static int ADMIN_SERVLET_ACTION;
+    private static String ADMIN_SERVLET_ACTION;
     private static Admin admin;
     private static DataSource datasource;
 
@@ -33,22 +33,22 @@ public class AdminServlet extends HttpServlet
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
-        ADMIN_SERVLET_ACTION = Integer.parseInt(request.getParameter("admin_action"));
+        ADMIN_SERVLET_ACTION = request.getParameter("admin_action");
 
         switch (ADMIN_SERVLET_ACTION)
         {
             //login
-            case 1:
+            case "login":
                 admin = (Admin) Users.Login("Admin", request, response, datasource);
                 break;
 
             //add new doctor
-            case 3:
+            case "add_doctor":
 
                 break;
 
             //logout
-            case 4:
+            case "logout":
                 admin.Logout(response);
                 admin = null;
                 break;

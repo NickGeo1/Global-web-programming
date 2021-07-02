@@ -160,8 +160,6 @@ able to insert a new doctor to the system or delete one doctor from the system -
             <!-- Form that contains a hidden input html tag. The value of the tag is being passed in the patient servlet -->
             <form method="post" id="form" action="admin">
 
-                <input type="hidden" id="admin_action" name="admin_action" value="">
-
                 <div class="imgcontainer">
                     <img src="img/logo1.png" alt="logo_image" class="avatar">
                 </div>
@@ -195,11 +193,11 @@ able to insert a new doctor to the system or delete one doctor from the system -
 
                     <div class="container">
 
-                        <button id="buttons" onclick="setAction(3);">Add new administrator</button>
-                        <button id="buttons" onclick="setAction(2);">Add new patient</button>
-                        <button id="buttons" onclick="setAction(2);">Add new doctor</button>
-                        <button id="buttons" onclick="setAction(3);">Delete doctor</button>
-                        <button id="buttons" onclick="setAction(4);">Logout</button>
+                        <button id="buttons" name="admin_action" value="add_admin"     type="submit">Add new administrator</button>
+                        <button id="buttons" name="admin_action" value="add_patient"   type="submit">Add new patient</button>
+                        <button id="buttons" name="admin_action" value="add_doctor"    type="submit">Add new doctor</button>
+                        <button id="buttons" name="admin_action" value="delete_doctor" type="submit">Delete doctor</button>
+                        <button id="buttons" name="admin_action" value="logout"        type="submit">Logout</button>
 
                         <br>
                         <br>
@@ -213,20 +211,6 @@ able to insert a new doctor to the system or delete one doctor from the system -
         </article>
 
         <script>
-
-            //Javascript function that executes for every patient action
-
-            //Depending on the button clicked that describes the action,
-            //an action value is being stored in the hidden html input
-            //tag (name="patient_action").At the end, we submit the
-            //form and we are being redirected to the patient servlet.
-
-            function setAction(a)
-            {
-                document.getElementById("admin_action").value = a;
-
-                document.getElementById("form").submit();
-            }
 
         </script>
 
