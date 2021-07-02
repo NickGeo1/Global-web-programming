@@ -18,17 +18,10 @@
             </div>
 
             <div class="container">
-                <label><b style="color:#012A6C"> Delete a doctor:</b></label>
+                <center><label><b style="color:#012A6C">Enter the doctor's AMKA you want to delete: </b><input type="text" id="admin_username" name="admin_username"></label></center>
             </div>
 
-            <br>
-
-            <div class="container">
-                <label>Enter the Doctor's AMKA you wish to delete:</label>
-            </div>
-            <input type="text" id="admin_username" name="admin_username">
-            <br>
-            <button type="submit" name="admin_action" id="admin_action" value="delete_doctor">Delete Doctor</button>
+            <center><button type="submit" name="admin_action" id="admin_action" value="delete_doctor">Delete doctor</button></center>
 
         </form>
 

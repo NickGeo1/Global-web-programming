@@ -18,17 +18,10 @@
             </div>
 
             <div class="container">
-                <label><b style="color:#012A6C"> Delete an administrator:</b></label>
+                <center><label><b style="color:#012A6C">Enter the username of the administrator you want to delete: </b><input type="text" id="admin_username" name="admin_username"></label></center>
             </div>
 
-            <br>
-
-            <div class="container">
-                <label>Enter the admin's username you wish to delete:</label>
-            </div>
-            <input type="text" id="admin_username" name="admin_username">
-            <br>
-            <button type="submit" name="admin_action" id="admin_action" value="delete_admin">Delete Administrator</button>
+            <center><button style="font-size:15px;" type="submit" name="admin_action" id="admin_action" value="delete_admin">Delete admin</button></center>
 
         </form>
 
