@@ -12,9 +12,9 @@ public class Doctor extends Users
     private final String AMKA; // This is the unique AMKA of each doctor
 
     // Constructor method
-    public Doctor(String username, String password, String firstname, String surname, int age,String speciality,String AMKA) {
+    public Doctor(String username, String password, String firstname, String surname, int age, String speciality, String AMKA) {
 
-        super(username, password, firstname, surname, age); // Constructor of class Doctor calls superclasse's constructor
+        super(username, password, firstname, surname, age); // Constructor of class Doctor calls superclasses' constructor
         this.speciality = speciality;
         this.AMKA = AMKA;
 

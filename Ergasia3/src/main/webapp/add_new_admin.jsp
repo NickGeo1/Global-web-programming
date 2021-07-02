@@ -19,7 +19,26 @@
         <div class="container">
             <label><b style="color:#012A6C"> Add a new administrator to the system:</b></label>
         </div>
+        <br>
 
+        <label>Username</label> <br>
+        <input type="text"     id="username"  name="username"  size="20" maxlength="45">
+        <br>
+
+        <label>Password</label><br>
+        <input type="password" id ="password" name="password"  size="20" maxlength="45">
+        <br>
+
+        <label>First Name</label><br>
+        <input type="text"     id="firstname" name="firstname" size="20" maxlength="45">
+        <br>
+
+        <label>Last Name</label><br>
+        <input type="text"     id="surname"   name="surname"   size="20" maxlength="45">
+        <br>
+
+        <label>Age</label><br>
+        <input type="number"   id="age"       name="age"       max="119" min="1">
         <br>
 
         <button type="submit" name="admin_action" id="admin_action" value="add_doctor">Add Administrator</button>

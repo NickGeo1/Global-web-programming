@@ -20,8 +20,32 @@
             <div class="container">
                 <label><b style="color:#012A6C"> Add a new doctor to the system:</b></label>
             </div>
-
             <br>
+
+            <label>Username</label> <br>
+            <input type="text"     id="username"   name="username"   size="20" maxlength="45">
+            <br>
+
+            <label>Password</label><br>
+            <input type="password" id ="password"  name="password"   size="20" maxlength="45">
+            <br>
+
+            <label>First Name</label><br>
+            <input type="text"     id="firstname"  name="firstname"  size="20" maxlength="45">
+            <br>
+
+            <label>Last Name</label><br>
+            <input type="text"     id="surname"    name="surname"    size="20" maxlength="45">
+            <br>
+
+            <label>Age</label><br>
+            <input type="number"   id="age"        name="age"       max="119" min="1">
+
+            <label>Speciality</label><br>
+            <input type="text"     id="speciality" name="speciality" size="20" maxlength="45">
+
+            <label>AMKA</label><br>
+            <input type="text"     id="AMKA"       name="AMKA"       size="11" maxlength="11" minlength="11">
 
             <button type="submit" name="admin_action" id="admin_action" value="add_doctor">Add Doctor</button>
 
