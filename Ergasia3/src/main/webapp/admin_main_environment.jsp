@@ -193,10 +193,12 @@ able to insert a new doctor to the system or delete one doctor from the system -
 
                     <div class="container">
 
-                        <button id="buttons" name="admin_action" value="add_admin"     type="submit">Add new administrator</button>
-                        <button id="buttons" name="admin_action" value="add_patient"   type="submit">Add new patient</button>
-                        <button id="buttons" name="admin_action" value="add_doctor"    type="submit">Add new doctor</button>
-                        <button id="buttons" name="admin_action" value="delete_doctor" type="submit">Delete doctor</button>
+                        <button id="buttons" name="admin_action" value="add_admin"     type="submit">Add new Administrator</button>
+                        <button id="buttons" name="admin_action" value="add_patient"   type="submit">Add new Patient</button>
+                        <button id="buttons" name="admin_action" value="add_doctor"    type="submit">Add new Doctor</button>
+                        <button id="buttons" name="admin_action" value="delete_admin"  type="submit">Delete an Administrator</button>
+                        <button id="buttons" name="admin_action" value="delete_patient"type="submit">Delete a Patient</button>
+                        <button id="buttons" name="admin_action" value="delete_doctor" type="submit">Delete a Doctor</button>
                         <button id="buttons" name="admin_action" value="logout"        type="submit">Logout</button>
 
                         <br>

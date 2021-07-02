@@ -23,10 +23,13 @@
 
             <br>
 
-            <button type="submit" name="admin_action" id="admin_action" value="delete_doctor">Go back</button>
+            <button type="submit" name="admin_action" id="admin_action" value="delete_admin">Delete Administrator</button>
 
         </form>
 
+        <div class=navbar>
+            <p>Do you want to go back? Click <a href="admin_main_environment.jsp">here</a></p>
+        </div>
     </body>
 
 </html>

@@ -37,18 +37,43 @@ public class AdminServlet extends HttpServlet
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
         ADMIN_SERVLET_ACTION = request.getParameter("admin_action");
+        String requestedURL = request.getHeader("referer");
 
         switch (ADMIN_SERVLET_ACTION)
         {
-            //login
+                //login
             case "login":
                 admin = (Admin) Users.Login("Admin", request, response, datasource);
                 break;
 
-            //delete a doctor
-            case "delete_doctor":
-                String requestedURL = request.getHeader("referer");
+                //delete an admin
+            case "delete_admin":
+                if (requestedURL.endsWith("admin_main_environment.jsp"))
+                {
+                    response.sendRedirect("delete_admin.jsp");
+                }
 
+                else if (requestedURL.endsWith("delete_admin.jsp"))
+                {
+
+                }
+                break;
+
+                //delete patient
+            case "delete_patient":
+                if (requestedURL.endsWith("admin_main_environment.jsp"))
+                {
+                    response.sendRedirect("delete_patient.jsp");
+                }
+
+                else if (requestedURL.endsWith("delete_patient.jsp"))
+                {
+
+                }
+                break;
+
+                //delete a doctor
+            case "delete_doctor":
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
                 {
                     response.sendRedirect("delete_doctor.jsp");
@@ -56,11 +81,11 @@ public class AdminServlet extends HttpServlet
 
                 else if (requestedURL.endsWith("delete_doctor.jsp"))
                 {
-                    response.sendRedirect("admin_main_environment.jsp");
+
                 }
                 break;
 
-            //logout
+                //logout
             case "logout":
                 admin.Logout(response);
                 admin = null;
