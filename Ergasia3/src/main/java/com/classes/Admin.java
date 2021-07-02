@@ -1,5 +1,6 @@
 package com.classes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import javax.xml.crypto.Data;
@@ -26,14 +27,14 @@ public class Admin extends Users
 
     }
 
-    public void DeleteDoctor(HttpServletResponse response, DataSource datasource, String AMKA) throws IOException
+    public static void DeleteDoctor(HttpServletResponse response, DataSource datasource, String AMKA) throws IOException
     {
         //an admin must be logged on to perform delete
-        if (!isLoggedOn())
-        {
-            Users.Fail(response, "An admin must be logged on, in order to delete a doctor. Please login!", "login.html");
-            return;
-        }
+//        if (!isLoggedOn())
+//        {
+//            Users.Fail(response, "An admin must be logged on, in order to delete a doctor. Please login!", "login.html");
+//            return;
+//        }
 
         //executing sql at this point.
         try
@@ -63,14 +64,14 @@ public class Admin extends Users
 
     }
 
-    public void add_patient(HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age, String AMKA) throws IOException
+    public static void add_patient(HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age, String AMKA) throws IOException
     {
         //an admin must be logged on to perform delete
-        if (!isLoggedOn())
-        {
-            Users.Fail(response, "An admin must be logged on, in order to add a patient. Please login!", "login.html");
-            return;
-        }
+//        if (!isLoggedOn())
+//        {
+//            Users.Fail(response, "An admin must be logged on, in order to add a patient. Please login!", "login.html");
+//            return;
+//        }
 
         //executing sql at this point.
         try
@@ -78,29 +79,29 @@ public class Admin extends Users
             //getting the connection and preparing the sql statement.
             //search for duplicates in the doctor.
             connection = datasource.getConnection();
-            statement  = connection.prepareStatement("SELECT * FROM doctor WHERE doctorAMKA=? OR username=?");
+            statement  = connection.prepareStatement("SELECT * FROM doctor WHERE doctorAMKA=?");
             statement.setString(1, AMKA);
-            statement.setString(2, username);
 
             //if there are duplicates in the doctor table, abort.
             rs = statement.executeQuery();
             if (rs.next())
             {
-                Users.Fail(response, "Duplicate Found in Doctors. Check again for AMKA/Username", "add_new_doctor.jsp");
+                Users.Fail(response, "Duplicate Found in Doctors. Check again for AMKA", "add_new_doctor.jsp");
                 rs.close();
                 connection.close();
                 return;
             }
 
             //search for AMKA duplicates in patient
-            statement  = connection.prepareStatement("SELECT * FROM patient WHERE patientAMKA=?");
+            statement  = connection.prepareStatement("SELECT * FROM patient WHERE patientAMKA=? OR username=?");
             statement.setString(1, AMKA);
+            statement.setString(2, username);
 
             //if there are any duplicates in the patient table, abort.
             rs = statement.executeQuery();
             if (rs.next())
             {
-                Users.Fail(response, "Found an AMKA duplicate in Patient.", "add_new_doctor.jsp");
+                Users.Fail(response, "Found an AMKA/username duplicate in Patient.", "add_new_doctor.jsp");
                 rs.close();
                 connection.close();
                 return;
@@ -126,14 +127,14 @@ public class Admin extends Users
         }
     }
 
-    public void add_doctor(HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age, String speciality, String AMKA) throws IOException
+    public static void add_doctor(HttpServletRequest request, HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age, String speciality, String AMKA) throws IOException
     {
         //an admin must be logged on to perform delete
-        if (!isLoggedOn())
-        {
-            Users.Fail(response, "An admin must be logged on, in order to add a doctor. Please login!", "login.html");
-            return;
-        }
+//        if (!isLoggedOn())
+//        {
+//            Users.Fail(response, "An admin must be logged on, in order to add a doctor. Please login!", "login.html");
+//            return;
+//        }
 
         //executing sql at this point.
         try
@@ -176,7 +177,7 @@ public class Admin extends Users
             statement.setString(4, firstname);
             statement.setString(5, surname);
             statement.setString(6, speciality);
-            statement.setString(7, this.getUsername());
+            statement.setString(7, request.getSession().getAttribute("username").toString());
             statement.setString(8, age.toString());    //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
 
             statement.execute();
@@ -191,14 +192,14 @@ public class Admin extends Users
         }
     }
 
-    public void add_admin(HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age) throws IOException
+    public static void add_admin(HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age) throws IOException
     {
         //an admin must be logged on to perform delete
-        if (!isLoggedOn())
-        {
-            Users.Fail(response, "An admin must be logged on, in order to add an admin. Please login!", "login.html");
-            return;
-        }
+//        if (!isLoggedOn())
+//        {
+//            Users.Fail(response, "An admin must be logged on, in order to add an admin. Please login!", "login.html");
+//            return;
+//        }
 
         //executing sql at this point.
         try

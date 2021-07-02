@@ -18,7 +18,6 @@ import com.classes.Users;
 public class AdminServlet extends HttpServlet
 {
     private static String ADMIN_SERVLET_ACTION;
-    private static Admin admin;
     private static DataSource datasource;
 
     public void init()
@@ -44,7 +43,7 @@ public class AdminServlet extends HttpServlet
         {
                 //login
             case "login":
-                //admin = (Admin) Users.Login("Admin", request, response, datasource);
+                Users.Login("Admin", request, response, datasource);
                 break;
 
             case "add_admin":
@@ -59,7 +58,7 @@ public class AdminServlet extends HttpServlet
                     String surname   = request.getParameter("surname");
                     Integer age      = Integer.parseInt(request.getParameter("age"));
 
-                    admin.add_admin(response, datasource, username, password, firstname, surname, age);
+                    Admin.add_admin(response, datasource, username, password, firstname, surname, age);
                 }
 
                 break;
@@ -77,7 +76,7 @@ public class AdminServlet extends HttpServlet
                     Integer age       = Integer.parseInt(request.getParameter("age"));
                     String AMKA       = request.getParameter("AMKA");
 
-                    admin.add_patient(response, datasource, username, password, firstname, surname, age, AMKA);
+                    Admin.add_patient(response, datasource, username, password, firstname, surname, age, AMKA);
                 }
 
                 break;
@@ -96,7 +95,7 @@ public class AdminServlet extends HttpServlet
                     String speciality = request.getParameter("speciality");
                     String AMKA       = request.getParameter("AMKA");
 
-                    admin.add_doctor(response, datasource, username, password, firstname, surname, age, speciality, AMKA);
+                    Admin.add_doctor(request, response, datasource, username, password, firstname, surname, age, speciality, AMKA);
                 }
 
                 break;
@@ -138,14 +137,8 @@ public class AdminServlet extends HttpServlet
                 break;
 
             case "logout":
-                admin.Logout(response);
-                admin = null;
+                Users.Logout(response, request);
                 break;
         }
-    }
-
-    public static Admin getAdmin()
-    {
-        return admin;
     }
 }

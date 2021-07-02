@@ -9,6 +9,9 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  * Every class is extending Users class.This class has the attributes and methods that every kind of user must have
@@ -20,6 +23,8 @@ public class Users
     private String username, password, firstname, surname;
     private boolean loggedOn;
     private int age;
+
+    static Enumeration<String> attributes; //Enumeration list that contains user's session attribute names
 
     // 'UsersCount' variable counts the number of users
     private static int UsersCount = 0;
@@ -120,6 +125,8 @@ public class Users
                 rs = stmnt.executeQuery();
                 rs.next();
 
+
+
                 switch (type)
                 {
                     case "Patient":
@@ -153,6 +160,8 @@ public class Users
                         break;
                 }
 
+                attributes = request.getSession().getAttributeNames(); //store attributes in list
+
                 rs.close();
                 con.close();
             }
@@ -180,25 +189,18 @@ public class Users
     /**
      * Terminates access from the user logged on.
      */
-    public void Logout(HttpServletResponse response) throws IOException
-    {
-        this.loggedOn = false;
-        response.sendRedirect("login.html");
-    }
-
-    public static void Logout2(HttpServletResponse response, HttpServletRequest request) throws IOException
+    public static void Logout(HttpServletResponse response, HttpServletRequest request) throws IOException
     {
         HttpSession session = request.getSession();
 
-        session.removeAttribute("username");
-        session.removeAttribute("name");
-        session.removeAttribute("surname");
-        session.removeAttribute("age");
-        session.removeAttribute("patientAMKA");
+        while (attributes.hasMoreElements())
+        {
+            String attribute = (String) attributes.nextElement();
+            session.removeAttribute(attribute);
+        }
 
         session.invalidate();
         response.sendRedirect("login.html");
-
     }
     /**
      * This method returns the characteristics of each User

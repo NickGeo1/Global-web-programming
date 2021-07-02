@@ -172,13 +172,10 @@ able to insert a new doctor to the system or delete one doctor from the system -
 
                 <div class="container">
 
-                    <!-- JSP patient instantiation.The patient is the one who just logged on -->
-                    <% Admin a = AdminServlet.getAdmin();%>
-
                     <!--Showing admin's attributes-->
                     <table>
                         <tr><th>Username</th><th>Name</th><th>Surname</th><th>Age</th></tr>
-                        <tr><td><%= a.getUsername() %></td><td><%= a.getFirstname() %></td><td><%= a.getSurname() %></td><td><%= a.getAge() %></td></tr>
+                        <tr><td><%= session.getAttribute("username") %></td><td><%= session.getAttribute("name") %></td><td><%= session.getAttribute("surname") %></td><td><%= session.getAttribute("age") %></td></tr>
                     </table>
 
                 </div>

@@ -78,7 +78,7 @@ public class PatientServlet extends HttpServlet
                 break;
 
             case 4:         //logout
-                Patient.Logout2(response, request);
+                Patient.Logout(response, request);
                 break;
 
             case 5:         //register
