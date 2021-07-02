@@ -63,9 +63,21 @@ public class AdminServlet extends HttpServlet
 
             case "add_doctor":
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
-                {
                     response.sendRedirect("add_new_doctor.jsp");
+                else
+                {
+                    String username   = request.getParameter("username");
+                    String password   = request.getParameter("password");
+                    String firstname  = request.getParameter("firstname");
+                    String surname    = request.getParameter("surname");
+                    Integer age       = Integer.parseInt(request.getParameter("age"));
+                    String speciality = request.getParameter("speciality");
+                    String AMKA       = request.getParameter("AMKA");
+
+                    Admin admin = this.getAdmin();
+                    admin.add_doctor(response, datasource, username, password, firstname, surname, age, speciality, AMKA);
                 }
+
                 break;
 
             case "delete_admin":

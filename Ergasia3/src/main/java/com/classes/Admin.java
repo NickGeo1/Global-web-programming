@@ -2,6 +2,7 @@ package com.classes;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,7 +58,7 @@ public class Admin extends Users
         }
         catch (Exception e)
         {
-            Users.Fail(response, "An error has occurred. MESSAGE: " + e.getMessage(), "admin_main_environment.jsp");
+            Users.Fail(response, "An error has occurred. MESSAGE: " + e.getMessage(), "add_new_doctor.jsp");
         }
 
     }
@@ -66,16 +67,69 @@ public class Admin extends Users
      * This function is used to add/create a new doctor.
      * @return an object of type Doctor
      */
-    public Doctor add_doctor(String username, String password, String firstname, String surname, int age, String speciality, String AMKA)
+    public void add_doctor(HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age, String speciality, String AMKA) throws IOException
     {
+        //an admin must be logged on to perform delete
         if (!isLoggedOn())
         {
-            System.out.println("You must be logged on to add a new Doctor.");
-            return null;
+            Users.Fail(response, "An admin must be logged on, in order to add a doctor. Please login!", "login.html");
+            return;
         }
 
-        System.out.println("New doctor added!");
-        return new Doctor (username, password, firstname, surname, age, speciality, AMKA);
+        //executing sql at this point.
+        try
+        {
+            //getting the connection and preparing the sql statement.
+            //search for duplicates in the doctor.
+            connection = datasource.getConnection();
+            statement  = connection.prepareStatement("SELECT * FROM doctor WHERE doctorAMKA=? OR username=?");
+            statement.setString(1, AMKA);
+            statement.setString(2, username);
+
+            //if there are duplicates in the doctor table, abort.
+            rs = statement.executeQuery();
+            if (rs.next())
+            {
+                Users.Fail(response, "Duplicate Found in Doctors. Check again for AMKA/Username", "add_new_doctor.jsp");
+                rs.close();
+                connection.close();
+                return;
+            }
+
+            //search for AMKA duplicates in patient
+            statement  = connection.prepareStatement("SELECT * FROM patient WHERE patientAMKA=?");
+            statement.setString(1, AMKA);
+
+            //if there are any duplicates in the patient table, abort.
+            rs = statement.executeQuery();
+            if (rs.next())
+            {
+                Users.Fail(response, "Found an AMKA duplicate in Patient.", "add_new_doctor.jsp");
+                rs.close();
+                connection.close();
+                return;
+            }
+
+            statement = connection.prepareStatement("INSERT INTO doctor VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?)");
+            statement.setString(1, AMKA);
+            statement.setString(2, username);
+            statement.setString(3, password);
+            statement.setString(4, firstname);
+            statement.setString(5, surname);
+            statement.setString(6, speciality);
+            statement.setString(7, this.getUsername());
+            statement.setString(8, age.toString());    //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
+
+            statement.execute();
+            connection.close();
+            rs.close();
+            response.sendRedirect("new-doctor-success.html");
+        }
+        catch (Exception e)
+        {
+            Users.Fail(response, "An error has occurred. MESSAGE: " + e.getMessage() + ", " + e.toString(), "admin_main_environment.jsp");
+            e.printStackTrace();
+        }
     }
 
     /**
