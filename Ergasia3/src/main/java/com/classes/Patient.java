@@ -159,11 +159,6 @@ public class Patient extends Users
             return;
         }
 
-        if(searchby.equals(""))
-        {
-            response.sendRedirect("AvailableDoctorAppointments.jsp");
-            return;
-        }
         try
         {
             connection = datasource.getConnection(); //connection object for database connection
@@ -259,6 +254,8 @@ public class Patient extends Users
                     html.append(htmlRow);
 
                 } while (rs.next());
+
+                html.append("</table>");
             }
             else if (!rs.next() && searchby.equals("Show all"))
             {
@@ -343,28 +340,7 @@ public class Patient extends Users
             return;
         }
 
-        response.setContentType("text/html; charset=UTF-8");
-        response.setCharacterEncoding("UTF-8");
-
         PrintWriter showhtml = response.getWriter();
-
-        // print the html response page from server
-
-        showhtml.println("<!DOCTYPE html>");
-        showhtml.println("<html>");
-
-        showhtml.print("<head>");
-        showhtml.println("<title>View appointment history</title>");
-        showhtml.println("<link rel=\"stylesheet\" href=\"CSS/styles.css\">");
-        showhtml.print("</head>");
-
-        showhtml.println("<body>");
-
-        showhtml.println("<form action=\"patient\" method=\"post\" id=\"form\">");
-        showhtml.println("<div class=\"imgcontainer\">");
-        showhtml.println("<img src=\"img/logo1.png\" alt=\"logo_image\" class=\"avatar\">");
-        showhtml.println("</div>");
-        showhtml.println("<br>");
 
         //The user has the option(from an option box) to choose by which doctor attribute(doctor AMKA or appointment date)
         //his appointments are going to be shown(there is also a 'Show All' option to show appointments without a restriction).
@@ -415,17 +391,17 @@ public class Patient extends Users
             if(rs.next()) //in case there is at least one record, make the table headers
             {
 
-                showhtml.println("<table>");
-                showhtml.println("<tr>");
-                showhtml.println("<th>Date</th>");
-                showhtml.println("<th>Start time</th>");
-                showhtml.println("<th>End time</th>");
-                showhtml.println("<th>Patient AMKA</th>");
-                showhtml.println("<th>Doctor AMKA</th>");
-                showhtml.println("<th>Doctor specialty</th>");
-                showhtml.println("<th>Doctor name</th>");
-                showhtml.println("<th>Doctor surname</th>");
-                showhtml.println("</tr>");
+                html.append("<table>");
+                html.append("<tr>");
+                html.append("<th>Date</th>");
+                html.append("<th>Start time</th>");
+                html.append("<th>End time</th>");
+                html.append("<th>Patient AMKA</th>");
+                html.append("<th>Doctor AMKA</th>");
+                html.append("<th>Doctor specialty</th>");
+                html.append("<th>Doctor name</th>");
+                html.append("<th>Doctor surname</th>");
+                html.append("</tr>");
 
                 String date;
                 String startSlotTime;
@@ -453,68 +429,16 @@ public class Patient extends Users
 
                     htmlRow = createTableRow(0, date, startSlotTime, endSlotTime, PATIENT_patientAMKA, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
 
-                    showhtml.println(htmlRow);
+                    html.append(htmlRow);
 
                 }while(rs.next());
 
-                //html code for the option box and input text.If option 'Show all' is selected, the input text is being disabled(Javascript)
-
-                showhtml.println("</table>");
-
-                showhtml.println("<br><br>"
-
-                                    + "<div class=\"container\">"
-                                    + "<label><b style=\"color:#012A6C\">Choose a category to search appointments by:  </b></label>"
-                                    + "<select name=\"showby\" id=\"showby\" onclick=\"checkoption();\">"
-                                        + "<option selected value=\"Show all\">Show all</option>\""
-                                        + "<option value=\"Doctor AMKA\">Doctor AMKA</option>"
-                                        + "<option value=\"Date\">Date</option>"
-                                        + "<option value=\"Specialty\">Specialty</option>"
-                                    + "</select>"
-                                    + "</div>"
-
-                                    + "<div class=\"container\">"
-                                    + "<label for=\"value\"><b style=\"color:#012A6C\">Insert the doctor's AMKA/appointment date/speciality:  </b></label>"
-                                    + "<input type=\"text\" id=\"value\" name=\"value\" required disabled=\"true\">"
-                                    + "<button type=\"submit\">Search</button>"
-                                    + "<input type=\"hidden\" name=\"patient_action\" value=\"1\">"
-                                    + "</div>"
-
-                                    + "<script>"
-                                        + "function checkoption()"
-                                        + "{"
-                                            + "var s = document.getElementById(\"showby\");"
-                                            + "var o = s.options[s.selectedIndex].value;"
-
-                                            + "if(o == \"Show all\")"
-                                            + "{"
-                                            +    "document.getElementById(\"value\").disabled = true;"
-                                            +    "document.getElementById(\"value\").value = \"\";"
-                                            + "}"
-                                            + "else"
-                                            + "{"
-                                            +    "document.getElementById(\"value\").disabled = false;"
-                                            + "}"
-
-                                        + "}"
-                                    + "</script>"
-
-                                    +"</form>"
-
-                                +"<br><br>"
-                                +"<div class=\"navbar\">"
-                                +"<p>Do you want to go back? Click <a href=\"patient_main_environment.jsp\">here</a></p>"
-                                +"</div>");
-
+                html.append("</table>");
+                response.sendRedirect("appointmenthistory.jsp");
             }
             else if(!rs.next() && showby.equals("Show all")) //if there is not any record on the results and the option
             {                                                // is 'Show all', that means history is empty
-
-                showhtml.println("<h1>Appointment history is empty</h1>");
-                showhtml.println("</form><br><br>" +
-                        "<div class=\"navbar\">" +
-                        "<p>Do you want to go back? Click <a href=\"javascript:history.back()\">here</a></p>" +
-                        "</div>");
+                Fail(response,"Appointment history is empty","appointmenthistory.jsp");
             }
             else  //In this case, there is not any record on the results but the option wasn't 'Show all'.
             {     //That means there is not any results JUST for the restrictions we had set
@@ -522,11 +446,7 @@ public class Patient extends Users
                 if(showby.equals("Date"))
                     value = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", value);
 
-                showhtml.println("<h1>No results found for "+showby + " " + value+ "</h1>");
-                showhtml.println("</form><br><br>" +
-                        "<div class=\"navbar\">" +
-                        "<p>Do you want to go back? Click <a href=\"javascript:history.back()\">here</a></p>" +
-                        "</div>");
+                Fail(response,"No results found for "+showby + " " + value,"appointmenthistory.jsp");
             }
 
             rs.close();
@@ -535,20 +455,11 @@ public class Patient extends Users
         }
         catch (ParseException e) //parse exception occurs if we try to search a date or an AMKA with invalid format typed
         {
-            showhtml.println("<h1>Invalid " + showby + " format</h1>");
-            showhtml.println("</form><br><br>" +
-                    "<div class=\"navbar\">" +
-                    "<p>Do you want to go back? Click <a href=\"javascript:history.back()\">here</a></p>" +
-                    "</div>");
+            Fail(response,"Invalid " + showby + " format","appointmenthistory.jsp");
         }
         catch(Exception e)
         {
             showhtml.println(e.toString());
-        }
-        finally
-        {
-            showhtml.println("</body>");
-            showhtml.println("</html>");
         }
 
     }
@@ -655,6 +566,7 @@ public class Patient extends Users
 
                 }while(rs.next());
 
+                html.append("</table>");
                 response.sendRedirect("ScheduledAppointments.jsp");
             }
             else if(!rs.next() && showby.equals("Show all")) //if there is not any record on the results and the option
