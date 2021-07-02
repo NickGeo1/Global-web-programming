@@ -43,31 +43,40 @@ public class PatientServlet extends HttpServlet
         //Get the action value from the hidden html input tag(see patient_main_environment.jsp)
         PATIENT_SERVLET_ACTION = Integer.parseInt(request.getParameter("patient_action"));
 
+        String requestedURL = request.getHeader("referer");
         //Depending on the action value, execute the corresponding method
 
         switch(PATIENT_SERVLET_ACTION)
         {
             case 1:         //appointment history
-                patient.showAppointmentHistory(request.getParameter("showby"), request.getParameter("value"), response, datasource);
+                if (requestedURL.endsWith("patient_main_environment.jsp"))
+                    response.sendRedirect("appointmenthistory.jsp");
+                else
+                    patient.showAppointmentHistory(request.getParameter("showby"), request.getParameter("value"), response, datasource);
                 break;
 
-            case 2:         //Book an appointment
+            case 2:         //Search available appointment
                 String value_param = "";
 
-                if(request.getParameter("searchby").equals("Full name"))
-                {
-                    value_param = request.getParameter("value") + " " + request.getParameter("value2");
-                }
-                else
-                {
-                    value_param = request.getParameter("value");
-                }
                 //dates are being passed in yyyy-MM-dd format from the form
+                if (requestedURL.endsWith("patient_main_environment.jsp"))
+                {
+                    response.sendRedirect("AvailableDoctorAppointments.jsp");
+                    return;
+                }
+                else if (request.getParameter("searchby").equals("Full name"))
+                    value_param = request.getParameter("value") + " " + request.getParameter("value2");
+                else
+                    value_param = request.getParameter("value");
+
                 patient.searchAvailableAppointments(request.getParameter("start"), request.getParameter("end"), request.getParameter("searchby"), value_param, response, datasource);
                 break;
 
             case 3:         //Scheduled appointments
-                patient.showScheduledAppointments(request.getParameter("showby"), request.getParameter("value"), response, datasource);
+                if(requestedURL.endsWith("patient_main_environment.jsp"))
+                    response.sendRedirect("ScheduledAppointments.jsp");
+                else
+                    patient.showScheduledAppointments(request.getParameter("showby"), request.getParameter("value"), response, datasource);
                 break;
 
             case 4:         //logout
