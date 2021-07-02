@@ -21,7 +21,7 @@
         <center><label><b style="color:#012A6C">Enter patient's AMKA you want to delete: </b><input type="text" id="admin_username" name="admin_username"></label></center>
       </div>
 
-      <center><button type="submit" name="admin_action" id="admin_action" value="delete_patient">Delete patient</button></center>
+      <center><button type="submit" style="font-size:15px;" name="admin_action" id="admin_action" value="delete_patient">Delete patient</button></center>
 
     </form>
 
