@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Enumeration;
+
 import com.classes.Admin;
 import com.classes.Users;
 
@@ -28,7 +32,6 @@ public class AdminServlet extends HttpServlet
         {
             System.out.println("A Datasource exception has occurred: " + e.toString());
         }
-
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
@@ -42,9 +45,19 @@ public class AdminServlet extends HttpServlet
                 admin = (Admin) Users.Login("Admin", request, response, datasource);
                 break;
 
-            //add new doctor
-            case "add_doctor":
+            //delete a doctor
+            case "delete_doctor":
+                String requestedURL = request.getHeader("referer");
 
+                if (requestedURL.endsWith("admin_main_environment.jsp"))
+                {
+                    response.sendRedirect("delete_doctor.jsp");
+                }
+
+                else if (requestedURL.endsWith("delete_doctor.jsp"))
+                {
+                    response.sendRedirect("admin_main_environment.jsp");
+                }
                 break;
 
             //logout
