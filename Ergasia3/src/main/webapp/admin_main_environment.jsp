@@ -195,10 +195,10 @@ able to insert a new doctor to the system or delete one doctor from the system -
 
                     <div class="container">
 
+                        <button id="buttons" onclick="setAction(3);">Add new administrator</button>
+                        <button id="buttons" onclick="setAction(2);">Add new patient</button>
                         <button id="buttons" onclick="setAction(2);">Add new doctor</button>
-
                         <button id="buttons" onclick="setAction(3);">Delete doctor</button>
-
                         <button id="buttons" onclick="setAction(4);">Logout</button>
 
                         <br>
