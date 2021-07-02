@@ -22,7 +22,11 @@
       </div>
 
       <br>
-
+      <div class="container">
+        <label>Enter the patient's AMKA you wish to delete:</label>
+      </div>
+      <input type="text" id="admin_username" name="admin_username">
+      <br>
       <button type="submit" name="admin_action" id="admin_action" value="delete_patient">Delete Patient</button>
 
     </form>
