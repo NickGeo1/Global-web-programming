@@ -1,11 +1,11 @@
-<!-- This page is used in order an administrator to delete a doctor -->
+<!-- This page is used in order for an administrator to delete another administrator -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
 
     <head>
         <meta charset="utf-8">
-        <title>Doctor appointments: delete doctor</title>
+        <title>Doctor appointments: delete administrator</title>
         <link rel="stylesheet" href="CSS/styles.css">
     </head>
 
@@ -18,7 +18,7 @@
             </div>
 
             <div class="container">
-                <label><b style="color:#012A6C"> Delete a doctor:</b></label>
+                <label><b style="color:#012A6C"> Delete an administrator:</b></label>
             </div>
 
             <br>

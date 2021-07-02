@@ -1,11 +1,11 @@
-<!-- This page is used in order an administrator to delete a doctor -->
+<!-- This page is used in order an administrator to insert a new doctor to the system -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
 
     <head>
         <meta charset="utf-8">
-        <title>Doctor appointments: delete doctor</title>
+        <title>Doctor appointments: add doctor</title>
         <link rel="stylesheet" href="CSS/styles.css">
     </head>
 
@@ -18,12 +18,12 @@
             </div>
 
             <div class="container">
-                <label><b style="color:#012A6C"> Delete a doctor:</b></label>
+                <label><b style="color:#012A6C"> Add a new doctor to the system:</b></label>
             </div>
 
             <br>
 
-            <button type="submit" name="admin_action" id="admin_action" value="delete_doctor">Go back</button>
+            <button type="submit" name="admin_action" id="admin_action" value="add_doctor">Go back</button>
 
         </form>
 
