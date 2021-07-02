@@ -23,7 +23,11 @@
 
       <br>
 
-      <button type="submit" name="admin_action" id="admin_action" value="add_doctor">Go back</button>
+      <button type="submit" name="admin_action" id="admin_action" value="add_doctor">Add Patient</button>
+
+      <div class=navbar>
+        <p>Do you want to go back? Click <a href="admin_main_environment.jsp">here</a></p>
+      </div>
 
     </form>
 

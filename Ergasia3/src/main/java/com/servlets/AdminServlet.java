@@ -39,6 +39,7 @@ public class AdminServlet extends HttpServlet
         ADMIN_SERVLET_ACTION = request.getParameter("admin_action");
         String requestedURL = request.getHeader("referer");
 
+        //based on what an admin wants to do, we have a switch-case depending on his actions.
         switch (ADMIN_SERVLET_ACTION)
         {
                 //login
@@ -46,7 +47,27 @@ public class AdminServlet extends HttpServlet
                 admin = (Admin) Users.Login("Admin", request, response, datasource);
                 break;
 
-                //delete an admin
+            case "add_admin":
+                if (requestedURL.endsWith("admin_main_environment.jsp"))
+                {
+                    response.sendRedirect("add_new_admin.jsp");
+                }
+                break;
+
+            case "add_patient":
+                if (requestedURL.endsWith("admin_main_environment.jsp"))
+                {
+                    response.sendRedirect("add_new_patient.jsp");
+                }
+                break;
+
+            case "add_doctor":
+                if (requestedURL.endsWith("admin_main_environment.jsp"))
+                {
+                    response.sendRedirect("add_new_doctor.jsp");
+                }
+                break;
+
             case "delete_admin":
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
                 {
@@ -59,7 +80,6 @@ public class AdminServlet extends HttpServlet
                 }
                 break;
 
-                //delete patient
             case "delete_patient":
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
                 {
@@ -72,7 +92,6 @@ public class AdminServlet extends HttpServlet
                 }
                 break;
 
-                //delete a doctor
             case "delete_doctor":
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
                 {
@@ -85,7 +104,6 @@ public class AdminServlet extends HttpServlet
                 }
                 break;
 
-                //logout
             case "logout":
                 admin.Logout(response);
                 admin = null;
