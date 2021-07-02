@@ -198,11 +198,7 @@ cancel an appointment -->
                     <div class="container">
 
                         <button id="buttons" onclick="setAction(2);">Set availability</button>
-
                         <button id="buttons" onclick="setAction(3);">View appointments</button>
-
-                        <button id="buttons" onclick="setAction(4);">Cancel appointment</button>
-
                         <button id="buttons" onclick="setAction(5);">Logout</button>
 
                         <br>
