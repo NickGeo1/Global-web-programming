@@ -1,9 +1,9 @@
+<!-- Τhis is the page in which a patient will be able to book an appointment with a doctor -->
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="com.classes.Patient" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
-<!-- Τhis is the page in which a patient will be able to book an appointment with a doctor -->
 <!DOCTYPE html>
 
 <html>
