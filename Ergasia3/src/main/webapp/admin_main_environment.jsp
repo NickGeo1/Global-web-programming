@@ -1,8 +1,5 @@
 <!-- This is the main environment of the Administrator. From this page, every admin who successfully logs in, will be
 able to insert a new doctor to the system or delete one doctor from the system -->
-
-<%@ page import="com.classes.Admin" %>
-<%@ page import="com.servlets.AdminServlet" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>  <!-- JSP import packages -->
 
 <!DOCTYPE html>

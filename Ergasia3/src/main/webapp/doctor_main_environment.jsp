@@ -1,10 +1,6 @@
 <!-- This is the main environment of the Doctor. From this page, every doctor who successfully logs in, will be
 able to set their availability (in appointments), watch the complete table with all of his appointments and
 cancel an appointment -->
-
-<%@ page import="com.classes.Doctor" %>
-<%@ page import="com.servlets.DoctorServlet" %>
-<%@ page import="javax.print.Doc" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>  <!-- JSP import packages -->
 
 <!DOCTYPE html>
@@ -162,8 +158,6 @@ cancel an appointment -->
             <!-- Form that contains a hidden input html tag. The value of the tag is being passed in the doctor servlet -->
             <form method="post" id="form" action="doctor">
 
-                <input type="hidden" id="doctor_action" name="doctor_action" value="">
-
                 <div class="imgcontainer">
                     <img src="img/logo1.png" alt="logo_image" class="avatar">
                 </div>
@@ -176,13 +170,10 @@ cancel an appointment -->
 
                 <div class="container">
 
-                    <!-- JSP patient instantiation.The patient is the one who just logged on -->
-                    <% Doctor d = DoctorServlet.getDoctor();%>
-
                     <!--Showing doctor's attributes-->
                     <table>
-                        <tr><th>Username</th><th>Name</th><th>Surname</th><th>Age</th><th>AMKA</th></tr>
-                        <tr><td><%= d.getUsername() %></td><td><%= d.getFirstname() %></td><td><%= d.getSurname() %></td><td><%= d.getAge() %></td><td><%= d.getAMKA() %></td></tr>
+                        <tr><th>Username</th><th>Name</th><th>Surname</th><th>Age</th><th>Speciality</th><th>AMKA</th></tr>
+                        <tr><td><%= session.getAttribute("username") %></td><td><%= session.getAttribute("name") %></td><td><%= session.getAttribute("surname") %></td><td><%= session.getAttribute("age") %></td><td><%= session.getAttribute("specialty")%></td><td><%= session.getAttribute("doctorAMKA") %></td></tr>
                     </table>
 
                 </div>
@@ -197,9 +188,9 @@ cancel an appointment -->
 
                     <div class="container">
 
-                        <button id="buttons" onclick="setAction(2);">Set availability</button>
-                        <button id="buttons" onclick="setAction(3);">View appointments</button>
-                        <button id="buttons" onclick="setAction(5);">Logout</button>
+                        <button id="buttons" name="doctor_action" value="set_availability"  type="submit">Set availability</button>
+                        <button id="buttons" name="doctor_action" value="view_appointments" type="submit">View scheduled appointments</button>
+                        <button id="buttons" name="doctor_action" value="logout"            type="submit">Logout</button>
 
                         <br>
                         <br>
@@ -211,24 +202,6 @@ cancel an appointment -->
             </form>
 
         </article>
-
-        <script>
-
-            //Javascript function that executes for every patient action
-
-            //Depending on the button clicked that describes the action,
-            //an action value is being stored in the hidden html input
-            //tag (name="doctor_action").At the end, we submit the
-            //form and we are being redirected to the patient servlet.
-
-            function setAction(a)
-            {
-                document.getElementById("doctor_action").value = a;
-
-                document.getElementById("form").submit();
-            }
-
-        </script>
 
     </body>
 

@@ -14,8 +14,7 @@ import java.io.IOException;
 @WebServlet(name = "DoctorServlet", value = "/doctor")
 public class DoctorServlet extends HttpServlet
 {
-    private static int DOCTOR_SERVLET_ACTION;
-    private static Doctor doctor;
+    private static String DOCTOR_SERVLET_ACTION;
     private static DataSource datasource;
 
     public void init()
@@ -34,25 +33,19 @@ public class DoctorServlet extends HttpServlet
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
-        DOCTOR_SERVLET_ACTION = Integer.parseInt(request.getParameter("doctor_action"));
+        DOCTOR_SERVLET_ACTION = request.getParameter("doctor_action");
 
         switch (DOCTOR_SERVLET_ACTION)
         {
             //login
-            case 1:
-                //doctor = (Doctor) Users.Login("Doctor", request, response, datasource);
+            case "login":
+                Users.Login("Doctor", request, response, datasource);
                 break;
 
             //logout
-            case 5:
-                //doctor.Logout(response);
-                //doctor = null;
+            case "logout":
+                Users.Logout(response, request);
                 break;
         }
-    }
-
-    public static Doctor getDoctor()
-    {
-        return doctor;
     }
 }
