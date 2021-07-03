@@ -34,17 +34,6 @@ public class Patient extends Users
     }
 
     /**
-     * Registers a Patient. Preceding the injection, all fields are carefully processed and tested for duplicates in the database.
-     * If patient's register is successful, he is being redirected to 'patient_main_environment.jsp' page and his data are being
-     * stored into the database.
-     *
-     * @param response A Servlet response required to provide error information.
-     * @param dataSource A Datasource to inject SQL statements into.
-     * @throws IOException if anything goes wrong with the HttpServletResponse.
-     */
-
-
-    /**
      *
      *
      */

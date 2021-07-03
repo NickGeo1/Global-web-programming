@@ -78,6 +78,15 @@ public class Users
         writer.println("</html>");
     }
 
+    /**
+     * Registers a Patient. Preceding the injection, all fields are carefully processed and tested for duplicates in the database.
+     * If patient's register is successful, he is being redirected to 'patient_main_environment.jsp' page and his data are being
+     * stored into the database.
+     *
+     * @param response A Servlet response required to provide error information.
+     * @param dataSource A Datasource to inject SQL statements into.
+     * @throws IOException if anything goes wrong with the HttpServletResponse.
+     */
     public void Register(HttpServletRequest request, HttpServletResponse response, DataSource dataSource, String register_page) throws IOException
     {
         //Checks for all the fields. We use Users.Fail() to provide a plain-text HTML page to print any errors.
@@ -136,96 +145,127 @@ public class Users
             //preparing an sql statement
             Connection connection = dataSource.getConnection();
             PreparedStatement statement;
-            String selectquery, otheruser = null;
+            String selectquery, insertquery;
+            ResultSet rs;
+            Integer age = this.getAge();
+            String username = this.getUsername(), password = this.getPassword(), name = this.getFirstname(), surname = this.getSurname();
+            String user;
 
             if(this instanceof Patient)
             {
                 selectquery = "SELECT * FROM patient WHERE patientAMKA=? OR username=?";
-                otheruser = "doctor";
-            }
-            else if(this instanceof Doctor)
-            {
-                selectquery = "SELECT * FROM doctor WHERE doctorAMKA=? OR username=?";
-                otheruser = "patient";
-            }
-            else
-                selectquery = "SELECT * FROM admin WHERE username=?";
-
-            //setting the parameters
-            statement = connection.prepareStatement(selectquery);
-
-            if(!(this instanceof Admin))
-                statement.setString(1, (this instanceof Patient)? ((Patient)this).getAMKA() : ((Doctor)this).getAMKA());
-
-            statement.setString((this instanceof Admin) ? 1 : 2, this.getUsername());
-
-            //executing statement
-            ResultSet rs = statement.executeQuery();
-
-            //if the statement yields any data, it means there is at least one duplicate. We don't continue.
-            if (rs.next())
-            {
-                Fail(response, "This username" + ((this instanceof Admin) ? "" : "/AMKA") + " is already taken!", register_page);
-                rs.close();
-                connection.close();
-                return;
-            }
-
-            if(!(this instanceof Admin))
-            {
-                statement = connection.prepareStatement("SELECT * FROM `"+otheruser+"` WHERE ?=?");
-                statement.setString(1, otheruser+"AMKA");
-                statement.setString(2, (this instanceof Patient) ? ((Patient)this).getAMKA() : ((Doctor)this).getAMKA());
+                statement = connection.prepareStatement(selectquery);
+                statement.setString(1, ((Patient)this).getAMKA());
+                statement.setString(2, username);
 
                 rs = statement.executeQuery();
 
                 if (rs.next())
                 {
-                    Fail(response, "This AMKA is already taken by a " +  otheruser+"!", register_page);
+                    Fail(response, "This username/ΑΜΚΑ is already taken!", register_page);
                     rs.close();
                     connection.close();
                     return;
                 }
-            }
-            //checking again, this time for Doctor/Patient AMKA.
 
+                statement = connection.prepareStatement("SELECT * FROM doctor WHERE doctorAMKA=?");
+                statement.setString(1, ((Patient)this).getAMKA());
 
-            //getting to this point means that none of the above yield errors. We can safely inject database.
-            Integer a = this.getAge();
+                rs = statement.executeQuery();
 
-            String user;
+                if (rs.next())
+                {
+                    Fail(response, "This AMKA is already taken by a Doctor!", register_page);
+                    rs.close();
+                    connection.close();
+                    return;
+                }
 
-            if(this instanceof Patient)
-            {
-                statement = connection.prepareStatement("INSERT INTO patient (username,hashedpassword,name,surname,age,salt,patientAMKA) VALUES (?,?,?,?,?,NULL,?)");
-
+                insertquery = "INSERT INTO patient (username,hashedpassword,name,surname,age,salt,patientAMKA) VALUES (?,?,?,?,?,NULL,?)";
+                statement = connection.prepareStatement(insertquery);
+                statement.setString(1, username);
+                statement.setString(2, password);
+                statement.setString(3, name);
+                statement.setString(4, surname);
+                statement.setString(5, age.toString()); //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
                 statement.setString(6, ((Patient)this).getAMKA());
-                user = "Patient";
+
+                statement.execute();
+                user="Patient";
             }
             else if(this instanceof Doctor)
             {
-                statement = connection.prepareStatement("INSERT INTO doctor (username,hashedpassword,name,surname,age,doctorAMKA,specialty,salt,ADMIN_username) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?)");
+                selectquery = "SELECT * FROM doctor WHERE doctorAMKA=? OR username=?";
+                statement = connection.prepareStatement(selectquery);
+                statement.setString(1, ((Doctor)this).getAMKA());
+                statement.setString(2, username);
 
+                rs = statement.executeQuery();
+
+                if (rs.next())
+                {
+                    Fail(response, "This username/ΑΜΚΑ is already taken!", register_page);
+                    rs.close();
+                    connection.close();
+                    return;
+                }
+
+                statement = connection.prepareStatement("SELECT * FROM patient WHERE patientAMKA=?");
+                statement.setString(1, ((Doctor)this).getAMKA());
+
+                rs = statement.executeQuery();
+
+                if (rs.next())
+                {
+                    Fail(response, "This AMKA is already taken by a Patient!", register_page);
+                    rs.close();
+                    connection.close();
+                    return;
+                }
+
+                insertquery = "INSERT INTO doctor (username,hashedpassword,name,surname,age,doctorAMKA,specialty,salt,ADMIN_username) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?)";
+                statement = connection.prepareStatement(insertquery);
+                statement = connection.prepareStatement(insertquery);
+                statement.setString(1, username);
+                statement.setString(2, password);
+                statement.setString(3, name);
+                statement.setString(4, surname);
+                statement.setString(5, age.toString());       //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
                 statement.setString(6, ((Doctor)this).getAMKA());
                 statement.setString(7, ((Doctor)this).getSpeciality());
-                statement.setString(8, request.getSession().getAttribute("username").toString()); //when an admin tries to add a doctor, we have to store which admin made that doctor in database
-                                                                                                                  //We can get admin's username from the session attribute "username"
-                user = "Doctor";
+                statement.setString(8, request.getSession().getAttribute("username").toString());   //when an admin tries to add a doctor, we have to store which admin made that doctor in database
+                                                                                                                    //We can get admin's username from the session attribute "username"
+                statement.execute();
+                user="Doctor";
             }
             else
             {
-                statement = connection.prepareStatement("INSERT INTO admin (username,hashedpassword,salt,name,surname,age) VALUES (?, ?, NULL, ?, ?, ?)");
+                selectquery = "SELECT * FROM admin WHERE username=?";
+                statement = connection.prepareStatement(selectquery);
+                statement.setString(1, this.getUsername());
 
-                user = "Administrator";
+                rs = statement.executeQuery();
+
+                if (rs.next())
+                {
+                    Fail(response, "This username is already taken!", register_page);
+                    rs.close();
+                    connection.close();
+                    return;
+                }
+
+                insertquery = "INSERT INTO admin (username,hashedpassword,salt,name,surname,age) VALUES (?, ?, NULL, ?, ?, ?)";
+                statement = connection.prepareStatement(insertquery);
+
+                statement.setString(1, username);
+                statement.setString(2, password);
+                statement.setString(3, name);
+                statement.setString(4, surname);
+                statement.setString(5, age.toString()); //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
+
+                statement.execute();
+                user="Administrator";
             }
-
-            statement.setString(1, this.getUsername());
-            statement.setString(2, this.getPassword());
-            statement.setString(3, this.getFirstname());
-            statement.setString(4, this.getSurname());
-            statement.setString(5, a.toString()); //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
-
-            statement.execute();
 
             response.sendRedirect("register-success.jsp?user="+user+"&redirect="+register_page);
 
@@ -357,9 +397,11 @@ public class Users
     {
         HttpSession session = request.getSession();
 
+        String attribute;
+
         while (attributes.hasMoreElements())
         {
-            String attribute = (String) attributes.nextElement();
+            attribute = (String) attributes.nextElement();
             session.removeAttribute(attribute);
         }
 
