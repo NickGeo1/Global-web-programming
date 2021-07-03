@@ -113,7 +113,7 @@ public class PatientServlet extends HttpServlet
             case 6:
                 if (!request.getParameter("category").equals("Patient"))
                 {
-                    Users.Fail(response, "Wrong Users Category!", "login.html");
+                    Users.Fail(response, "Wrong Users Category!", "login.jsp");
                     return;
                 }
 

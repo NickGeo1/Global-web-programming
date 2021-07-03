@@ -7,6 +7,14 @@
 <html>
 
     <head>
+
+        <%if(session.getAttribute("username") == null)
+        {
+            request.setAttribute("message",1);
+            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+            rd.forward(request, response);
+        }%>
+
         <title>Doctor appointments: view history</title>
         <link rel="stylesheet" href="CSS/styles.css">
     </head>

@@ -32,7 +32,7 @@ public class Admin extends Users
         //an admin must be logged on to perform delete
 //        if (!isLoggedOn())
 //        {
-//            Users.Fail(response, "An admin must be logged on, in order to delete a doctor. Please login!", "login.html");
+//            Users.Fail(response, "An admin must be logged on, in order to delete a doctor. Please login!", "login.jsp");
 //            return;
 //        }
 
@@ -71,7 +71,7 @@ public class Admin extends Users
         //an admin must be logged on to perform delete
 //        if (!isLoggedOn())
 //        {
-//            Users.Fail(response, "An admin must be logged on, in order to add a patient. Please login!", "login.html");
+//            Users.Fail(response, "An admin must be logged on, in order to add a patient. Please login!", "login.jsp");
 //            return;
 //        }
 
@@ -136,7 +136,7 @@ public class Admin extends Users
         //an admin must be logged on to perform delete
 //        if (!isLoggedOn())
 //        {
-//            Users.Fail(response, "An admin must be logged on, in order to add a doctor. Please login!", "login.html");
+//            Users.Fail(response, "An admin must be logged on, in order to add a doctor. Please login!", "login.jsp");
 //            return;
 //        }
 
@@ -204,7 +204,7 @@ public class Admin extends Users
         //an admin must be logged on to perform delete
 //        if (!isLoggedOn())
 //        {
-//            Users.Fail(response, "An admin must be logged on, in order to add an admin. Please login!", "login.html");
+//            Users.Fail(response, "An admin must be logged on, in order to add an admin. Please login!", "login.jsp");
 //            return;
 //        }
 

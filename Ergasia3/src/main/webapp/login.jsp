@@ -1,9 +1,22 @@
+<%@ page import="java.io.PrintWriter" %>
 <!-- This is the sign-up page. Using this page, patients are now able to sign-up to the application. -->
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 
 <html lang="en">
 
     <head>
+
+        <%  String msg;
+            if(request.getAttribute("message") != null)
+            {
+                msg = "Session time out";
+            }
+            else
+                msg = "";
+        %>
+
+        <h1><%= msg %></h1>
 
         <title>Doctor appointments: login</title>
         <meta charset="utf-8">

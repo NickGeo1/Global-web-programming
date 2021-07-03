@@ -9,7 +9,7 @@
     <head>
 
         <meta charset="utf-8">
-        <meta http-equiv = "refresh" content = "5; url = <%= request.getParameter("redirect") %>" />
+        <meta http-equiv = "refresh" content = "5; url = <%= request.getAttribute("redirect") %>" />
         <title>Doctor appointments: register successful</title>
 
         <style>
@@ -64,10 +64,10 @@
         <%
             String text;
 
-            if(request.getParameter("redirect").equals("register.html"))
+            if(request.getAttribute("redirect").equals("register.html"))
                 text="You have successfully registered to the application patient, welcome!";
             else
-                text="Successfully added a new "+request.getParameter("user")+".";
+                text="Successfully added a new "+request.getAttribute("user")+".";
         %>
 
         <div class="navbar">

@@ -1,5 +1,6 @@
 package com.classes;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -267,7 +268,10 @@ public class Users
                 user="Administrator";
             }
 
-            response.sendRedirect("register-success.jsp?user="+user+"&redirect="+register_page);
+            request.setAttribute("user", user);
+            request.setAttribute("redirect",register_page);
+            RequestDispatcher rd = request.getRequestDispatcher("register-success.jsp");
+            rd.forward(request, response);
 
             rs.close();
             connection.close();
@@ -406,7 +410,7 @@ public class Users
         }
 
         session.invalidate();
-        response.sendRedirect("login.html");
+        response.sendRedirect("login.jsp");
     }
     /**
      * This method returns the characteristics of each User

@@ -9,6 +9,13 @@ scheduled in the past-->
 
     <head>
 
+        <%if(session.getAttribute("username") == null)
+        {
+            request.setAttribute("message",1);
+            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+            rd.forward(request, response);
+        }%>
+
         <meta charset="utf-8">
         <title>Doctor appointments: dashboard</title>
 
