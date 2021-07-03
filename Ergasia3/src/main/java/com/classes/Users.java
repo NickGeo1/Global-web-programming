@@ -304,13 +304,19 @@ public class Users
      * @param datasource The datasource required to search the username and password.
      * @return The user, if found in the database. If the user is not found, returns null.
      */
-    public static void Login(String type, HttpServletRequest request, HttpServletResponse response, DataSource datasource)
+    public static void Login(String type, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
     {
+        HttpSession user_session = request.getSession();
+
+        if(user_session.getAttribute("username") != null)
+        {
+            Fail(response,"Another user is already logged on!", "login.jsp");
+            return;
+        }
+
         String name = request.getParameter("username");
         String pass = request.getParameter("password");
         String table;
-
-        HttpSession user_session = request.getSession();
 
         try
         {
