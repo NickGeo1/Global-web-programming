@@ -1,4 +1,6 @@
+<%@ page import="java.io.PrintWriter" %>
 <!-- This page is appeared when a user successfully registers in the application -->
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -6,7 +8,7 @@
     <head>
 
         <meta charset="utf-8">
-        <meta http-equiv = "refresh" content = "5; url = login.html" />
+        <meta http-equiv = "refresh" content = "5; url = <%= request.getParameter("redirect") %>" />
         <title>Doctor appointments: register successful</title>
 
         <style>
@@ -58,8 +60,16 @@
         <br>
         <br>
 
+        <%  String text;
+
+            if(request.getParameter("redirect").equals("register.html"))
+                text="You have successfully registered to the application patient, welcome!";
+            else
+                text="Successfully added a new "+request.getParameter("user")+"."; %>
+
         <div class="navbar">
-            <p><pre>  You have successfully registered to the application, welcome!  </pre></p>
+            <p><pre>  <%= text %></pre></p>
+
         </div>
 
     </body>

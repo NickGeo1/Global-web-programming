@@ -1,6 +1,7 @@
 <!-- This page is used in order an administrator to insert a new doctor to the system -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
+<!DOCTYPE html>
 <html>
 
     <head>
@@ -47,6 +48,17 @@
                 width: auto;
             }
 
+            /* style rules for the select section */
+            select
+            {
+                width: 25%;
+                height:30px;
+                margin: 8px 0;
+                display: inline-block;
+                box-sizing: border-box;
+                border:1px solid #012A6C;
+            }
+
             /* set a hover effect for the button */
             button:hover
             {
@@ -86,8 +98,13 @@
                 <label><b style="color:#012A6C">Age: *</b></label>
                 <input type="number"   id="age"        name="age"    max="119" min="1" required>
 
-                <label><b style="color:#012A6C">Speciality: *</b></label>
-                <input type="text"     id="speciality" name="speciality" size="20" maxlength="45" required>
+                <label><b style="color:#012A6C">Speciality: *</b></label><br>
+
+                    <select id="speciality" name="speciality" required>
+                        <option value="Ophthalmologist">Ophthalmologist</option>
+                        <option value="Pathologist">Pathologist</option>
+                        <option value="Orthopedist">Orthopedist</option>
+                    </select><br>
 
                 <label><b style="color:#012A6C">Doctor's AMKA: *</b></label>
                 <input type="text"     id="AMKA"       name="AMKA"       size="11" maxlength="11" minlength="11" required>

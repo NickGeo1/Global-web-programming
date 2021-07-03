@@ -78,6 +78,172 @@ public class Users
         writer.println("</html>");
     }
 
+    public void Register(HttpServletRequest request, HttpServletResponse response, DataSource dataSource, String register_page) throws IOException
+    {
+        //Checks for all the fields. We use Users.Fail() to provide a plain-text HTML page to print any errors.
+
+        if (this.getUsername().isBlank())
+        {
+            Fail(response, "Invalid Username! A username cannot be blank.",register_page);
+            return;
+        }
+
+        else if (this.getPassword().length() < 4)
+        {
+            Fail(response, "Provide a password with at least 4 characters.",register_page);
+            return;
+        }
+
+        else if (!this.getFirstname().matches("[A-Z][a-z]+"))
+        {
+            Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.",register_page);
+            return;
+        }
+
+        else if (!this.getSurname().matches("[A-Z][a-z]+"))
+        {
+            Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.",register_page);
+            return;
+        }
+
+        else if (this.getAge() > 119 || this.getAge() <= 0)
+        {
+            Fail(response, "Invalid Age! A registered age cannot be greater than 119 years or a non-positive number.",register_page);
+            return;
+        }
+
+        else if (this instanceof Patient && !((Patient)this).getAMKA().matches("[0-9]{11}") ||
+                this instanceof Doctor  && !((Doctor)this).getAMKA().matches("[0-9]{11}"))
+        {
+
+            Fail(response, "Invalid AMKA! A social security number must have exactly 11 digits.",register_page);
+            return;
+        }
+
+        else if (this instanceof Doctor && !((Doctor)this).getSpeciality().equals("Pathologist") &&
+                !((Doctor)this).getSpeciality().equals("Ophthalmologist") && !((Doctor)this).getSpeciality().equals("Orthopedist"))
+        {
+            Fail(response, "Doctors can have only one of the following specialities: Pathologist, Ophthalmologist and Orthopedist",register_page);
+            return;
+        }
+
+        //if we get to this point it means none of the fields are incorrect. we can execute sql statements safely.
+        //checking for duplicates in the database
+
+        try
+        {
+            //Check if there are any duplicates in the database what comes to AMKA and username.
+            //preparing an sql statement
+            Connection connection = dataSource.getConnection();
+            PreparedStatement statement;
+            String selectquery, otheruser = null;
+
+            if(this instanceof Patient)
+            {
+                selectquery = "SELECT * FROM patient WHERE patientAMKA=? OR username=?";
+                otheruser = "doctor";
+            }
+            else if(this instanceof Doctor)
+            {
+                selectquery = "SELECT * FROM doctor WHERE doctorAMKA=? OR username=?";
+                otheruser = "patient";
+            }
+            else
+                selectquery = "SELECT * FROM admin WHERE username=?";
+
+            //setting the parameters
+            statement = connection.prepareStatement(selectquery);
+
+            if(!(this instanceof Admin))
+                statement.setString(1, (this instanceof Patient)? ((Patient)this).getAMKA() : ((Doctor)this).getAMKA());
+
+            statement.setString((this instanceof Admin) ? 1 : 2, this.getUsername());
+
+            //executing statement
+            ResultSet rs = statement.executeQuery();
+
+            //if the statement yields any data, it means there is at least one duplicate. We don't continue.
+            if (rs.next())
+            {
+                Fail(response, "This username" + ((this instanceof Admin) ? "" : "/AMKA") + " is already taken!", register_page);
+                rs.close();
+                connection.close();
+                return;
+            }
+
+            if(!(this instanceof Admin))
+            {
+                statement = connection.prepareStatement("SELECT * FROM `"+otheruser+"` WHERE ?=?");
+                statement.setString(1, otheruser+"AMKA");
+                statement.setString(2, (this instanceof Patient) ? ((Patient)this).getAMKA() : ((Doctor)this).getAMKA());
+
+                rs = statement.executeQuery();
+
+                if (rs.next())
+                {
+                    Fail(response, "This AMKA is already taken by a " +  otheruser+"!", register_page);
+                    rs.close();
+                    connection.close();
+                    return;
+                }
+            }
+            //checking again, this time for Doctor/Patient AMKA.
+
+
+            //getting to this point means that none of the above yield errors. We can safely inject database.
+            Integer a = this.getAge();
+
+            String user;
+
+            if(this instanceof Patient)
+            {
+                statement = connection.prepareStatement("INSERT INTO patient (username,hashedpassword,name,surname,age,salt,patientAMKA) VALUES (?,?,?,?,?,NULL,?)");
+
+                statement.setString(6, ((Patient)this).getAMKA());
+                user = "Patient";
+            }
+            else if(this instanceof Doctor)
+            {
+                statement = connection.prepareStatement("INSERT INTO doctor (username,hashedpassword,name,surname,age,doctorAMKA,specialty,salt,ADMIN_username) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?)");
+
+                statement.setString(6, ((Doctor)this).getAMKA());
+                statement.setString(7, ((Doctor)this).getSpeciality());
+                statement.setString(8, request.getSession().getAttribute("username").toString()); //when an admin tries to add a doctor, we have to store which admin made that doctor in database
+                                                                                                                  //We can get admin's username from the session attribute "username"
+                user = "Doctor";
+            }
+            else
+            {
+                statement = connection.prepareStatement("INSERT INTO admin (username,hashedpassword,salt,name,surname,age) VALUES (?, ?, NULL, ?, ?, ?)");
+
+                user = "Administrator";
+            }
+
+            statement.setString(1, this.getUsername());
+            statement.setString(2, this.getPassword());
+            statement.setString(3, this.getFirstname());
+            statement.setString(4, this.getSurname());
+            statement.setString(5, a.toString()); //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
+
+            statement.execute();
+
+            response.sendRedirect("register-success.jsp?user="+user+"&redirect="+register_page);
+
+            rs.close();
+            connection.close();
+
+        }
+        catch (Exception exception)
+        {
+            //if anything goes wrong it'll be printed on the user's screen.
+            Fail(response, "Cannot insert data. Exception message: \n" + exception.getMessage(), register_page);
+            exception.printStackTrace();
+        }
+
+    }
+
+
+
     /**
      * Logs in a user, specified from the login page with all specified credentials.
      *
@@ -124,8 +290,6 @@ public class Users
 
                 rs = stmnt.executeQuery();
                 rs.next();
-
-
 
                 switch (type)
                 {

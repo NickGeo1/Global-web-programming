@@ -58,7 +58,7 @@ public class AdminServlet extends HttpServlet
                     String surname   = request.getParameter("surname");
                     Integer age      = Integer.parseInt(request.getParameter("age"));
 
-                    Admin.add_admin(response, datasource, username, password, firstname, surname, age);
+                    Admin.add_admin(request, response, datasource, username, password, firstname, surname, age);
                 }
 
                 break;
