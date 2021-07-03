@@ -8,7 +8,9 @@ able to insert a new doctor to the system or delete one doctor from the system -
 
     <head>
 
-        <%if(session.getAttribute("username") == null)
+      <%response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
+
+        if(session.getAttribute("username") == null)
         {
             request.setAttribute("message",1);
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");

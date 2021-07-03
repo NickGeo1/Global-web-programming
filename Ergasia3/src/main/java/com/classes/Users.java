@@ -306,13 +306,22 @@ public class Users
      */
     public static void Login(String type, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
     {
-        HttpSession user_session = request.getSession();
+//        if(request.getSession().getAttribute("username") != null)
+//        {
+//            String attribute;
+//
+//            while (attributes.hasMoreElements())
+//            {
+//                attribute = (String) attributes.nextElement();
+//                request.getSession().removeAttribute(attribute);
+//            }
+//
+//            request.getSession().invalidate();
+//
+//            Login(type, request, response, datasource);
+//        }
 
-        if(user_session.getAttribute("username") != null)
-        {
-            Fail(response,"Another user is already logged on!", "login.jsp");
-            return;
-        }
+        HttpSession user_session = request.getSession();
 
         String name = request.getParameter("username");
         String pass = request.getParameter("password");

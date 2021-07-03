@@ -7,12 +7,14 @@
 
   <head>
 
-    <%if(session.getAttribute("username") == null)
-    {
-      request.setAttribute("message",1);
-      RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-      rd.forward(request, response);
-    }%>
+    <%response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
+
+      if(session.getAttribute("username") == null)
+      {
+        request.setAttribute("message",1);
+        RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+        rd.forward(request, response);
+      }%>
 
     <title>Doctor appointments: set availability</title>
     <meta charset="utf-8">
