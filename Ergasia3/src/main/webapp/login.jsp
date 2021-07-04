@@ -1,5 +1,5 @@
-<%@ page import="java.io.PrintWriter" %>
 <!-- This is the sign-up page. Using this page, patients are now able to sign-up to the application. -->
+<%@ page import="java.io.PrintWriter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 
@@ -10,7 +10,7 @@
         <%  String msg;
             if(request.getAttribute("message") != null)
             {
-                msg = "Session time out";
+                msg = "<p>Session time out</p>";
             }
             else
                 msg = "";
@@ -22,6 +22,18 @@
         <meta charset="utf-8">
 
         <style>
+
+            /* style rules for the paragraph in this page */
+            p
+            {
+                color:white;
+                text-decoration: underline;
+                font-size:20px;
+                padding: 10px 18px;
+                margin: 8px 0;
+                cursor: pointer;
+                width: auto;
+            }
 
             /* set border and background colour to the form */
             form
