@@ -27,11 +27,9 @@
             p
             {
                 color:white;
-                text-decoration: underline;
                 font-size:20px;
                 padding: 10px 18px;
                 margin: 8px 0;
-                cursor: pointer;
                 width: auto;
             }
 
