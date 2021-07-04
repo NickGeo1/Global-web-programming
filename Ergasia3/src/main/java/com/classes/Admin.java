@@ -44,10 +44,11 @@ public class Admin extends Users
         {
             //getting the connection and preparing the sql statement.
             connection = datasource.getConnection();
-            statement  = connection.prepareStatement("DELETE FROM " + Table + " WHERE " + ElementToDelete + "=?");
+            statement  = connection.prepareStatement("SELECT * FROM " + Table + " WHERE " + ElementToDelete + "=?");
             statement.setString(1, ValueOfElement);
+            rs = statement.executeQuery();
 
-            if (!statement.execute())
+            if (!rs.next())
             {
                 Users.Fail(response, "There is no such " + ElementToDelete + ".", delete_page);
                 rs.close();
@@ -55,10 +56,14 @@ public class Admin extends Users
                 return;
             }
 
-            connection.close();
             rs.close();
+            statement  = connection.prepareStatement("DELETE FROM " + Table + " WHERE " + ElementToDelete + "=?");
+            statement.setString(1, ValueOfElement);
+            statement.execute();
 
-            request.setAttribute("user", Table);
+            connection.close();
+
+            request.setAttribute("action", "deleted the " + Table + " with " + ElementToDelete + " " + ValueOfElement);
             request.setAttribute("redirect", delete_page);
             RequestDispatcher rd = request.getRequestDispatcher("success.jsp");
             rd.forward(request, response);
