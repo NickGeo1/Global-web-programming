@@ -70,7 +70,7 @@ public class Admin extends Users
         }
         catch (Exception e)
         {
-            Users.Fail(response, "An error has occurred. MESSAGE: " + e.getMessage(), "add_new_doctor.jsp");
+            Users.Fail(response, "An error has occurred. MESSAGE: " + e.getMessage(), delete_page);
         }
 
     }
