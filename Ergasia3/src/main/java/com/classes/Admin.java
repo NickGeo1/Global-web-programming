@@ -60,7 +60,7 @@ public class Admin extends Users
 
             request.setAttribute("user", Table);
             request.setAttribute("redirect", delete_page);
-            RequestDispatcher rd = request.getRequestDispatcher("register-success.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("success.jsp");
             rd.forward(request, response);
         }
         catch (Exception e)
