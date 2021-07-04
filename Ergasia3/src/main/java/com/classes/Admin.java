@@ -64,9 +64,9 @@ public class Admin extends Users
 
     }
 
-    public static void add_patient(HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age, String AMKA) throws IOException
+    public static void add_patient(HttpServletRequest request, HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age, String AMKA) throws IOException
     {
-        new Patient(username, password, firstname, surname, age, AMKA).Register(null,response,datasource,"add_new_patient.jsp");
+        new Patient(username, password, firstname, surname, age, AMKA).Register(request, response,datasource,"add_new_patient.jsp");
 
         //an admin must be logged on to perform delete
 //        if (!isLoggedOn())
@@ -199,7 +199,7 @@ public class Admin extends Users
     public static void add_admin(HttpServletRequest request, HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age) throws IOException
     {
 
-        new Admin(username,password,firstname,surname,age).Register(null,response,datasource,"add_new_admin.jsp");
+        new Admin(username,password,firstname,surname,age).Register(request,response,datasource,"add_new_admin.jsp");
 
         //an admin must be logged on to perform delete
 //        if (!isLoggedOn())

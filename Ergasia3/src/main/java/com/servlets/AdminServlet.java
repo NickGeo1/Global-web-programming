@@ -76,7 +76,7 @@ public class AdminServlet extends HttpServlet
                     Integer age       = Integer.parseInt(request.getParameter("age"));
                     String AMKA       = request.getParameter("AMKA");
 
-                    Admin.add_patient(response, datasource, username, password, firstname, surname, age, AMKA);
+                    Admin.add_patient(request, response, datasource, username, password, firstname, surname, age, AMKA);
                 }
 
                 break;
