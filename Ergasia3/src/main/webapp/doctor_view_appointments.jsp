@@ -7,7 +7,7 @@
 
       <%response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
 
-        if(session.getAttribute("username") == null)
+        if(session.getAttribute("doctorusername") == null)
         {
             request.setAttribute("message",1);
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");

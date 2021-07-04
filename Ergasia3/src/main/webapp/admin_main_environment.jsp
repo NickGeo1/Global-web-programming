@@ -10,7 +10,7 @@ able to insert a new doctor to the system or delete one doctor from the system -
 
       <%response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
 
-        if(session.getAttribute("username") == null)
+        if(session.getAttribute("adminusername") == null)
         {
             request.setAttribute("message",1);
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
@@ -181,7 +181,7 @@ able to insert a new doctor to the system or delete one doctor from the system -
                     <!--Showing admin's attributes-->
                     <table>
                         <tr><th>Username</th><th>Name</th><th>Surname</th><th>Age</th></tr>
-                        <tr><td><%= session.getAttribute("username") %></td><td><%= session.getAttribute("name") %></td><td><%= session.getAttribute("surname") %></td><td><%= session.getAttribute("age") %></td></tr>
+                        <tr><td><%= session.getAttribute("adminusername") %></td><td><%= session.getAttribute("name") %></td><td><%= session.getAttribute("surname") %></td><td><%= session.getAttribute("age") %></td></tr>
                     </table>
 
                 </div>

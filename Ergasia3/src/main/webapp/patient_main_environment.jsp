@@ -11,7 +11,7 @@ scheduled in the past-->
 
        <%response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
 
-        if(session.getAttribute("username") == null)
+        if(session.getAttribute("patientusername") == null)
         {
             request.setAttribute("message",1);
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
@@ -184,7 +184,7 @@ scheduled in the past-->
                     <!--Showing patient's attributes-->
                     <table>
                         <tr><th>Username</th><th>Name</th><th>Surname</th><th>Age</th><th>AMKA</th></tr>
-                        <tr><td><%= session.getAttribute("username") %></td><td><%= session.getAttribute("name") %></td><td><%= session.getAttribute("surname") %></td><td><%= session.getAttribute("age") %></td><td><%= session.getAttribute("patientAMKA") %></td></tr>
+                        <tr><td><%= session.getAttribute("patientusername") %></td><td><%= session.getAttribute("name") %></td><td><%= session.getAttribute("surname") %></td><td><%= session.getAttribute("age") %></td><td><%= session.getAttribute("patientAMKA") %></td></tr>
                     </table>
 
                 </div>

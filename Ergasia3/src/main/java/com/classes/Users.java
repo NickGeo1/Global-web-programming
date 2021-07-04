@@ -234,7 +234,7 @@ public class Users
                 statement.setString(5, age.toString());       //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
                 statement.setString(6, ((Doctor)this).getAMKA());
                 statement.setString(7, ((Doctor)this).getSpeciality());
-                statement.setString(8, request.getSession().getAttribute("username").toString());   //when an admin tries to add a doctor, we have to store which admin made that doctor in database
+                statement.setString(8, request.getSession().getAttribute("adminusername").toString());   //when an admin tries to add a doctor, we have to store which admin made that doctor in database
                                                                                                                     //We can get admin's username from the session attribute "username"
                 statement.execute();
                 user="Doctor";
@@ -286,8 +286,6 @@ public class Users
 
     }
 
-
-
     /**
      * Logs in a user, specified from the login page with all specified credentials.
      *
@@ -306,21 +304,6 @@ public class Users
      */
     public static void Login(String type, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
     {
-//        if(request.getSession().getAttribute("username") != null)
-//        {
-//            String attribute;
-//
-//            while (attributes.hasMoreElements())
-//            {
-//                attribute = (String) attributes.nextElement();
-//                request.getSession().removeAttribute(attribute);
-//            }
-//
-//            request.getSession().invalidate();
-//
-//            Login(type, request, response, datasource);
-//        }
-
         HttpSession user_session = request.getSession();
 
         String name = request.getParameter("username");
@@ -350,10 +333,18 @@ public class Users
                 rs = stmnt.executeQuery();
                 rs.next();
 
+                String previous_attribute;
+
+                while(attributes != null && attributes.hasMoreElements())
+                {
+                    previous_attribute = (String) attributes.nextElement();
+                    user_session.removeAttribute(previous_attribute);
+                }
+
                 switch (type)
                 {
                     case "Patient":
-                        user_session.setAttribute("username" , rs.getString("username"));
+                        user_session.setAttribute("patientusername" , rs.getString("username"));
                         user_session.setAttribute("name", rs.getString("name"));
                         user_session.setAttribute("surname", rs.getString("surname"));
                         user_session.setAttribute("age", rs.getString("age"));
@@ -363,7 +354,7 @@ public class Users
                         break;
 
                     case "Doctor":
-                        user_session.setAttribute("username" , rs.getString("username"));
+                        user_session.setAttribute("doctorusername" , rs.getString("username"));
                         user_session.setAttribute("name", rs.getString("name"));
                         user_session.setAttribute("surname", rs.getString("surname"));
                         user_session.setAttribute("age", rs.getString("age"));
@@ -374,7 +365,7 @@ public class Users
                         break;
 
                     default: //Admin
-                        user_session.setAttribute("username" , rs.getString("username"));
+                        user_session.setAttribute("adminusername" , rs.getString("username"));
                         user_session.setAttribute("name", rs.getString("name"));
                         user_session.setAttribute("surname", rs.getString("surname"));
                         user_session.setAttribute("age", rs.getString("age"));

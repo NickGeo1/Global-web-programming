@@ -11,7 +11,7 @@ cancel an appointment -->
 
       <%response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
 
-        if(session.getAttribute("username") == null)
+        if(session.getAttribute("doctorusername") == null)
         {
         request.setAttribute("message",1);
         RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
@@ -182,7 +182,7 @@ cancel an appointment -->
                     <!--Showing doctor's attributes-->
                     <table>
                         <tr><th>Username</th><th>Name</th><th>Surname</th><th>Age</th><th>Speciality</th><th>AMKA</th></tr>
-                        <tr><td><%= session.getAttribute("username") %></td><td><%= session.getAttribute("name") %></td><td><%= session.getAttribute("surname") %></td><td><%= session.getAttribute("age") %></td><td><%= session.getAttribute("specialty")%></td><td><%= session.getAttribute("doctorAMKA") %></td></tr>
+                        <tr><td><%= session.getAttribute("doctorusername") %></td><td><%= session.getAttribute("name") %></td><td><%= session.getAttribute("surname") %></td><td><%= session.getAttribute("age") %></td><td><%= session.getAttribute("specialty")%></td><td><%= session.getAttribute("doctorAMKA") %></td></tr>
                     </table>
 
                 </div>
