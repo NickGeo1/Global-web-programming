@@ -240,7 +240,7 @@ public class Users
                 statement.setString(6, ((Doctor)this).getAMKA());
                 statement.setString(7, ((Doctor)this).getSpeciality());
                 statement.setString(8, request.getSession().getAttribute("adminusername").toString());   //when an admin tries to add a doctor, we have to store which admin made that doctor in database
-                                                                                                                    //We can get admin's username from the session attribute "username"
+                                                                                                                        //We can get admin's username from the session attribute "username"
                 statement.execute();
                 user="Doctor";
             }
@@ -369,7 +369,7 @@ public class Users
                         response.sendRedirect("doctor_main_environment.jsp");
                         break;
 
-                    default: //Admin
+                    case "Admin":
                         user_session.setAttribute("adminusername" , rs.getString("username"));
                         user_session.setAttribute("name", rs.getString("name"));
                         user_session.setAttribute("surname", rs.getString("surname"));
@@ -379,7 +379,7 @@ public class Users
                         break;
                 }
 
-                attributes = request.getSession().getAttributeNames(); //store attributes in list
+                attributes = user_session.getAttributeNames(); //store attributes in list
 
                 rs.close();
                 con.close();
