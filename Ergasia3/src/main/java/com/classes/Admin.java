@@ -1,5 +1,6 @@
 package com.classes;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
@@ -22,32 +23,34 @@ public class Admin extends Users
     // Constructor method
     public Admin(String username, String password, String firstname, String surname, int age)
     {
-
         super(username, password, firstname, surname, age);
-
     }
 
-    public static void DeleteDoctor(HttpServletResponse response, DataSource datasource, String AMKA) throws IOException
+    public static void delete_users(HttpServletRequest request, HttpServletResponse response, DataSource datasource, String Table, String ValueOfElement, String delete_page) throws IOException
     {
-        //an admin must be logged on to perform delete
-//        if (!isLoggedOn())
-//        {
-//            Users.Fail(response, "An admin must be logged on, in order to delete a doctor. Please login!", "login.jsp");
-//            return;
-//        }
+        String ElementToDelete;
 
-        //executing sql at this point.
+        switch (Table)
+        {
+            case "admin":
+                ElementToDelete = "username";
+                break;
+            default:
+                ElementToDelete = Table + "AMKA";
+                break;
+        }
+
         try
         {
             //getting the connection and preparing the sql statement.
             connection = datasource.getConnection();
-            statement  = connection.prepareStatement("DELETE FROM doctor WHERE doctorAMKA=?");
-            statement.setString(1, AMKA);
+            statement  = connection.prepareStatement("DELETE FROM " + Table + " WHERE " + ElementToDelete + "=?");
+            statement.setString(1, ValueOfElement);
 
             rs = statement.executeQuery();
             if (!rs.rowDeleted())
             {
-                Users.Fail(response, "There is no such AMKA.", "admin_main_environment.jsp");
+                Users.Fail(response, "There is no such " + ElementToDelete + ".", delete_page);
                 rs.close();
                 connection.close();
                 return;
@@ -55,7 +58,11 @@ public class Admin extends Users
 
             connection.close();
             rs.close();
-            response.sendRedirect("register-success.jsp");
+
+            request.setAttribute("user", Table);
+            request.setAttribute("redirect", delete_page);
+            RequestDispatcher rd = request.getRequestDispatcher("register-success.jsp");
+            rd.forward(request, response);
         }
         catch (Exception e)
         {
@@ -67,198 +74,16 @@ public class Admin extends Users
     public static void add_patient(HttpServletRequest request, HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age, String AMKA) throws IOException
     {
         new Patient(username, password, firstname, surname, age, AMKA).Register(request, response,datasource,"add_new_patient.jsp");
-
-        //an admin must be logged on to perform delete
-//        if (!isLoggedOn())
-//        {
-//            Users.Fail(response, "An admin must be logged on, in order to add a patient. Please login!", "login.jsp");
-//            return;
-//        }
-
-        //executing sql at this point.
-//        try
-//        {
-//            //getting the connection and preparing the sql statement.
-//            //search for duplicates in the doctor.
-//            connection = datasource.getConnection();
-//            statement  = connection.prepareStatement("SELECT * FROM doctor WHERE doctorAMKA=?");
-//            statement.setString(1, AMKA);
-//
-//            //if there are duplicates in the doctor table, abort.
-//            rs = statement.executeQuery();
-//            if (rs.next())
-//            {
-//                Users.Fail(response, "Duplicate Found in Doctors. Check again for AMKA", "add_new_doctor.jsp");
-//                rs.close();
-//                connection.close();
-//                return;
-//            }
-//
-//            //search for AMKA duplicates in patient
-//            statement  = connection.prepareStatement("SELECT * FROM patient WHERE patientAMKA=? OR username=?");
-//            statement.setString(1, AMKA);
-//            statement.setString(2, username);
-//
-//            //if there are any duplicates in the patient table, abort.
-//            rs = statement.executeQuery();
-//            if (rs.next())
-//            {
-//                Users.Fail(response, "Found an AMKA/username duplicate in Patient.", "add_new_doctor.jsp");
-//                rs.close();
-//                connection.close();
-//                return;
-//            }
-//
-//            statement = connection.prepareStatement("INSERT INTO patient VALUES (?, ?, ?, ?, ?, NULL, ?)");
-//            statement.setString(1, AMKA);
-//            statement.setString(2, username);
-//            statement.setString(3, password);
-//            statement.setString(4, firstname);
-//            statement.setString(5, surname);
-//            statement.setString(6, age.toString());    //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
-//
-//            statement.execute();
-//            connection.close();
-//            rs.close();
-//            response.sendRedirect("new-patient-success.html");
-//        }
-//        catch (Exception e)
-//        {
-//            Users.Fail(response, "An error has occurred. MESSAGE: " + e.getMessage() + ", " + e.toString(), "admin_main_environment.jsp");
-//            e.printStackTrace();
-//        }
     }
 
     public static void add_doctor(HttpServletRequest request, HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age, String speciality, String AMKA) throws IOException
     {
         new Doctor(username,password,firstname,surname,age,speciality,AMKA).Register(request,response,datasource,"add_new_doctor.jsp");
-
-        //an admin must be logged on to perform delete
-//        if (!isLoggedOn())
-//        {
-//            Users.Fail(response, "An admin must be logged on, in order to add a doctor. Please login!", "login.jsp");
-//            return;
-//        }
-
-        //executing sql at this point.
-//        try
-//        {
-//            //getting the connection and preparing the sql statement.
-//            //search for duplicates in the doctor.
-//            connection = datasource.getConnection();
-//            statement  = connection.prepareStatement("SELECT * FROM doctor WHERE doctorAMKA=? OR username=?");
-//            statement.setString(1, AMKA);
-//            statement.setString(2, username);
-//
-//            //if there are duplicates in the doctor table, abort.
-//            rs = statement.executeQuery();
-//            if (rs.next())
-//            {
-//                Users.Fail(response, "Duplicate Found in Doctors. Check again for AMKA/Username", "add_new_doctor.jsp");
-//                rs.close();
-//                connection.close();
-//                return;
-//            }
-//
-//            //search for AMKA duplicates in patient
-//            statement  = connection.prepareStatement("SELECT * FROM patient WHERE patientAMKA=?");
-//            statement.setString(1, AMKA);
-//
-//            //if there are any duplicates in the patient table, abort.
-//            rs = statement.executeQuery();
-//            if (rs.next())
-//            {
-//                Users.Fail(response, "Found an AMKA duplicate in Patient.", "add_new_doctor.jsp");
-//                rs.close();
-//                connection.close();
-//                return;
-//            }
-//
-//            statement = connection.prepareStatement("INSERT INTO doctor VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?)");
-//            statement.setString(1, AMKA);
-//            statement.setString(2, username);
-//            statement.setString(3, password);
-//            statement.setString(4, firstname);
-//            statement.setString(5, surname);
-//            statement.setString(6, speciality);
-//            statement.setString(7, request.getSession().getAttribute("username").toString());
-//            statement.setString(8, age.toString());    //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
-//
-//            statement.execute();
-//            connection.close();
-//            rs.close();
-//            response.sendRedirect("new-doctor-success.html");
-//        }
-//        catch (Exception e)
-//        {
-//            Users.Fail(response, "An error has occurred. MESSAGE: " + e.getMessage() + ", " + e.toString(), "admin_main_environment.jsp");
-//            e.printStackTrace();
-//        }
     }
 
     public static void add_admin(HttpServletRequest request, HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age) throws IOException
     {
-
         new Admin(username,password,firstname,surname,age).Register(request,response,datasource,"add_new_admin.jsp");
-
-        //an admin must be logged on to perform delete
-//        if (!isLoggedOn())
-//        {
-//            Users.Fail(response, "An admin must be logged on, in order to add an admin. Please login!", "login.jsp");
-//            return;
-//        }
-
-        //executing sql at this point.
-//        try
-//        {
-//            //getting the connection and preparing the sql statement.
-//            //search for duplicates in the doctor.
-//            connection = datasource.getConnection();
-//            statement  = connection.prepareStatement("SELECT * FROM admin WHERE username=?");
-//            statement.setString(1, username);
-//
-//            //if there are duplicates in the doctor table, abort.
-//            rs = statement.executeQuery();
-//            if (rs.next())
-//            {
-//                Users.Fail(response, "Duplicate Found in Administrators. Check again for Username", "add_new_admin.jsp");
-//                rs.close();
-//                connection.close();
-//                return;
-//            }
-//
-//            statement = connection.prepareStatement("INSERT INTO admin VALUES (?, ?, NULL, ?, ?, ?)");
-//            statement.setString(1, username);
-//            statement.setString(2, password);
-//            statement.setString(3, age.toString());    //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
-//            statement.setString(4, firstname);
-//            statement.setString(5, surname);
-//
-//            statement.execute();
-//            connection.close();
-//            rs.close();
-//            response.sendRedirect("new-admin-success.html");
-//        }
-//        catch (Exception e)
-//        {
-//            Users.Fail(response, "An error has occurred. MESSAGE: " + e.getMessage() + ", " + e.toString(), "admin_main_environment.jsp");
-//            e.printStackTrace();
-//        }
-    }
-
-    /**
-     * This function is used to modify a doctor that already exists.
-     * @param username is the username of the doctor that we want to modify
-     */
-    public void change_doctor(String username){
-
-        if (!isLoggedOn())
-        {
-            System.out.println("You must be logged on to modify a doctor.");
-            return;
-        }
-
-        System.out.println("Doctor's characteristics have been changed!");
     }
 
     /**
