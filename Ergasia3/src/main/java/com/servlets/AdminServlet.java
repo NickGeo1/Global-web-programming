@@ -5,6 +5,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -107,6 +108,16 @@ public class AdminServlet extends HttpServlet
                 else if (requestedURL.endsWith("delete_admin.jsp"))
                 {
                     String usernameToBeDeleted = request.getParameter("admin_username");
+
+                    HttpSession session = request.getSession();
+                    String CurrentAdminUsername = (String) session.getAttribute("adminusername");
+
+                    if (CurrentAdminUsername.equals(usernameToBeDeleted))
+                    {
+                        Users.Fail(response, "Admins cannot delete themselves.", "delete_admin.jsp");
+                        break;
+                    }
+
                     Admin.delete_users(request, response, datasource, "admin", usernameToBeDeleted, "delete_admin.jsp");
                 }
 

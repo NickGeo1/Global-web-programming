@@ -282,9 +282,9 @@ public class Users
                 user="Administrator";
             }
 
-            request.setAttribute("user", user);
+            request.setAttribute("action", "added a new " + user);
             request.setAttribute("redirect",register_page);
-            RequestDispatcher rd = request.getRequestDispatcher("register-success.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("success.jsp");
             rd.forward(request, response);
 
             rs.close();

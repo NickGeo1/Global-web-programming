@@ -65,9 +65,9 @@
             String text;
 
             if(request.getAttribute("redirect").equals("register.html"))
-                text="You have successfully registered to the application patient, welcome!";
+                text="You have successfully registered to the application, patient. Welcome!";
             else
-                text="Successfully added a new "+request.getAttribute("user")+".";
+                text="Successfully " + request.getAttribute("action") + ".";
         %>
 
         <div class="navbar">
