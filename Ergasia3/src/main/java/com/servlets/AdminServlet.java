@@ -102,38 +102,38 @@ public class AdminServlet extends HttpServlet
 
             case "delete_admin":
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
-                {
                     response.sendRedirect("delete_admin.jsp");
-                }
 
                 else if (requestedURL.endsWith("delete_admin.jsp"))
                 {
-
+                    String usernameToBeDeleted = request.getParameter("admin_username");
+                    Admin.delete_users(request, response, datasource, "admin", usernameToBeDeleted, "delete_admin.jsp");
                 }
+
                 break;
 
             case "delete_patient":
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
-                {
                     response.sendRedirect("delete_patient.jsp");
-                }
 
                 else if (requestedURL.endsWith("delete_patient.jsp"))
                 {
-
+                    String AMKAtoBeDeleted = request.getParameter("patientAMKA");
+                    Admin.delete_users(request, response, datasource, "patient", AMKAtoBeDeleted, "delete_patient.jsp");
                 }
+
                 break;
 
             case "delete_doctor":
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
-                {
                     response.sendRedirect("delete_doctor.jsp");
-                }
 
                 else if (requestedURL.endsWith("delete_doctor.jsp"))
                 {
-
+                    String AMKAtoBeDeleted = request.getParameter("doctorAMKA");
+                    Admin.delete_users(request, response, datasource, "doctor", AMKAtoBeDeleted, "delete_doctor.jsp");
                 }
+
                 break;
 
             case "logout":
