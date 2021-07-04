@@ -32,8 +32,8 @@ CREATE TABLE `appointment` (
   UNIQUE KEY `date` (`date`,`startSlotTime`,`endSlotTime`,`DOCTOR_doctorAMKA`),
   UNIQUE KEY `date_2` (`date`,`startSlotTime`,`endSlotTime`,`PATIENT_patientAMKA`),
   KEY `fk_APPOINTMENT_DOCTOR1_idx` (`DOCTOR_doctorAMKA`),
-  CONSTRAINT `fk_APPOINTMENT_DOCTOR` FOREIGN KEY (`DOCTOR_doctorAMKA`) REFERENCES `doctor` (`doctorAMKA`),
-  CONSTRAINT `fk_APPOINTMENT_PATIENT` FOREIGN KEY (`PATIENT_patientAMKA`) REFERENCES `patient` (`patientAMKA`)
+  CONSTRAINT `fk_APPOINTMENT_DOCTOR` FOREIGN KEY (`DOCTOR_doctorAMKA`) REFERENCES `doctor` (`doctorAMKA`) ON DELETE CASCADE,
+  CONSTRAINT `fk_APPOINTMENT_PATIENT` FOREIGN KEY (`PATIENT_patientAMKA`) REFERENCES `patient` (`patientAMKA`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

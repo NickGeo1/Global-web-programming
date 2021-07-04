@@ -29,14 +29,14 @@ CREATE TABLE `doctor` (
   `name` varchar(45) NOT NULL,
   `surname` varchar(45) NOT NULL,
   `specialty` varchar(45) NOT NULL,
-  `ADMIN_username` varchar(45) NOT NULL,
+  `ADMIN_username` varchar(45),
   `salt` varchar(45) DEFAULT NULL,
   `age` int NOT NULL,
   PRIMARY KEY (`doctorAMKA`,`username`),
   UNIQUE KEY `idDoctor_UNIQUE` (`doctorAMKA`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `fk_DOCTOR_ADMIN1_idx` (`ADMIN_username`),
-  CONSTRAINT `fk_DOCTOR_ADMIN1` FOREIGN KEY (`ADMIN_username`) REFERENCES `admin` (`username`)
+  CONSTRAINT `fk_DOCTOR_ADMIN1` FOREIGN KEY (`ADMIN_username`) REFERENCES `admin` (`username`) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
