@@ -156,6 +156,7 @@ public class Users
             Integer age = this.getAge();
             String username = this.getUsername(), password = this.getPassword(), name = this.getFirstname(), surname = this.getSurname();
             String user;
+            String salt;
 
             if(this instanceof Patient)
             {
@@ -168,7 +169,7 @@ public class Users
 
                 if (rs.next())
                 {
-                    Fail(response, "This username/ΑΜΚΑ is already taken!", register_page);
+                    Fail(response, "This username/AMKA is already taken!", register_page);
                     rs.close();
                     connection.close();
                     return;
@@ -187,14 +188,17 @@ public class Users
                     return;
                 }
 
-                insertquery = "INSERT INTO patient (username,hashedpassword,name,surname,age,salt,patientAMKA) VALUES (?,?,?,?,?,NULL,?)";
+                salt = createSalt(response);
+
+                insertquery = "INSERT INTO patient (username,hashedpassword,name,surname,age,patientAMKA,salt) VALUES (?,?,?,?,?,?,?)";
                 statement = connection.prepareStatement(insertquery);
                 statement.setString(1, username);
-                statement.setString(2, password);
+                statement.setString(2, hashPassword(password, salt));
                 statement.setString(3, name);
                 statement.setString(4, surname);
                 statement.setString(5, age.toString()); //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
                 statement.setString(6, ((Patient)this).getAMKA());
+                statement.setString(7, salt);
 
                 statement.execute();
                 user="Patient";
@@ -210,7 +214,7 @@ public class Users
 
                 if (rs.next())
                 {
-                    Fail(response, "This username/ΑΜΚΑ is already taken!", register_page);
+                    Fail(response, "This username/AMKA is already taken!", register_page);
                     rs.close();
                     connection.close();
                     return;
@@ -229,18 +233,20 @@ public class Users
                     return;
                 }
 
-                insertquery = "INSERT INTO doctor (username,hashedpassword,name,surname,age,doctorAMKA,specialty,salt,ADMIN_username) VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?)";
-                statement = connection.prepareStatement(insertquery);
+                salt = createSalt(response);
+
+                insertquery = "INSERT INTO doctor (username,hashedpassword,name,surname,age,doctorAMKA,specialty,ADMIN_username,salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 statement = connection.prepareStatement(insertquery);
                 statement.setString(1, username);
-                statement.setString(2, password);
+                statement.setString(2, hashPassword(password, salt));
                 statement.setString(3, name);
                 statement.setString(4, surname);
                 statement.setString(5, age.toString());       //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
                 statement.setString(6, ((Doctor)this).getAMKA());
                 statement.setString(7, ((Doctor)this).getSpeciality());
                 statement.setString(8, request.getSession().getAttribute("adminusername").toString());   //when an admin tries to add a doctor, we have to store which admin made that doctor in database
-                                                                                                                        //We can get admin's username from the session attribute "username"
+                statement.setString(9, salt);                                                               //We can get admin's username from the session attribute "username"
+
                 statement.execute();
                 user="Doctor";
             }
@@ -260,14 +266,17 @@ public class Users
                     return;
                 }
 
-                insertquery = "INSERT INTO admin (username,hashedpassword,salt,name,surname,age) VALUES (?, ?, NULL, ?, ?, ?)";
+                salt = createSalt(response);
+
+                insertquery = "INSERT INTO admin (username,hashedpassword,name,surname,age,salt) VALUES (?, ?, ?, ?, ?, ?)";
                 statement = connection.prepareStatement(insertquery);
 
                 statement.setString(1, username);
-                statement.setString(2, password);
+                statement.setString(2, hashPassword(password, salt));
                 statement.setString(3, name);
                 statement.setString(4, surname);
                 statement.setString(5, age.toString()); //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
+                statement.setString(6, salt);
 
                 statement.execute();
                 user="Administrator";
@@ -280,7 +289,6 @@ public class Users
 
             rs.close();
             connection.close();
-
         }
         catch (Exception exception)
         {
@@ -324,13 +332,13 @@ public class Users
             table = type.toLowerCase();
 
             //preparing a general statement.
-            PreparedStatement stmnt = con.prepareStatement("SELECT hashedpassword FROM `"+ table +"` WHERE username=?");
+            PreparedStatement stmnt = con.prepareStatement("SELECT hashedpassword,salt FROM `"+ table +"` WHERE username=?");
             stmnt.setString(1, name);
 
             ResultSet rs = stmnt.executeQuery();
 
             //if this username exists and the password is correct
-            if(rs.next() && rs.getString("hashedpassword").equals(pass))
+            if(rs.next() && hashPassword(pass, rs.getString("salt")).equals(rs.getString("hashedpassword")))
             {
                 stmnt = con.prepareStatement("SELECT * FROM `"+ table +"` WHERE username=?");
                 stmnt.setString(1,name);
@@ -380,17 +388,8 @@ public class Users
                 }
 
                 attributes = user_session.getAttributeNames(); //store attributes in list
-
-                rs.close();
-                con.close();
             }
-
-            else if(rs.next() && !rs.getString("hashedpassword").equals(pass)) //correct username wrong pass
-            {
-                response.sendRedirect("fail.html");
-            }
-
-            else //wrong username
+            else //wrong credentials
             {
                 response.sendRedirect("fail.html");
             }
