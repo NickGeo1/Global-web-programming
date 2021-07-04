@@ -7,6 +7,11 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -418,6 +423,61 @@ public class Users
         session.invalidate();
         response.sendRedirect("login.jsp");
     }
+    
+    private static String hashPassword(String password, String salt)
+    {
+        // Hash the password.
+        final String toHash = salt + password + salt;
+        MessageDigest messageDigest = null;
+        try
+        {
+            messageDigest = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException ex)
+        {
+            return "00000000000000000000000000000000";
+        }
+        messageDigest.update(toHash.getBytes(), 0, toHash.length());
+        String hashed = new BigInteger(1, messageDigest.digest()).toString(16);
+        if (hashed.length() < 32)
+        {
+            hashed = "0" + hashed;
+        }
+        return hashed.toUpperCase();
+    }
+    
+    private static String createSalt(HttpServletResponse response)
+    {
+        PrintWriter writer = null;
+
+        try
+        {
+            writer = response.getWriter();
+            SecureRandom random = new SecureRandom();
+
+            byte bytes[]= new byte[20];
+            random.nextBytes(bytes);
+
+            for(int i = 0; i< bytes.length; i++)
+            {
+                if(bytes[i] < 0)
+                    bytes[i] = (byte) -bytes[i];
+            }
+
+            return new String(bytes, "UTF-8");
+
+        }
+        catch(UnsupportedEncodingException e)
+        {
+            writer.println("UnsupportedEncodingException: "+e.toString());
+            return "";
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException: "+e.toString());
+            return "";
+        }
+    }
+    
     /**
      * This method returns the characteristics of each User
      * @return firstname,username,surname and age
