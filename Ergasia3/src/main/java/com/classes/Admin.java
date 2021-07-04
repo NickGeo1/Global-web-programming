@@ -47,8 +47,7 @@ public class Admin extends Users
             statement  = connection.prepareStatement("DELETE FROM " + Table + " WHERE " + ElementToDelete + "=?");
             statement.setString(1, ValueOfElement);
 
-            rs = statement.executeQuery();
-            if (!rs.rowDeleted())
+            if (!statement.execute())
             {
                 Users.Fail(response, "There is no such " + ElementToDelete + ".", delete_page);
                 rs.close();

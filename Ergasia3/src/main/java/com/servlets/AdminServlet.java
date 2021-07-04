@@ -119,7 +119,7 @@ public class AdminServlet extends HttpServlet
                 else if (requestedURL.endsWith("delete_patient.jsp"))
                 {
                     String AMKAtoBeDeleted = request.getParameter("patientAMKA");
-                    Admin.delete_users(request, response, datasource, "admin", AMKAtoBeDeleted, "delete_patient.jsp");
+                    Admin.delete_users(request, response, datasource, "patient", AMKAtoBeDeleted, "delete_patient.jsp");
                 }
 
                 break;
@@ -131,7 +131,7 @@ public class AdminServlet extends HttpServlet
                 else if (requestedURL.endsWith("delete_doctor.jsp"))
                 {
                     String AMKAtoBeDeleted = request.getParameter("doctorAMKA");
-                    Admin.delete_users(request, response, datasource, "admin", AMKAtoBeDeleted, "delete_doctor.jsp");
+                    Admin.delete_users(request, response, datasource, "doctor", AMKAtoBeDeleted, "delete_doctor.jsp");
                 }
 
                 break;
