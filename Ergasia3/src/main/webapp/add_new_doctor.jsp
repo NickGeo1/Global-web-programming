@@ -36,7 +36,8 @@
             /* style rules for the inputs boxes in the form */
             input[type=text],
             input[type=password],
-            input[type=number]
+            input[type=number],
+            #speciality
             {
                 width: 100%;
                 padding: 12px 20px;
@@ -56,17 +57,6 @@
                 margin: 10px;
                 cursor: pointer;
                 width: auto;
-            }
-
-            /* style rules for the select section */
-            select
-            {
-                width: 25%;
-                height:30px;
-                margin: 8px 0;
-                display: inline-block;
-                box-sizing: border-box;
-                border:1px solid #012A6C;
             }
 
             /* set a hover effect for the button */
@@ -108,13 +98,12 @@
                 <label><b style="color:#012A6C">Age: *</b></label>
                 <input type="number"   id="age"        name="age"    max="119" min="1" required>
 
-                <label><b style="color:#012A6C">Speciality: *</b></label><br>
-
-                    <select id="speciality" name="speciality" required>
-                        <option value="Ophthalmologist">Ophthalmologist</option>
-                        <option value="Pathologist">Pathologist</option>
-                        <option value="Orthopedist">Orthopedist</option>
-                    </select><br>
+                <label><b style="color:#012A6C">Speciality: *</b></label>
+                <select id="speciality" name="speciality" required>
+                    <option value="Ophthalmologist">Ophthalmologist</option>
+                    <option value="Pathologist">Pathologist</option>
+                    <option value="Orthopedist">Orthopedist</option>
+                </select>
 
                 <label><b style="color:#012A6C">Doctor's AMKA: *</b></label>
                 <input type="text"     id="AMKA"       name="AMKA"       size="11" maxlength="11" minlength="11" required>
