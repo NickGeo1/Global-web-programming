@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 
 @WebServlet(name = "DoctorServlet", value = "/doctor")
 public class DoctorServlet extends HttpServlet
@@ -34,6 +37,7 @@ public class DoctorServlet extends HttpServlet
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
         DOCTOR_SERVLET_ACTION = request.getParameter("doctor_action");
+        String requestedURL = request.getHeader("referer");
 
         switch (DOCTOR_SERVLET_ACTION)
         {
@@ -45,6 +49,23 @@ public class DoctorServlet extends HttpServlet
             //logout
             case "logout":
                 Users.Logout(response, request);
+                break;
+
+            case "set availability":
+                if (requestedURL.endsWith("doctor_main_environment.jsp"))
+                    response.sendRedirect("doctor_set_availability.jsp");
+                else
+                {
+                    LocalDate date = LocalDate.parse(request.getParameter("date_of_appointment"));
+                }
+
+                break;
+
+            case "view appointments":
+                if (requestedURL.endsWith("doctor_main_environment.jsp"))
+                    response.sendRedirect("doctor_view_appointments.jsp");
+                else
+                    response.sendRedirect("doctor_main_environment.jsp");
                 break;
         }
     }

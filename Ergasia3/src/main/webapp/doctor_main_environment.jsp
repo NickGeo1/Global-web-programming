@@ -197,8 +197,8 @@ cancel an appointment -->
 
                     <div class="container">
 
-                        <button id="buttons" name="doctor_action" value="set_availability"  type="submit">Set availability</button>
-                        <button id="buttons" name="doctor_action" value="view_appointments" type="submit">View scheduled appointments</button>
+                        <button id="buttons" name="doctor_action" value="set availability"  type="submit">Set availability</button>
+                        <button id="buttons" name="doctor_action" value="view appointments" type="submit">View scheduled appointments</button>
                         <button id="buttons" name="doctor_action" value="logout"            type="submit">Logout</button>
 
                         <br>

@@ -23,7 +23,7 @@
 
   <body>
 
-    <form name="set_availability">
+    <form name="set_availability" method="post" action="doctor">
 
       <div class="imgcontainer">
         <img src="img/logo1.png" alt="logo_image" class="avatar">
@@ -45,7 +45,7 @@
       <br>
 
       <p align="right">
-        <button align="right" type="submit">Add date</button>
+        <button align="right" id="doctor_action" name="doctor_action" value="set availability" type="submit">Add date</button>
       </p>
 
     </form>
