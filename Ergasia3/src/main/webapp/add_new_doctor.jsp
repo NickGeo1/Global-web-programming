@@ -36,12 +36,20 @@
             /* style rules for the inputs boxes in the form */
             input[type=text],
             input[type=password],
-            input[type=number],
-            #speciality
+            input[type=number]
             {
                 width: 100%;
                 padding: 12px 20px;
                 margin: 8px 0;
+                display: inline-block;
+                box-sizing: border-box;
+                border:1px solid mediumseagreen;
+            }
+
+            /* style rules for the drop down list */
+            #speciality
+            {
+                width: 100%;
                 display: inline-block;
                 box-sizing: border-box;
                 border:1px solid mediumseagreen;
@@ -100,6 +108,7 @@
 
                 <label><b style="color:#012A6C">Speciality: *</b></label>
                 <select id="speciality" name="speciality" required>
+                    <option selected disabled>Please choose an option:</option>
                     <option value="Ophthalmologist">Ophthalmologist</option>
                     <option value="Pathologist">Pathologist</option>
                     <option value="Orthopedist">Orthopedist</option>
