@@ -28,7 +28,7 @@
       </div>
 
       <div class="container">
-        <center><label><b style="color:#012A6C">Enter the patient's AMKA you want to delete: </b><input type="text" id="patientAMKA" name="patientAMKA"></label></center>
+        <center><label><b style="color:#012A6C">Enter the patient's AMKA you want to delete: </b><input type="text" id="patientAMKA" name="patientAMKA" minlength="11" maxlength="11"></label></center>
       </div>
 
       <center><button type="submit" style="font-size:15px;" name="admin_action" id="admin_action" value="delete_patient">Delete patient</button></center>
