@@ -62,10 +62,18 @@ public class Admin extends Users
 
             //otherwise we can execute the delete statement. If the delete statement retains a doctor or a patient to be deleted, we also delete this from the appointments table.
             rs.close();
-            statement  = connection.prepareStatement((Table.equals("admin") ? "" : ("DELETE FROM appointment WHERE " + Table.toUpperCase() + "_" + Table + "AMKA=?;")));
-            statement.setString(1, ValueOfElement);
-            statement.execute();
 
+            //in order to delete patients or doctors, we have to delete them from the appointment table first.
+            delete_appointments:
+                if (Table.equals("admin"))
+                    break delete_appointments;
+                else {
+                    statement  = connection.prepareStatement("DELETE FROM appointment WHERE " + Table.toUpperCase() + "_" + Table + "AMKA=?;");
+                    statement.setString(1, ValueOfElement);
+                    statement.execute();
+                }
+
+            //admins can be deleted right away for now.
             statement = connection.prepareStatement("DELETE FROM " + Table + " WHERE " + ElementToDelete + "=?;");
             statement.setString(1, ValueOfElement);
             statement.execute();
