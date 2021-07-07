@@ -44,10 +44,14 @@ public class Admin extends Users
         {
             //getting the connection and preparing the sql statement.
             connection = datasource.getConnection();
+
+            //the sql statement is intentionally vague, so all users can be deleted.
+            //first we use a select statement to see if this AMKA/username exists.
             statement  = connection.prepareStatement("SELECT * FROM " + Table + " WHERE " + ElementToDelete + "=?");
             statement.setString(1, ValueOfElement);
             rs = statement.executeQuery();
 
+            //if it doesn't exist, we show a fail page to the user.
             if (!rs.next())
             {
                 Users.Fail(response, "There is no such " + ElementToDelete + ".", delete_page);
@@ -56,8 +60,13 @@ public class Admin extends Users
                 return;
             }
 
+            //otherwise we can execute the delete statement. If the delete statement retains a doctor or a patient to be deleted, we also delete this from the appointments table.
             rs.close();
-            statement  = connection.prepareStatement("DELETE FROM " + Table + " WHERE " + ElementToDelete + "=?");
+            statement  = connection.prepareStatement((Table.equals("admin") ? "" : ("DELETE FROM appointment WHERE " + Table.toUpperCase() + "_" + Table + "AMKA=?;")));
+            statement.setString(1, ValueOfElement);
+            statement.execute();
+
+            statement = connection.prepareStatement("DELETE FROM " + Table + " WHERE " + ElementToDelete + "=?;");
             statement.setString(1, ValueOfElement);
             statement.execute();
 
