@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.time.LocalDate;
+import java.time.*;
 
 /**
  * This is the model (class) of a Doctor. Each doctor has his speciality and
@@ -29,21 +29,25 @@ public class Doctor extends Users
 
     }
 
-    public static boolean set_availability(DataSource datasource, LocalDate localDate, String AMKA)
+    public static boolean set_availability(DataSource datasource, LocalDateTime localDate, String AMKA)
     {
-        Date date = new Date().p
-
         try
         {
             connection = datasource.getConnection();
-            statement  = connection.prepareStatement("INSERT INTO appointment VALUES(?, NULL, NULL, 0, ?)");
+            statement  = connection.prepareStatement("INSERT INTO appointment VALUES(?, ?, ?, 0, ?)");
 
-            statement.setDate(1, (Date) date);
+            statement.setString(1, localDate.toLocalDate().toString());
+            statement.setString(2, localDate.toLocalTime().toString());
+            statement.setString(3, localDate.toLocalTime().toString());
+            statement.setString(4, AMKA);
+            statement.execute();
 
+            return true;
         }
         catch (Exception e)
         {
-
+            e.printStackTrace();
+            return false;
         }
     }
 

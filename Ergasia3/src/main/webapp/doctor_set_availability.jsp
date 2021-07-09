@@ -39,7 +39,7 @@
       <br>
 
       <center>
-        <b>Enter date that you are available:  </b><input type="date" name="date_of_appointment" id="date_of_appointment" min="" required>
+        <b>Enter date that you are available:  </b><input type="datetime-local" name="date_of_appointment" id="date_of_appointment" min="" required>
       </center>
 
       <br>
