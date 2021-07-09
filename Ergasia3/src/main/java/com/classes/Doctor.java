@@ -1,5 +1,12 @@
 package com.classes;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.time.LocalDate;
+
 /**
  * This is the model (class) of a Doctor. Each doctor has his speciality and
  * some other abilities, which are to be able to see his appointments, to create a new appointment,
@@ -8,7 +15,8 @@ package com.classes;
 public class Doctor extends Users
 {
     private String speciality; // Speciality that a doctor has
-
+    private static Connection connection;
+    private static PreparedStatement statement;
     private final String AMKA; // This is the unique AMKA of each doctor
 
     // Constructor method
@@ -21,9 +29,26 @@ public class Doctor extends Users
 
     }
 
+    public static boolean set_availability(DataSource datasource, LocalDate localDate, String AMKA)
+    {
+        Date date = new Date().p
+
+        try
+        {
+            connection = datasource.getConnection();
+            statement  = connection.prepareStatement("INSERT INTO appointment VALUES(?, NULL, NULL, 0, ?)");
+
+            statement.setDate(1, (Date) date);
+
+        }
+        catch (Exception e)
+        {
+
+        }
+    }
 
     // Getter for the attribute speciality that a doctor has
-    String getSpeciality()
+    public String getSpeciality()
     {
         return speciality;
     }

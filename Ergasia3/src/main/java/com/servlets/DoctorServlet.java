@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -57,6 +58,16 @@ public class DoctorServlet extends HttpServlet
                 else
                 {
                     LocalDate date = LocalDate.parse(request.getParameter("date_of_appointment"));
+
+
+                    if (Doctor.set_availability(datasource, date, request.getSession().getAttribute("doctorAMKA").toString()))
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
                 }
 
                 break;
