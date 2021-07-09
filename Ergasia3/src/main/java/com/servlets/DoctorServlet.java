@@ -54,15 +54,23 @@ public class DoctorServlet extends HttpServlet
                 Users.Logout(response, request);
                 break;
 
+            //set availability
             case "set availability":
+
+                //if the doctor is on his main page and clicks the button to set an appointment, we redirect him to the set availability page.
                 if (requestedURL.endsWith("doctor_main_environment.jsp"))
                     response.sendRedirect("doctor_set_availability.jsp");
+
+                //otherwise, it means he's on the set availability page
                 else
                 {
+                    //at first we get the date the doctor has set.
                     LocalDateTime date = LocalDateTime.parse(request.getParameter("date_of_appointment"));
 
+                    //then we call the set availability function to insert data into the database.
                     if (Doctor.set_availability(datasource, date, request.getSession().getAttribute("doctorAMKA").toString()))
                     {
+                        //if it's successful, then we redirect he doctor to the success page.
                         request.setAttribute("action", "set availability for " + date.toString());
                         request.setAttribute("redirect", "doctor_set_availability.jsp");
                         RequestDispatcher RD = request.getRequestDispatcher("success.jsp");
@@ -70,6 +78,7 @@ public class DoctorServlet extends HttpServlet
                     }
                     else
                     {
+                        //otherwise, we redirect the doctor to the fail page.
                         Users.Fail(response, "An unexpected error occurred.", "doctor_set_availability.jsp");
                     }
                 }

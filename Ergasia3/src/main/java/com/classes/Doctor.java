@@ -29,6 +29,13 @@ public class Doctor extends Users
 
     }
 
+    /**
+     * Appends data to the database for the specified {@link Doctor}'s available appointments.
+     * @param datasource The database to insert data to.
+     * @param localDate The date and time the {@link Doctor} has picked.
+     * @param AMKA The {@link Doctor}'s {@link Doctor#AMKA}.
+     * @return - True, if the data were appended successfully. <br> - False, if anything goes wrong.
+     */
     public static boolean set_availability(DataSource datasource, LocalDateTime localDate, String AMKA)
     {
         try
