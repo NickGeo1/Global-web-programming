@@ -29,7 +29,7 @@ CREATE TABLE `doctor` (
   `name` varchar(45) NOT NULL,
   `surname` varchar(45) NOT NULL,
   `specialty` varchar(45) NOT NULL,
-  `ADMIN_username` varchar(45),
+  `ADMIN_username` varchar(45) DEFAULT NULL,
   `salt` varchar(45) DEFAULT NULL,
   `age` int NOT NULL,
   PRIMARY KEY (`doctorAMKA`,`username`),
@@ -46,7 +46,7 @@ CREATE TABLE `doctor` (
 
 LOCK TABLES `doctor` WRITE;
 /*!40000 ALTER TABLE `doctor` DISABLE KEYS */;
-INSERT INTO `doctor` VALUES ('10000000001','doctor1','doctor','DocName1','DocSurname1','Pathologist','admin2',NULL,43),('10000000002','doctor2','doctor','DocName2','DocSurname2','Pathologist','admin1',NULL,31),('10000000003','doctor3','doctor','DocName3','DocSurname3','Pathologist','admin1',NULL,51),('20000000001','doctor4','doctor','DocName4','DocSurname4','Pathologist','admin2',NULL,51);
+INSERT INTO `doctor` VALUES ('10000000001','doctor1','8229BAA4AB645E4C9A22C8911707AFF4','Nikolaos','Georgiadis','Pathologist','admin1','lrG{!]y_1U>z�//',28),('10000000002','doctor2','62D1C52BD24F0C822226E391B446CAF6','DocName2','DocSurname2','Pathologist','admin1','\"}s2r)q[g-n4a_n,',31),('10000000003','doctor3','3724E413397626BC5DB80C2915C95526','DocName3','DocSurname3','Pathologist','admin1','7u([7EZ^+r!L2%Ru+',51),('20000000001','doctor4','DD265685BCA1EE769474C77D12807A56','DocName4','DocSurname4','Pathologist',NULL,'SUg8NH%s3E8(d:',51);
 /*!40000 ALTER TABLE `doctor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-01 17:40:44
+-- Dump completed on 2021-07-09 17:53:15

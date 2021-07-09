@@ -40,7 +40,7 @@ CREATE TABLE `admin` (
 
 LOCK TABLES `admin` WRITE;
 /*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES ('admin1','admin',NULL,25,'adname','adsurname'),('admin2','admin',NULL,30,'adname2','adsurname2');
+INSERT INTO `admin` VALUES ('admin1','5049EF64C2A9C559491A563D243C8BA0','\'Puz}.6a~4M\ZhdCg',25,'adname','adsurname');
 /*!40000 ALTER TABLE `admin` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-01 17:40:43
+-- Dump completed on 2021-07-09 17:53:14

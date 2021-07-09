@@ -42,7 +42,7 @@ CREATE TABLE `patient` (
 
 LOCK TABLES `patient` WRITE;
 /*!40000 ALTER TABLE `patient` DISABLE KEYS */;
-INSERT INTO `patient` VALUES ('0','0','0','0','0','0',0),('00000000001','patient1','p','Name1','Surname1',NULL,22),('00000000002','patient2','patient','Name2','Surname2',NULL,12),('00000000003','patient3','patient','Name3','Surname3',NULL,42),('00000000004','patient4','patient','Name4','Surname4',NULL,56),('00000000005','patient5','patient','Name5','Surname5',NULL,78),('00000000006','patient6','patient','Name6','Surname6',NULL,44);
+INSERT INTO `patient` VALUES ('0','0','0','0','0','0',0),('00000000001','patient1','7BA11222065789178D2CC03D9B436DEA','Name1','Surname1','9>\n!yG9BHn5Vo	_	',22),('00000000002','patient2','3F509D3B443890B60160D61295FBB4B2','Name2','Surname2','A7Odhu?OF?O7\Z5Q~',12),('00000000003','patient3','9D0414DB71FF0459E861D42A6564BAA5','Name3','Surname3','	|a&4/lMq2%C_S',42),('00000000004','patient4','0EB2CFE8FC20E3036B35DE669069094F','Name4','Surname4','a5={_X|C iSDwc+$~',56),('00000000005','patient5','8B4D06287BEC0F24594E7B8CE669D489','Name5','Surname5','_%+bSI<\\zgnzUI$',78),('00000000006','patient6','EA79A6C82CE38C6D8C3D27C3727B92B5','Name6','Surname6','[71Vg,G<L@\"_.\\w(*',44);
 /*!40000 ALTER TABLE `patient` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -55,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-01 17:40:43
+-- Dump completed on 2021-07-09 17:53:14
