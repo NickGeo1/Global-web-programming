@@ -63,7 +63,7 @@ public class DoctorServlet extends HttpServlet
 
                     if (Doctor.set_availability(datasource, date, request.getSession().getAttribute("doctorAMKA").toString()))
                     {
-                        request.setAttribute("doctor", "set availability for " + date.toString());
+                        request.setAttribute("action", "set availability for " + date.toString());
                         request.setAttribute("redirect", "doctor_set_availability.jsp");
                         RequestDispatcher RD = request.getRequestDispatcher("success.jsp");
                         RD.forward(request, response);
