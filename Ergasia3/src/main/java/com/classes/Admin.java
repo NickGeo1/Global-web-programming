@@ -26,6 +26,17 @@ public class Admin extends Users
         super(username, password, firstname, surname, age);
     }
 
+    /**
+     * This function is really abstract, so an admin can use it multiple times to delete various users. It interprets the data given to
+     * it and it executes DELETE statements to the database.
+     * @param request The {@link HttpServletRequest} to redirect correctly the user to success.jsp page.
+     * @param response The {@link HttpServletResponse} to reditect the user to the fail.jsp page.
+     * @param datasource The Database to delete data from.
+     * @param Table Any of the following values: ("admin", "doctor", "patient").
+     * @param ValueOfElement The value to search and delete. If the user to be deleted is a {@link Doctor} or a {@link Patient}, then we search to delete an AMKA. If it's an {@link Admin} then it's a username.
+     * @param delete_page The delete page the {@link Admin} attempted to delete a user.
+     * @throws IOException
+     */
     public static void delete_users(HttpServletRequest request, HttpServletResponse response, DataSource datasource, String Table, String ValueOfElement, String delete_page) throws IOException
     {
         String ElementToDelete;
@@ -80,6 +91,7 @@ public class Admin extends Users
 
             connection.close();
 
+            //We send a successful success.jsp message.
             request.setAttribute("action", "deleted the " + Table + " with " + ElementToDelete + " " + ValueOfElement);
             request.setAttribute("redirect", delete_page);
             RequestDispatcher rd = request.getRequestDispatcher("success.jsp");
