@@ -38,7 +38,7 @@ public class Doctor extends Users
 
             statement.setString(1, localDate.toLocalDate().toString());
             statement.setString(2, localDate.toLocalTime().toString());
-            statement.setString(3, localDate.toLocalTime().toString());
+            statement.setString(3, localDate.plusMinutes(30).toLocalTime().toString());
             statement.setString(4, AMKA);
             statement.execute();
 
