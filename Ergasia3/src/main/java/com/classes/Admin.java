@@ -10,8 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 /**
- * This is the model of an Admin. Admins are the only ones who can add,modify and delete doctors from the
- * application
+ * This is the model of an Admin. Admins are the only ones who can add, modify and delete doctors from the
+ * application.
  */
 public class Admin extends Users
 {
@@ -28,7 +28,7 @@ public class Admin extends Users
 
     /**
      * This function is really abstract, so an admin can use it multiple times to delete various users. It interprets the data given to
-     * it and it executes DELETE statements to the database.
+     * it and it executes DELETE statements to the database. If the Value of the Element doesn't exist in the database, it redirects to the Fail page.
      * @param request The {@link HttpServletRequest} to redirect correctly the user to success.jsp page.
      * @param response The {@link HttpServletResponse} to reditect the user to the fail.jsp page.
      * @param datasource The Database to delete data from.
