@@ -1,5 +1,5 @@
 <!-- In this page, patient will be able to watch all of his scheduled appointments -->
-<%@ page import="com.classes.Patient" %>
+<%@ page import="com.classes.Users" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -33,9 +33,8 @@
 
             <br>
 
-            <%= Patient.getHTML() %>
-
-            <% Patient.clearHTML();%>
+            <%= Users.getHTML() %>
+            <% Users.clearHTML(); %>
 
             </table>
 
@@ -61,7 +60,6 @@
                 <input type="hidden" name="patient_action" id="patient_action" value="3">
 
                 <input type="hidden" name="datevalue" id="datevalue" value="">
-                <input type="hidden" name="patientAMKA" id="patientAMKA" value="">
                 <input type="hidden" name="doctorAMKA" id="doctorAMKA" value="">
             </div>
 
@@ -96,14 +94,13 @@
                 document.getElementById("patient_action").value = v;
             }
 
-            function cancelappointment(d,pAMKA,dAMKA)
+            function cancelappointment(d,dAMKA)
             {
-                var choice = confirm("Are you sure that you want to cancel this appointmnt?");
+                var choice = confirm("Are you sure that you want to cancel this appointment?");
 
                 if(choice)
                 {
                     document.getElementById("datevalue").value = d;
-                    document.getElementById("patientAMKA").value = pAMKA;
                     document.getElementById("doctorAMKA").value = dAMKA;
 
                     document.forms[0].submit();

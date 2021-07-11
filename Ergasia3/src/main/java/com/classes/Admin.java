@@ -4,7 +4,6 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +15,7 @@ import java.sql.ResultSet;
  */
 public class Admin extends Users
 {
+    //variables for database management
     private static Connection connection;
     private static PreparedStatement statement;
     private static ResultSet rs;

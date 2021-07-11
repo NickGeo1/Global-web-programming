@@ -15,9 +15,9 @@ import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Every class is extending Users class.This class has the attributes and methods that every kind of user must have
@@ -30,10 +30,18 @@ public class Users
     private boolean loggedOn;
     private int age;
 
-    static Enumeration<String> attributes; //Enumeration list that contains user's session attribute names
+    //A common used string builder instance, in order to print the database results on many jsp pages
+    private static StringBuilder HTML = new StringBuilder("");
 
     // 'UsersCount' variable counts the number of users
     private static int UsersCount = 0;
+
+    //variables for database management
+    private static Connection connection;
+    private static PreparedStatement statement;
+    private static ResultSet rs;
+
+    static Enumeration<String> attributes; //Enumeration list that contains user's session attribute names
 
     public Users(String username, String password, String firstname, String surname, int age)
     {
@@ -149,10 +157,8 @@ public class Users
         {
             //Check if there are any duplicates in the database what comes to AMKA and username.
             //preparing an sql statement
-            Connection connection = dataSource.getConnection();
-            PreparedStatement statement;
+            connection = dataSource.getConnection();
             String selectquery, insertquery;
-            ResultSet rs;
             Integer age = this.getAge();
             String username = this.getUsername(), password = this.getPassword(), name = this.getFirstname(), surname = this.getSurname();
             String user;
@@ -326,24 +332,24 @@ public class Users
         try
         {
             //establishing a connection to the database.
-            Connection con = datasource.getConnection();
+            connection = datasource.getConnection();
 
             //specifying the type of user to log on.
             table = type.toLowerCase();
 
             //preparing a general statement.
-            PreparedStatement stmnt = con.prepareStatement("SELECT hashedpassword,salt FROM `"+ table +"` WHERE username=?");
-            stmnt.setString(1, name);
+            statement = connection.prepareStatement("SELECT hashedpassword,salt FROM `"+ table +"` WHERE username=?");
+            statement.setString(1, name);
 
-            ResultSet rs = stmnt.executeQuery();
+            rs = statement.executeQuery();
 
             //if this username exists and the password is correct
             if(rs.next() && hashPassword(pass, rs.getString("salt")).equals(rs.getString("hashedpassword")))
             {
-                stmnt = con.prepareStatement("SELECT * FROM `"+ table +"` WHERE username=?");
-                stmnt.setString(1,name);
+                statement = connection.prepareStatement("SELECT * FROM `"+ table +"` WHERE username=?");
+                statement.setString(1,name);
 
-                rs = stmnt.executeQuery();
+                rs = statement.executeQuery();
                 rs.next();
 
                 String previous_attribute;
@@ -395,7 +401,7 @@ public class Users
             }
 
             rs.close();
-            con.close();
+            connection.close();
         }
 
         catch(Exception e)
@@ -422,7 +428,118 @@ public class Users
         session.invalidate();
         response.sendRedirect("login.jsp");
     }
-    
+
+    /**
+     *
+     * @param date
+     */
+    public static void cancelScheduledAppointment(String date, String pAMKA, String dAMKA, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
+    {
+        Date now = new Date(); //today's date
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        Date appointment_date = null;
+
+        try
+        {
+            appointment_date = df.parse(date); //appointment date
+
+            Calendar cal =  Calendar.getInstance();
+            cal.setTime(now);
+            cal.add(Calendar.DAY_OF_MONTH, 3);
+            Date nowplus3 = cal.getTime(); //appointment date + 3 days
+
+            String nowplus3str = df.format(nowplus3);
+            nowplus3 = df.parse(nowplus3str); //convert (appointment date + 3 days) to the correct form(dd-MM-yyyy)
+
+            if(nowplus3.after(appointment_date))
+            {
+                String redirect;
+
+                if(request.getSession().getAttribute("patientAMKA") != null)
+                    redirect = "ScheduledAppointments.jsp";
+                else
+                    redirect = "doctor_view_appointments.jsp";
+
+                Fail(response, "You cannot cancel an appointment that is scheduled in less than 3 days from now", redirect);
+                return;
+            }
+
+            connection = datasource.getConnection();
+            statement = connection.prepareStatement("UPDATE appointment SET PATIENT_patientAMKA=0 WHERE date = ? AND PATIENT_patientAMKA = ? AND DOCTOR_doctorAMKA = ?");
+            date = changeDateFormat("dd-MM-yyyy","yyyy-MM-dd",date);
+            statement.setString(1, date);
+            statement.setString(2, pAMKA);
+            statement.setString(3, dAMKA);
+            statement.execute();
+            connection.close();
+
+            if(request.getSession().getAttribute("patientAMKA") != null)
+                response.sendRedirect("ScheduledAppointments.jsp");
+            else
+                response.sendRedirect("doctor_view_appointments.jsp");
+        }
+        catch(ParseException e)
+        {
+            PrintWriter exc = response.getWriter();
+            exc.println("Parse exception during date parsing: "+e.toString());
+        }
+        catch(Exception e)
+        {
+            PrintWriter showhtml = response.getWriter();
+            showhtml.println(e.toString());
+        }
+    }
+
+    /**
+     * Makes an html row in string format with the attributes that passed as parameters
+     *
+     * @param date appointment's date
+     * @param startSlotTime appointment's startSlotTime
+     * @param endSlotTime appointment's endSlotTime
+     * @param user_AMKA a user's AMKA (Doctor's or Patient's)
+     * @return string format of html row
+     */
+    public static String createTableRow(int table_case, String date, String startSlotTime, String endSlotTime, String user_AMKA, String Doctor_specialty, String user_name, String user_surname)
+    {
+        StringBuilder tablerow = new StringBuilder();
+
+        tablerow.append("<tr>");
+        tablerow.append("<td>" + date + "</td>");
+        tablerow.append("<td>" + startSlotTime + "</td>");
+        tablerow.append("<td>" + endSlotTime + "</td>");
+        tablerow.append("<td>" + user_AMKA + "</td>");
+        tablerow.append("<td>" + user_name + "</td>");
+        tablerow.append("<td>" + user_surname + "</td>");
+        if(table_case != 3)
+            tablerow.append("<td>" + Doctor_specialty + "</td>");
+        if(table_case == 1 || table_case == 3)
+            tablerow.append("<td><button style=\"width:60px;\" type=\"button\" onclick=\"" + (table_case == 1 ? "setvalue(7)" : "document.getElementById('doctor_action').value = 'cancel'") +"; cancelappointment('"+date+"','"+user_AMKA+"');\">Cancel</button></td>");
+        else if(table_case == 2)
+            tablerow.append("<td><button type=\"button\" onclick=\"setvalue(8); bookappointment('"+date+"','"+startSlotTime+"','"+endSlotTime+"','"+user_AMKA+"');\">Book</button></td>");
+        tablerow.append("</tr>");
+
+        return tablerow.toString();
+    }
+
+    /**
+     * Takes a date in string format as a parameter and converts it from it's old format to the new one
+     *
+     * @param oldformat the old format of the date
+     * @param newformat the new format of the date
+     * @param date the date in string format
+     * @return the given date at it's new format(as string)
+     * @throws ParseException
+     */
+    public static String changeDateFormat(String oldformat, String newformat, String date) throws ParseException
+    {
+        SimpleDateFormat df = new SimpleDateFormat(oldformat);
+        Date d = df.parse(date);
+        df.applyPattern(newformat);
+        date = df.format(d);
+
+        return date;
+    }
+
     private static String hashPassword(String password, String salt)
     {
         // Hash the password.
@@ -516,6 +633,11 @@ public class Users
         return UsersCount;
     }
 
+    public static StringBuilder getHTML()
+    {
+        return HTML;
+    }
+
     // setters
     public void setUsername(String username) {
         this.username = username;
@@ -533,8 +655,19 @@ public class Users
         this.surname = surname;
     }
 
-    public void setAge(int age) {
+    public static void setHTML(StringBuilder html)
+    {
+        HTML = html;
+    }
+
+    public void setAge(int age)
+    {
         if (age > 0 && age < 119)
             this.age = age;
+    }
+
+    public static void clearHTML()
+    {
+        HTML.setLength(0);
     }
 }

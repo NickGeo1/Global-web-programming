@@ -1,3 +1,5 @@
+<%@ page import="java.text.SimpleDateFormat" %>
+<%@ page import="java.util.Date" %>
 <!-- This is the page in which a doctor will be able to set his availability -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
@@ -38,8 +40,14 @@
       <br>
       <br>
 
+      <%  Date now = new Date();
+          SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+
+          String date_now = df.format(now);
+      %>
+
       <center>
-        <b>Enter date that you are available:  </b><input type="datetime-local" name="date_of_appointment" id="date_of_appointment" min="" required>
+        <b>Enter date that you are available:  </b><input type="datetime-local" name="date_of_appointment" id="date_of_appointment" min="<%= date_now %>" required>
       </center>
 
       <br>

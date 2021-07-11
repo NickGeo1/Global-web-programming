@@ -1,7 +1,7 @@
 <!-- Τhis is the page in which a patient will be able to book an appointment with a doctor -->
 <%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
-<%@ page import="com.classes.Patient" %>
+<%@ page import="com.classes.Users" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -214,6 +214,7 @@
             <br>
 
             <input type="hidden" name="patient_action" id="patient_action" value="2">
+
             <input type="hidden" name="datevalue" id="datevalue" value="">
             <input type="hidden" name="startvalue" id="startvalue" value="">
             <input type="hidden" name="endvalue" id="endvalue" value="">
@@ -222,8 +223,8 @@
             <br>
 
             <center style="color:#012A6C">
-                <%= Patient.getHTML() %>
-                <% Patient.clearHTML(); %>
+                <%= Users.getHTML() %>
+                <% Users.clearHTML(); %>
             </center>
 
             <br>

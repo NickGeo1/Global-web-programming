@@ -123,7 +123,7 @@ public class PatientServlet extends HttpServlet
             //cancel appointment
             case 7:
                 String date = request.getParameter("datevalue");
-                String pAMKA = request.getParameter("patientAMKA");
+                String pAMKA = (String) request.getSession().getAttribute("patientAMKA");
                 String dAMKA = request.getParameter("doctorAMKA");
                 Patient.cancelScheduledAppointment(date,pAMKA,dAMKA,request,response,datasource);
                 break;

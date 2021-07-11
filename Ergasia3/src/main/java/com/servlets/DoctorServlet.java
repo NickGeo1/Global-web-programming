@@ -1,6 +1,7 @@
 package com.servlets;
 
 import com.classes.Doctor;
+import com.classes.Patient;
 import com.classes.Users;
 
 import javax.naming.InitialContext;
@@ -89,7 +90,24 @@ public class DoctorServlet extends HttpServlet
                 if (requestedURL.endsWith("doctor_main_environment.jsp"))
                     response.sendRedirect("doctor_view_appointments.jsp");
                 else
-                    response.sendRedirect("doctor_main_environment.jsp");
+                {
+                    String date;
+
+                    if(request.getParameter("showby").equals("Week"))
+                        date = request.getParameter("week");
+                    else
+                        date = request.getParameter("month");
+
+                    Doctor.viewAppointments(request.getParameter("showby"),date,response,request,datasource);
+                }
+
+                break;
+
+            case "cancel":
+                String date = request.getParameter("datevalue");
+                String pAMKA = request.getParameter("patientAMKA");
+                String dAMKA = (String) request.getSession().getAttribute("doctorAMKA");
+                Patient.cancelScheduledAppointment(date,pAMKA,dAMKA,request,response,datasource);
                 break;
         }
     }

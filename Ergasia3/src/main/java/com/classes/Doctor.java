@@ -1,10 +1,13 @@
 package com.classes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.Statement;
+import java.sql.ResultSet;
 import java.time.*;
 
 /**
@@ -15,9 +18,12 @@ import java.time.*;
 public class Doctor extends Users
 {
     private String speciality; // Speciality that a doctor has
+    private final String AMKA; // This is the unique AMKA of each doctor
+
+    //variables for database management
     private static Connection connection;
     private static PreparedStatement statement;
-    private final String AMKA; // This is the unique AMKA of each doctor
+    private static ResultSet rs;
 
     // Constructor method
     public Doctor(String username, String password, String firstname, String surname, int age, String speciality, String AMKA)
@@ -55,6 +61,100 @@ public class Doctor extends Users
         {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public static void viewAppointments(String showby, String value, HttpServletResponse response, HttpServletRequest request , DataSource datasource) throws IOException
+    {
+        try
+        {
+            connection = datasource.getConnection();    //connection object for database connection
+
+            String query = "SELECT date,startSlotTime,endSlotTime,PATIENT_patientAMKA,name,surname " +
+                    "FROM appointment JOIN patient ON PATIENT_patientAMKA = patientAMKA " +
+                    "WHERE DOCTOR_doctorAMKA = ? AND PATIENT_patientAMKA != 0 AND (date > cast(now() as date) OR date = cast(now() as date) AND startSlotTime > cast(now() as time))" +
+                    " AND date like ?";
+
+            String[] yearandweek = {};
+
+            if(showby.equals("Week"))
+            {
+                query += " AND WEEKOFYEAR(`date`) = ?";
+
+                yearandweek = value.split("-W");
+
+                statement = connection.prepareStatement(query);
+                statement.setString(1,(String) request.getSession().getAttribute("doctorAMKA"));
+                statement.setString(2,yearandweek[0]+"%");
+                statement.setString(3, yearandweek[1]);
+            }
+            else
+            {
+                statement = connection.prepareStatement(query);
+                statement.setString(1,(String) request.getSession().getAttribute("doctorAMKA"));
+                statement.setString(2,value+"%");
+            }
+
+            rs = statement.executeQuery();
+
+            if(rs.next()) //in case there is at least one record, make the table headers
+            {
+                StringBuilder html = new StringBuilder(
+                                "<table>"
+                                +"<tr>"
+                                +"<th>Date</th>"
+                                +"<th>Start time</th>"
+                                +"<th>End time</th>"
+                                +"<th>Patient AMKA</th>"
+                                +"<th>Patient name</th>"
+                                +"<th>Patient surname</th>"
+                                +"</tr>");
+                String date;
+                String startSlotTime;
+                String endSlotTime;
+                String PATIENT_patientAMKA;
+                String Patient_name;
+                String Patient_surname;
+                String htmlRow;
+
+                do  //add the result's rows on the table
+                {
+                    date = rs.getString("date");
+
+                    //change the date to the correct format before storing it into the variable
+                    date = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", date);
+                    startSlotTime = rs.getString("startSlotTime");
+                    endSlotTime = rs.getString("endSlotTime");
+                    PATIENT_patientAMKA = rs.getString("PATIENT_patientAMKA");
+                    Patient_name = rs.getString("name");
+                    Patient_surname = rs.getString("surname");
+
+                    htmlRow = createTableRow(3, date, startSlotTime, endSlotTime, PATIENT_patientAMKA, "", Patient_name, Patient_surname);
+                    html.append(htmlRow);
+
+                }while(rs.next());
+
+                html.append("</table>");
+                setHTML(html);
+                response.sendRedirect("doctor_view_appointments.jsp");
+            }
+            else if(showby.equals("Week")) //In this case, doctor has not any scheduled appointments in this week
+            {
+                Fail(response,"No results found for week " + yearandweek[1] + " of year " + yearandweek[0],"doctor_view_appointments.jsp");
+            }
+            else //In this case, doctor has not any scheduled appointments in this month
+            {
+                String[] yearandmonth = value.split("-");
+                Fail(response,"No results found for month " + yearandmonth[1] + " of year " + yearandmonth[0],"doctor_view_appointments.jsp");
+            }
+
+            rs.close();
+            connection.close(); //close ResultSet and Connection
+        }
+        catch (Exception e)
+        {
+            PrintWriter showhtml = response.getWriter();
+            showhtml.println(e.toString());
         }
     }
 

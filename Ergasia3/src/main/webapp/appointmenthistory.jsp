@@ -1,5 +1,5 @@
 <!-- This is a page in which a patient is able to watch all of the history of his appointments -->
-<%@ page import="com.classes.Patient" %>
+<%@ page import="com.classes.Users" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
@@ -31,8 +31,8 @@
 
             <br>
 
-            <%= Patient.getHTML() %>
-            <% Patient.clearHTML();%>
+            <%= Users.getHTML() %>
+            <% Users.clearHTML(); %>
 
             <br>
             <br>
