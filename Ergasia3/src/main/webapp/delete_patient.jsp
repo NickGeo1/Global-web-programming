@@ -14,9 +14,10 @@
         rd.forward(request, response);
       }%>
 
-    <meta charset="utf-8">
-    <title>Doctor appointments: delete patient</title>
-    <link rel="stylesheet" href="CSS/styles.css">
+      <meta charset="utf-8">
+      <title>Doctor appointments: delete patient</title>
+      <link rel="stylesheet" href="CSS/styles.css">
+
   </head>
 
   <body>

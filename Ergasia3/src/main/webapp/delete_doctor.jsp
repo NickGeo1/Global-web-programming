@@ -17,6 +17,7 @@
         <meta charset="utf-8">
         <title>Doctor appointments: delete doctor</title>
         <link rel="stylesheet" href="CSS/styles.css">
+
     </head>
 
     <body>

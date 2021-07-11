@@ -1,6 +1,6 @@
+<!-- This is the page in which a doctor will be able to set his availability -->
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page import="java.util.Date" %>
-<!-- This is the page in which a doctor will be able to set his availability -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>

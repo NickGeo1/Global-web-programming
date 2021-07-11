@@ -1,6 +1,6 @@
+<!-- In this page, a doctor is able to view all his appointments -->
 <%@ page import="java.util.Calendar" %>
 <%@ page import="com.classes.Users" %>
-<!-- In this page, a doctor is able to view all his appointments -->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
