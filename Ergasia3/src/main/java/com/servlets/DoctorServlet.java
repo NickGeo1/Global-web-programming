@@ -5,6 +5,7 @@ import com.classes.Patient;
 import com.classes.Users;
 
 import javax.naming.InitialContext;
+import javax.print.Doc;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -80,7 +81,7 @@ public class DoctorServlet extends HttpServlet
                     else
                     {
                         //otherwise, we redirect the doctor to the fail page.
-                        Users.Fail(response, "An unexpected error occurred.", "doctor_set_availability.jsp");
+                        Users.Fail(response, Doctor.getReason(), "doctor_set_availability.jsp");
                     }
                 }
 

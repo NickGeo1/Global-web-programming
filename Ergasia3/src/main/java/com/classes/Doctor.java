@@ -24,6 +24,7 @@ public class Doctor extends Users
     private static Connection connection;
     private static PreparedStatement statement;
     private static ResultSet rs;
+    private static String reason;
 
     // Constructor method
     public Doctor(String username, String password, String firstname, String surname, int age, String speciality, String AMKA)
@@ -47,8 +48,20 @@ public class Doctor extends Users
         try
         {
             connection = datasource.getConnection();
-            statement  = connection.prepareStatement("INSERT INTO appointment VALUES(?, ?, ?, 0, ?)");
+            statement  = connection.prepareStatement("SELECT date FROM appointment WHERE ? BETWEEN startSlotTime AND endSlotTime OR" +
+                                                                                            "? BETWEEN startSlotTime AND endSlotTime AND date=?");
+            statement.setString(1, localDate.toLocalTime().plusMinutes(30).toString());
+            statement.setString(2, localDate.toLocalTime().plusMinutes(60).toString());
+            statement.setString(3, localDate.toLocalDate().toString());
+            ResultSet rs = statement.executeQuery();
 
+            if (rs.next())
+            {
+                reason = "Cannot override appointments. Choose another time or date.";
+                return false;
+            }
+
+            statement  = connection.prepareStatement("INSERT INTO appointment VALUES(?, ?, ?, 0, ?)");
             statement.setString(1, localDate.toLocalDate().toString());
             statement.setString(2, localDate.toLocalTime().toString());
             statement.setString(3, localDate.plusMinutes(30).toLocalTime().toString());
@@ -60,6 +73,7 @@ public class Doctor extends Users
         catch (Exception e)
         {
             e.printStackTrace();
+            reason = e.toString();
             return false;
         }
     }
@@ -162,6 +176,11 @@ public class Doctor extends Users
     public String getSpeciality()
     {
         return speciality;
+    }
+
+    public static String getReason()
+    {
+        return reason;
     }
 
     // Getter for the attribute AMKA
