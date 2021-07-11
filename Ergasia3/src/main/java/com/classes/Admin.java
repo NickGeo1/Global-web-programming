@@ -95,6 +95,8 @@ public class Admin extends Users
 
     }
 
+    //New patients can use the Users.Register to be added. So their methods can be very simple.
+
     public static void add_patient(HttpServletRequest request, HttpServletResponse response, DataSource datasource, String username, String password, String firstname, String surname, Integer age, String AMKA) throws IOException
     {
         new Patient(username, password, firstname, surname, age, AMKA).Register(request, response,datasource,"add_new_patient.jsp");
