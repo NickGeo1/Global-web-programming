@@ -430,7 +430,7 @@ public class Users
      *
      * @param date
      */
-    public static void cancelScheduledAppointment(String date, String pAMKA, String dAMKA, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
+    public static void cancelScheduledAppointment(String date, String pAMKA, String dAMKA, String start, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
     {
         Date now = new Date(); //today's date
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
@@ -462,11 +462,12 @@ public class Users
             }
 
             connection = datasource.getConnection();
-            statement = connection.prepareStatement("UPDATE appointment SET PATIENT_patientAMKA=0 WHERE date = ? AND PATIENT_patientAMKA = ? AND DOCTOR_doctorAMKA = ?");
+            statement = connection.prepareStatement("UPDATE appointment SET PATIENT_patientAMKA=0 WHERE date = ? AND PATIENT_patientAMKA = ? AND DOCTOR_doctorAMKA = ? AND startSlotTime=?");
             date = changeDateFormat("dd-MM-yyyy","yyyy-MM-dd",date);
             statement.setString(1, date);
             statement.setString(2, pAMKA);
             statement.setString(3, dAMKA);
+            statement.setString(4,start);
             statement.execute();
             connection.close();
 
@@ -510,7 +511,7 @@ public class Users
         if(table_case != 3)
             tablerow.append("<td>" + Doctor_specialty + "</td>");
         if(table_case == 1 || table_case == 3)
-            tablerow.append("<td><button style=\"width:60px;\" type=\"button\" onclick=\"" + (table_case == 1 ? "setvalue(7)" : "document.getElementById('doctor_action').value = 'cancel'") +"; cancelappointment('"+date+"','"+user_AMKA+"');\">Cancel</button></td>");
+            tablerow.append("<td><button style=\"width:60px;\" type=\"button\" onclick=\"" + (table_case == 1 ? "setvalue(7)" : "document.getElementById('doctor_action').value = 'cancel'") +"; cancelappointment('"+date+"','"+startSlotTime+"','"+user_AMKA+"');\">Cancel</button></td>");
         else if(table_case == 2)
             tablerow.append("<td><button type=\"button\" onclick=\"setvalue(8); bookappointment('"+date+"','"+startSlotTime+"','"+endSlotTime+"','"+user_AMKA+"');\">Book</button></td>");
         tablerow.append("</tr>");

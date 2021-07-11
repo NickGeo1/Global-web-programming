@@ -71,6 +71,7 @@
             <input type="hidden" name="doctor_action" id="doctor_action" value="view appointments">
 
             <input type="hidden" name="datevalue" id="datevalue" value="">
+            <input type="hidden" name="start" id="start" value="">
             <input type="hidden" name="patientAMKA" id="patientAMKA" value="">
 
 
@@ -111,13 +112,14 @@
 
         }
 
-         function cancelappointment(d,pAMKA)
+         function cancelappointment(d,start,pAMKA)
          {
              var choice = confirm("Are you sure that you want to cancel this appointment?");
 
              if(choice)
              {
                  document.getElementById("datevalue").value = d;
+                 document.getElementById("start").value = start;
                  document.getElementById("patientAMKA").value = pAMKA;
 
                  document.forms[0].submit();

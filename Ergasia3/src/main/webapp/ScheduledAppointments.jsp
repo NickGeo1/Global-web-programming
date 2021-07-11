@@ -60,7 +60,9 @@
                 <input type="hidden" name="patient_action" id="patient_action" value="3">
 
                 <input type="hidden" name="datevalue" id="datevalue" value="">
+                <input type="hidden" name="start" id="start" value="">
                 <input type="hidden" name="doctorAMKA" id="doctorAMKA" value="">
+
             </div>
 
         </form>
@@ -94,13 +96,14 @@
                 document.getElementById("patient_action").value = v;
             }
 
-            function cancelappointment(d,dAMKA)
+            function cancelappointment(d,start,dAMKA)
             {
                 var choice = confirm("Are you sure that you want to cancel this appointment?");
 
                 if(choice)
                 {
                     document.getElementById("datevalue").value = d;
+                    document.getElementById("start").value = start;
                     document.getElementById("doctorAMKA").value = dAMKA;
 
                     document.forms[0].submit();

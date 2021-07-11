@@ -125,16 +125,17 @@ public class PatientServlet extends HttpServlet
                 String date = request.getParameter("datevalue");
                 String pAMKA = (String) request.getSession().getAttribute("patientAMKA");
                 String dAMKA = request.getParameter("doctorAMKA");
-                Patient.cancelScheduledAppointment(date,pAMKA,dAMKA,request,response,datasource);
+                String start = request.getParameter("start");
+                Patient.cancelScheduledAppointment(date,pAMKA,dAMKA,start,request,response,datasource);
                 break;
 
             //book appointment
             case 8:
                 String date2 = request.getParameter("datevalue");
-                String start = request.getParameter("startvalue");
+                String start2 = request.getParameter("startvalue");
                 String end = request.getParameter("endvalue");
                 String dAMKA2 = request.getParameter("dAMKA");
-                Patient.bookAppointment(date2,start,end,dAMKA2,response,request,datasource);
+                Patient.bookAppointment(date2,start2,end,dAMKA2,response,request,datasource);
         }
     }
 }
