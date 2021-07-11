@@ -26,6 +26,15 @@
                 font-family:candara;
             }
 
+            /* style rules for the paragraph in this page */
+            p
+            {
+                color:white;
+                font-size:18px;
+                margin: 4px 0;
+                width: auto;
+            }
+
             /* style rules for the body of the page */
             body
             {
@@ -199,7 +208,7 @@
 
         <br>
 
-        Total Users registered: <%= Users.getUsersCount() %>
+        <p>Total Users registered: <%= Users.getUsersCount() %></p>
 
         <script>
 
