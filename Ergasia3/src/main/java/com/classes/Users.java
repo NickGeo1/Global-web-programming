@@ -1,7 +1,6 @@
 package com.classes;
 
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +16,6 @@ import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -311,15 +309,14 @@ public class Users
      * Makes a connection with the database, it is
      * searching the patient's attributes from it,
      * it initializes the patient object with these attributes
-     * and redirects him to the corresponding page.
+     * and redirects them to the corresponding page.
      *
-     * If the user is not found, it redirects him to the 'fail.html' page.
+     * If the user is not found, it redirects him to the 'fail.jsp' page.
      *
      * @param type The type of user to be logged in. (Patient/Doctor/Admin)
      * @param request An HTTPServletRequest to acquire the username and password.
      * @param response An HTTPServletResponse to redirect the user accordingly.
      * @param datasource The datasource required to search the username and password.
-     * @return The user, if found in the database. If the user is not found, returns null.
      */
     public static void Login(String type, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
     {
@@ -411,7 +408,7 @@ public class Users
     }
 
     /**
-     * Terminates access from the user logged on.
+     * Terminates access from the user logged on and ends the session from the User that logged out.
      */
     public static void Logout(HttpServletResponse response, HttpServletRequest request) throws IOException
     {
@@ -592,16 +589,6 @@ public class Users
             System.out.println("IOException: "+e.toString());
             return "";
         }
-    }
-    
-    /**
-     * This method returns the characteristics of each User
-     * @return firstname,username,surname and age
-     */
-    @Override
-    public String toString()
-    {
-        return this.firstname + " \"" + this.username + "\" " + this.surname + ", " + this.age + " years old";
     }
 
     //getters
