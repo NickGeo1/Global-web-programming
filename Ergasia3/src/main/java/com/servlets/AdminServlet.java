@@ -40,6 +40,7 @@ public class AdminServlet extends HttpServlet
         String requestedURL = request.getHeader("referer");
 
         //based on what an admin wants to do, we have a switch-case depending on his actions.
+        //Most of these actions are triggered from a button. So depending from where that button was clicked, we trigger different actions.
         switch (ADMIN_SERVLET_ACTION)
         {
                 //login
@@ -47,10 +48,13 @@ public class AdminServlet extends HttpServlet
                 Users.Login("Admin", request, response, datasource);
                 break;
 
+            //add user methods
             case "add_admin":
+                //if the admin is on the main environment page and presses the button to add an admin, we redirect them to the page where he can add the admin
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
                     response.sendRedirect("add_new_admin.jsp");
 
+                //but if the admin is already in the add admin page, it means that they have data to add. So it's safe to get the data and append them to the databse.
                 else if (requestedURL.endsWith("add_new_admin.jsp"))
                 {
                     String username  = request.getParameter("username");
@@ -64,6 +68,8 @@ public class AdminServlet extends HttpServlet
 
                 break;
 
+                //similarly for all other cases, we examine the same factors before taking action.
+            //if the admin is on its main environment then we don't take any other action other than redirecting them to the page they've clicked on.
             case "add_patient":
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
                     response.sendRedirect("add_new_patient.jsp");
@@ -101,28 +107,35 @@ public class AdminServlet extends HttpServlet
 
                 break;
 
+                //delete methods
             case "delete_admin":
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
                     response.sendRedirect("delete_admin.jsp");
 
                 else if (requestedURL.endsWith("delete_admin.jsp"))
                 {
+                    //if an admin attempts to delete themselves, could result to disaster. So we make sure this is forbidden.
+                    //first we get the username of the admin to be deleted
                     String usernameToBeDeleted = request.getParameter("admin_username");
 
+                    //and if it's the same as the current logged on admin
                     HttpSession session = request.getSession();
                     String CurrentAdminUsername = (String) session.getAttribute("adminusername");
 
+                    //we don't let such thing happen, and we redirect the Admin to the Fail page.
                     if (CurrentAdminUsername.equals(usernameToBeDeleted))
                     {
                         Users.Fail(response, "Admins cannot delete themselves.", "delete_admin.jsp");
                         break;
                     }
 
+                    //otherwise it's safe to delete.
                     Admin.delete_users(request, response, datasource, "admin", usernameToBeDeleted, "delete_admin.jsp");
                 }
 
                 break;
 
+                //all other delete methods don't need such constraints as the admin.
             case "delete_patient":
                 if (requestedURL.endsWith("admin_main_environment.jsp"))
                     response.sendRedirect("delete_patient.jsp");
