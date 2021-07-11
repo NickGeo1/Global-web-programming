@@ -72,7 +72,7 @@ public class Admin extends Users
             }
 
             //otherwise we can execute the delete statement. If the delete statement retains a doctor or a patient to be deleted, we also delete him from the appointments table.
-            //This is acheived by a "on delete cascade" command, in sql level.Last but not least, in case when we delete an admin, we set ADMIN_username=null, in all the related doctors(on delete set null).
+            //This is achieved by a "on delete cascade" command, in SQL level. Last but not least, in case when we delete an admin, we set ADMIN_username=null, in all the related doctors(on delete set null).
             rs.close();
 
             //User can be deleted right away for now.
