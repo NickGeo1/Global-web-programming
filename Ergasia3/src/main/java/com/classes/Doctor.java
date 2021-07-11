@@ -12,7 +12,7 @@ import java.time.*;
 
 /**
  * This is the model (class) of a Doctor. Each doctor has his speciality and
- * some other abilities, which are to be able to see his appointments, to create a new appointment,
+ * some other abilities, which are to be able to see his appointments,
  * as well as say if he is available (or not) for a new appointment.
  */
 public class Doctor extends Users
@@ -78,37 +78,53 @@ public class Doctor extends Users
         }
     }
 
+    /**
+     *
+     * This method returns the html table on doctor_view_appointments.jsp that contains database results of the corresponding doctor's search
+     *
+     * @param showby The value that specifies by what we are going to search the scheduled appointments (by Month or by Week)
+     * @param value The value of the week(ex. 2021-W23 means 23th week of year 2021) or the month(ex 2021-6) we are going to search scheduled appointments by
+     * @param response The HttpResponse response object required to redirect the user in a specific page
+     * @param request The HttpRequest request object required to get the user's session values
+     * @param datasource Object that references to the database datasource
+     * @throws IOException
+     */
     public static void viewAppointments(String showby, String value, HttpServletResponse response, HttpServletRequest request , DataSource datasource) throws IOException
     {
         try
         {
             connection = datasource.getConnection();    //connection object for database connection
 
+            //This query selects all the scheduled appointments related to the logged on doctor and have a given date format
             String query = "SELECT date,startSlotTime,endSlotTime,PATIENT_patientAMKA,name,surname " +
                     "FROM appointment JOIN patient ON PATIENT_patientAMKA = patientAMKA " +
                     "WHERE DOCTOR_doctorAMKA = ? AND PATIENT_patientAMKA != 0 AND (date > cast(now() as date) OR date = cast(now() as date) AND startSlotTime > cast(now() as time))" +
                     " AND date like ?";
 
-            String[] yearandweek = {};
+            String[] yearandweek = {}; //array to split the year and the week from "value" because year and week are seperated by "-W"
 
-            if(showby.equals("Week"))
+            if(showby.equals("Week")) //show appointments by week
             {
+                //if we want to show appointments by week, we have to add the chosen week of year restriction
                 query += " AND WEEKOFYEAR(`date`) = ?";
 
-                yearandweek = value.split("-W");
+                yearandweek = value.split("-W"); //get year and week in array "yearandweek"
 
+                //prepare statement and store the corresponding variables
                 statement = connection.prepareStatement(query);
                 statement.setString(1,(String) request.getSession().getAttribute("doctorAMKA"));
                 statement.setString(2,yearandweek[0]+"%");
                 statement.setString(3, yearandweek[1]);
             }
-            else
+            else //show appointments by month
             {
+                //prepare statement and store the corresponding variables
                 statement = connection.prepareStatement(query);
                 statement.setString(1,(String) request.getSession().getAttribute("doctorAMKA"));
                 statement.setString(2,value+"%");
             }
 
+            //execute statement and return results in rs
             rs = statement.executeQuery();
 
             if(rs.next()) //in case there is at least one record, make the table headers
@@ -149,6 +165,7 @@ public class Doctor extends Users
                 }while(rs.next());
 
                 html.append("</table>");
+                //set the html value and redirect back to doctor_view_appointments.jsp
                 setHTML(html);
                 response.sendRedirect("doctor_view_appointments.jsp");
             }
@@ -158,14 +175,14 @@ public class Doctor extends Users
             }
             else //In this case, doctor has not any scheduled appointments in this month
             {
-                String[] yearandmonth = value.split("-");
+                String[] yearandmonth = value.split("-"); //seperate year and month from value
                 Fail(response,"No results found for month " + yearandmonth[1] + " of year " + yearandmonth[0],"doctor_view_appointments.jsp");
             }
 
             rs.close();
             connection.close(); //close ResultSet and Connection
         }
-        catch (Exception e)
+        catch (Exception e) //in case something goew wrong print the exception in page
         {
             PrintWriter showhtml = response.getWriter();
             showhtml.println(e.toString());
@@ -177,7 +194,7 @@ public class Doctor extends Users
     {
         return speciality;
     }
-
+    //returns the reason of a doctor set availability failure
     public static String getReason()
     {
         return reason;
@@ -185,14 +202,5 @@ public class Doctor extends Users
 
     // Getter for the attribute AMKA
     public String getAMKA() { return this.AMKA; }
-
-    /**
-     * @return The characteristics of each Doctor (firstname,username,surname, age and his speciality)
-     */
-    @Override
-    public String toString()
-    {
-        return super.toString() + ", speciality: "+getSpeciality() + ", AMKA: "+ getAMKA();
-    }
 
 }
