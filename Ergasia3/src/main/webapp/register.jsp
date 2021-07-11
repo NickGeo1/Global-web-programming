@@ -1,5 +1,7 @@
 <!-- This is the page where a patient can register to the application -->
 <!-- source for the html and css code: https://www.geeksforgeeks.org/html-responsive-modal-login-form/ -->
+<%@ page import="com.classes.Users" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 
 <html lang="en">
@@ -194,6 +196,10 @@
             </div>
 
         </form>
+
+        <br>
+
+        Total Users registered: <%= Users.getUsersCount() %>
 
         <script>
 

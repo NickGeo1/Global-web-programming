@@ -1,5 +1,7 @@
 package com.classes;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +17,7 @@ import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -27,7 +30,6 @@ public class Users
 {
     // Basic characteristics of each user
     private String username, password, firstname, surname;
-    private boolean loggedOn;
     private int age;
 
     //A common used string builder instance, in order to print the database results on many jsp pages
@@ -50,8 +52,6 @@ public class Users
         this.firstname = firstname;
         this.surname   = surname;
         this.age       = age;
-        this.loggedOn  = false;
-        UsersCount++;
     }
 
     /**
@@ -625,12 +625,17 @@ public class Users
         return age;
     }
 
-    public boolean isLoggedOn() {
-        return this.loggedOn;
-    }
+    public static String getUsersCount() throws NamingException, SQLException
+    {
+        InitialContext ctx = new InitialContext();
+        DataSource datasource = (DataSource)ctx.lookup("java:comp/env/jdbc/LiveDataSource");
 
-    public static int getUsersCount() {
-        return UsersCount;
+        connection = datasource.getConnection();
+        statement = connection.prepareStatement("SELECT count(*) + (SELECT count(*) + (SELECT count(*) from patient) from admin) AS users from doctor");
+        rs = statement.executeQuery();
+        rs.next();
+
+        return rs.getString("users");
     }
 
     public static StringBuilder getHTML()

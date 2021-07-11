@@ -1,5 +1,4 @@
 <!-- This is the sign-up page. Using this page, patients are now able to sign-up to the application. -->
-<%@ page import="java.io.PrintWriter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 
@@ -191,7 +190,7 @@
             <div class="container" style="background-color:#f1f1f1">
                 <button type="submit">Login</button>
                 <button type="reset" class="cancelbtn">Reset</button>
-                <span class="psw">Don't have an account yet? <a href="register.html">register</a></span>
+                <span class="psw">Don't have an account yet? <a href="register.jsp">register</a></span>
             </div>
 
         </form>

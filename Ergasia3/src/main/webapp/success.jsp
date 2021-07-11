@@ -64,7 +64,7 @@
         <%
             String text;
 
-            if(request.getAttribute("redirect").equals("register.html"))
+            if(request.getAttribute("redirect").equals("register.jsp"))
                 text="You have successfully registered to the application, patient. Welcome!";
             else
                 text="Successfully " + request.getAttribute("action") + ".";
