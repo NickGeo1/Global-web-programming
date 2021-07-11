@@ -625,17 +625,24 @@ public class Users
         return age;
     }
 
-    public static String getUsersCount() throws NamingException, SQLException
+    public static String getUsersCount()
     {
-        InitialContext ctx = new InitialContext();
-        DataSource datasource = (DataSource)ctx.lookup("java:comp/env/jdbc/LiveDataSource");
+        try
+        {
+            InitialContext ctx = new InitialContext();
+            DataSource datasource = (DataSource)ctx.lookup("java:comp/env/jdbc/LiveDataSource");
 
-        connection = datasource.getConnection();
-        statement = connection.prepareStatement("SELECT count(*) + (SELECT count(*) + (SELECT count(*) from patient) from admin) AS users from doctor");
-        rs = statement.executeQuery();
-        rs.next();
+            connection = datasource.getConnection();
+            statement = connection.prepareStatement("SELECT count(*) + (SELECT count(*) + (SELECT count(*) from patient) from admin) AS users from doctor");
+            rs = statement.executeQuery();
+            rs.next();
 
-        return rs.getString("users");
+            return rs.getString("users");
+        }
+        catch(Exception e)
+        {
+            return "An error has occured during users counting";
+        }
     }
 
     public static StringBuilder getHTML()
