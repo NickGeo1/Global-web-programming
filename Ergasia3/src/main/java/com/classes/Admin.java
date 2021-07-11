@@ -111,13 +111,4 @@ public class Admin extends Users
     {
         new Admin(username,password,firstname,surname,age).Register(request,response,datasource,"add_new_admin.jsp");
     }
-
-    /**
-     * This method returns the characteristics of each Admin
-     * @return firstname,username,surname and age of Admin object
-     */
-    @Override
-    public String toString(){
-        return super.toString();
-    }
 }
