@@ -471,26 +471,9 @@ public class Patient extends Users
         }
     }
 
-    /**
-     * @return The characteristics of each Patient (firstname,username,surname, age and his AMKA)
-     */
-    @Override
-    public String toString() {
-        return super.toString() + ", AMKA: " + AMKA;
-    }
-
     // Getter for the attribute AMKA
     public String getAMKA() {
         return this.AMKA;
     }
 
-    /**
-     * This function shows if a patient is available for an appointment or not
-     *
-     * @return True if patient is available. False if patient is not available
-     */
-    public boolean isAvailable() {
-
-        return true;
-    }
 }

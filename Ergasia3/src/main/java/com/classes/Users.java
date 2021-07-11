@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * Every class is extending Users class.This class has the attributes and methods that every kind of user must have
+ * Every class is extending Users class.This class has the attributes and methods that every(or most) kind of user must have
  * Any user has a username, password, firstname, surname, age and is able to Login and Logout from the website
  */
 public class Users
@@ -43,6 +43,7 @@ public class Users
 
     static Enumeration<String> attributes; //Enumeration list that contains user's session attribute names
 
+    //main constructor
     public Users(String username, String password, String firstname, String surname, int age)
     {
         this.username  = username;
@@ -57,6 +58,7 @@ public class Users
      * what went wrong during any process of registration or login.
      * @param response A response object to provide an HTML page.
      * @param reason An error message specifying what went wrong.
+     * @param redirect_to The page we want to redirect the user after the error
      * @throws IOException
      */
     public static void Fail(HttpServletResponse response, String reason, String redirect_to) throws IOException
@@ -92,11 +94,15 @@ public class Users
 
     /**
      * Registers a Patient. Preceding the injection, all fields are carefully processed and tested for duplicates in the database.
-     * If patient's register is successful, he is being redirected to 'patient_main_environment.jsp' page and his data are being
-     * stored into the database.
+     * If patient's register is successful, he is being redirected to 'success.jsp' page and his data are being
+     * stored into the database.If an admin register's a user successfully, he is being redirected to 'success.jsp' too.
+     * For each register, the corresponding success massege is being shown. For example, after a successful admin register
+     * from another admin, 'success.jsp' shows : "Successfully added an admin".
      *
+     * @param request A Servlet request required to get session attributes and redirect the user with Request Dispatcher on the corresponding page with the corresponding message
      * @param response A Servlet response required to provide error information.
      * @param dataSource A Datasource to inject SQL statements into.
+     * @param register_page The page to redirect the user after the register
      * @throws IOException if anything goes wrong with the HttpServletResponse.
      */
     public void Register(HttpServletRequest request, HttpServletResponse response, DataSource dataSource, String register_page) throws IOException
