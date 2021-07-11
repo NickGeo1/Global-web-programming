@@ -28,7 +28,6 @@ CREATE TABLE `appointment` (
   `endSlotTime` time NOT NULL,
   `PATIENT_patientAMKA` varchar(11) NOT NULL,
   `DOCTOR_doctorAMKA` varchar(11) NOT NULL,
-  UNIQUE KEY `PATIENT_patientAMKA` (`PATIENT_patientAMKA`,`DOCTOR_doctorAMKA`,`date`),
   UNIQUE KEY `date` (`date`,`startSlotTime`,`endSlotTime`,`DOCTOR_doctorAMKA`),
   UNIQUE KEY `date_2` (`date`,`startSlotTime`,`endSlotTime`,`PATIENT_patientAMKA`),
   KEY `fk_APPOINTMENT_DOCTOR1_idx` (`DOCTOR_doctorAMKA`),
