@@ -446,7 +446,7 @@ public class Users
     }
 
     /**
-     * Cancels a scheduled appointment between a patient and a doctor, with the given parameters.
+     * Cancels a scheduled appointment between a patient and a doctor, with the given parameters, after the "Cancel" button is being pressed.
      * Makes a connection with the database and sets patientAMKA=0 to the canceled appointment, in
      * order to make it available for other patients. Note that cancelation fails, if a user tries
      * to cancel an appointment that is scheduled less than 3 days after the day he tries to cancel it.
