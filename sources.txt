@@ -1,3 +1,37 @@
 Παράδειγμα
 
 www.stackoverflow.gr/sgsfofhsdflkhelfkjespfo/fwef.jsp (πηγή 1)
+
+για λειτουργια αναλογα το κουμπι (πηγή 2)
+
+https://stackoverflow.com/questions/14723812/how-do-i-call-a-specific-java-method-on-a-click-submit-event-of-a-specific-butto
+
+
+για προσθεση ημερομηνιων (πηγή 3)
+
+https://howtodoinjava.com/java/date-time/add-days-to-date-localdatetime/
+
+
+για αλλαγη min ημερομηνιας με js (πηγή 4)
+
+https://stackoverflow.com/questions/16611774/how-to-change-max-or-min-value-of-input-type-date-from-js
+
+
+για αλλαγη format ημερομηνιας με js (πηγή 5)
+
+https://webarchers.com/how-to-change-date-format-in-javascript/
+
+
+πως να παρουμε ολα τα attributes (πηγή 6)
+
+https://stackoverflow.com/questions/33368963/how-to-get-all-session-values-and-names
+
+
+απο πινακα byte σε string (πηγή 7)
+
+https://stackoverflow.com/questions/18583279/converting-byte-array-containing-ascii-characters-to-a-string
+
+
+για επιλογη εβδομαδιαιων ραντεβου (πηγή 8)
+
+https://stackoverflow.com/questions/20120693/mysql-how-to-select-records-for-this-week
