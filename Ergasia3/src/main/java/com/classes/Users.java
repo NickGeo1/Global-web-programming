@@ -33,9 +33,6 @@ public class Users
     //A common used string builder instance, in order to print the database results on many jsp pages
     private static StringBuilder HTML = new StringBuilder("");
 
-    // 'UsersCount' variable counts the number of users
-    private static int UsersCount = 0;
-
     //variables for database management
     private static Connection connection;
     private static PreparedStatement statement;
@@ -93,11 +90,12 @@ public class Users
     }
 
     /**
-     * Registers a Patient. Preceding the injection, all fields are carefully processed and tested for duplicates in the database.
+     * Registers a user. Preceding the injection, all fields are carefully processed and tested for duplicates in the database.
      * If patient's register is successful, he is being redirected to 'success.jsp' page and his data are being
      * stored into the database.If an admin register's a user successfully, he is being redirected to 'success.jsp' too.
-     * For each register, the corresponding success massege is being shown. For example, after a successful admin register
+     * For each register, the corresponding success message is being shown. For example, after a successful admin register
      * from another admin, 'success.jsp' shows : "Successfully added an admin".
+     * Register's behavior depends on the object type that calls it.
      *
      * @param request A Servlet request required to get session attributes and redirect the user with Request Dispatcher on the corresponding page with the corresponding message
      * @param response A Servlet response required to provide error information.
@@ -165,11 +163,12 @@ public class Users
             String selectquery, insertquery;
             Integer age = this.getAge();
             String username = this.getUsername(), password = this.getPassword(), name = this.getFirstname(), surname = this.getSurname();
-            String user;
+            String user; //this variable specifies the type of user who just registered
             String salt;
 
-            if(this instanceof Patient)
+            if(this instanceof Patient) //If a Patient object calls the register method
             {
+                //check if there is any other patient who has the same given AMKA or username
                 selectquery = "SELECT * FROM patient WHERE patientAMKA=? OR username=?";
                 statement = connection.prepareStatement(selectquery);
                 statement.setString(1, ((Patient)this).getAMKA());
@@ -177,7 +176,7 @@ public class Users
 
                 rs = statement.executeQuery();
 
-                if (rs.next())
+                if (rs.next()) //if there is any, we call the Fail function with the corresponding reason
                 {
                     Fail(response, "This username/AMKA is already taken!", register_page);
                     rs.close();
@@ -185,12 +184,13 @@ public class Users
                     return;
                 }
 
+                //check if there is any doctor who has the same given AMKA or username
                 statement = connection.prepareStatement("SELECT * FROM doctor WHERE doctorAMKA=?");
                 statement.setString(1, ((Patient)this).getAMKA());
 
                 rs = statement.executeQuery();
 
-                if (rs.next())
+                if (rs.next()) //if there is any, we call the Fail function with the corresponding reason
                 {
                     Fail(response, "This AMKA is already taken by a Doctor!", register_page);
                     rs.close();
@@ -198,23 +198,26 @@ public class Users
                     return;
                 }
 
-                salt = createSalt(response);
+                //at this point, no user has the given AMKA or username so we proceed with patient's register
+                salt = createSalt(response); //create a random salt to be added to the new patient's password
 
+                //Insert the new patient to the database
                 insertquery = "INSERT INTO patient (username,hashedpassword,name,surname,age,patientAMKA,salt) VALUES (?,?,?,?,?,?,?)";
                 statement = connection.prepareStatement(insertquery);
                 statement.setString(1, username);
-                statement.setString(2, hashPassword(password, salt));
+                statement.setString(2, hashPassword(password, salt)); //we store the hashed salted password into the database
                 statement.setString(3, name);
                 statement.setString(4, surname);
                 statement.setString(5, age.toString()); //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
                 statement.setString(6, ((Patient)this).getAMKA());
                 statement.setString(7, salt);
 
-                statement.execute();
-                user="Patient";
+                statement.execute(); //execute statement
+                user="Patient"; //set user as patient
             }
-            else if(this instanceof Doctor)
+            else if(this instanceof Doctor) //If a Doctor object(via Admin class) calls the register method
             {
+                //check if there is any other doctor who has the same given AMKA or username
                 selectquery = "SELECT * FROM doctor WHERE doctorAMKA=? OR username=?";
                 statement = connection.prepareStatement(selectquery);
                 statement.setString(1, ((Doctor)this).getAMKA());
@@ -222,7 +225,7 @@ public class Users
 
                 rs = statement.executeQuery();
 
-                if (rs.next())
+                if (rs.next()) //if there is any, we call the Fail function with the corresponding reason
                 {
                     Fail(response, "This username/AMKA is already taken!", register_page);
                     rs.close();
@@ -230,12 +233,13 @@ public class Users
                     return;
                 }
 
+                //check if there is any patient who has the same given AMKA or username
                 statement = connection.prepareStatement("SELECT * FROM patient WHERE patientAMKA=?");
                 statement.setString(1, ((Doctor)this).getAMKA());
 
                 rs = statement.executeQuery();
 
-                if (rs.next())
+                if (rs.next()) //if there is any, we call the Fail function with the corresponding reason
                 {
                     Fail(response, "This AMKA is already taken by a Patient!", register_page);
                     rs.close();
@@ -243,31 +247,38 @@ public class Users
                     return;
                 }
 
-                salt = createSalt(response);
+                //at this point, no user has the given AMKA or username so we proceed with patient's register
+                salt = createSalt(response); //create a random salt to be added to the new doctor's password
 
+                //Insert the new doctor to the database
                 insertquery = "INSERT INTO doctor (username,hashedpassword,name,surname,age,doctorAMKA,specialty,ADMIN_username,salt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 statement = connection.prepareStatement(insertquery);
                 statement.setString(1, username);
-                statement.setString(2, hashPassword(password, salt));
+                statement.setString(2, hashPassword(password, salt));  //we store the hashed salted password into the database
                 statement.setString(3, name);
                 statement.setString(4, surname);
                 statement.setString(5, age.toString());       //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
                 statement.setString(6, ((Doctor)this).getAMKA());
                 statement.setString(7, ((Doctor)this).getSpeciality());
-                statement.setString(8, request.getSession().getAttribute("adminusername").toString());   //when an admin tries to add a doctor, we have to store which admin made that doctor in database
-                statement.setString(9, salt);                                                               //We can get admin's username from the session attribute "username"
 
-                statement.execute();
-                user="Doctor";
+                //when an admin tries to add a doctor, we have to store which admin made that doctor in database
+                //We can get admin's username from the session attribute "adminusername"
+                statement.setString(8, request.getSession().getAttribute("adminusername").toString());
+                statement.setString(9, salt);
+
+                statement.execute();  //execute statement
+                user="Doctor";  //set user as doctor
             }
-            else
+            else //Else, an Admin object(via Admin method) calls the register method
             {
+                //check if there is any other admin who has the given username
                 selectquery = "SELECT * FROM admin WHERE username=?";
                 statement = connection.prepareStatement(selectquery);
                 statement.setString(1, this.getUsername());
 
                 rs = statement.executeQuery();
 
+                //if there is any, we call the Fail function with the corresponding reason
                 if (rs.next())
                 {
                     Fail(response, "This username is already taken!", register_page);
@@ -276,29 +287,34 @@ public class Users
                     return;
                 }
 
-                salt = createSalt(response);
+                //at this point, no admin has the given username so we proceed with admin's register
+                salt = createSalt(response);  //create a random salt to be added to the new doctor's password
 
+                //insert the new admin into the database
                 insertquery = "INSERT INTO admin (username,hashedpassword,name,surname,age,salt) VALUES (?, ?, ?, ?, ?, ?)";
                 statement = connection.prepareStatement(insertquery);
 
                 statement.setString(1, username);
-                statement.setString(2, hashPassword(password, salt));
+                statement.setString(2, hashPassword(password, salt));  //we store the hashed salted password into the database
                 statement.setString(3, name);
                 statement.setString(4, surname);
                 statement.setString(5, age.toString()); //age, as a parameter is an Integer (not an int), so we convert it instantly to string.
                 statement.setString(6, salt);
 
-                statement.execute();
-                user="Administrator";
+                statement.execute();  //execute statement
+                user="Administrator";  //set user as administrator
             }
 
+            //Specify the parameters to be passed on "success.jsp". Parameters depending on the user that just registered
             request.setAttribute("action", "added a new " + user);
             request.setAttribute("redirect",register_page);
+
+            //Make request dispatcher object and forward the user to "success.jsp"
             RequestDispatcher rd = request.getRequestDispatcher("success.jsp");
             rd.forward(request, response);
 
             rs.close();
-            connection.close();
+            connection.close();  //close connection and result set
         }
         catch (Exception exception)
         {
@@ -310,51 +326,48 @@ public class Users
     }
 
     /**
-     * Logs in a user, specified from the login page with all specified credentials.
+     * Logs in a user, specified from the login page with all the specified credentials.
      *
      * Makes a connection with the database, it is
-     * searching the patient's attributes from it,
-     * it initializes the patient object with these attributes
-     * and redirects them to the corresponding page.
+     * searching the user's data from it,
+     * initializes the user's session attributes,
+     * and redirects him to the corresponding page.
      *
-     * If the user is not found, it redirects him to the 'fail.jsp' page.
+     * If the user is not found(wrong credentials), it redirects him to the 'fail.jsp' page.
      *
      * @param type The type of user to be logged in. (Patient/Doctor/Admin)
-     * @param request An HTTPServletRequest to acquire the username and password.
+     * @param request An HTTPServletRequest to acquire the given username and password.
      * @param response An HTTPServletResponse to redirect the user accordingly.
      * @param datasource The datasource required to search the username and password.
      */
     public static void Login(String type, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
     {
-        HttpSession user_session = request.getSession();
+        HttpSession user_session = request.getSession();  //get session object
 
         String name = request.getParameter("username");
-        String pass = request.getParameter("password");
-        String table;
+        String pass = request.getParameter("password");  //get the username and password the user entered in login form
+        String table; //variable that specifies the table we are going to search records from, depending on the user who tries to login
 
         try
         {
             //establishing a connection to the database.
             connection = datasource.getConnection();
 
-            //specifying the type of user to log on.
+            //specifying the type of user to log on(doctor,patient or admin).
             table = type.toLowerCase();
 
             //preparing a general statement.
-            statement = connection.prepareStatement("SELECT hashedpassword,salt FROM `"+ table +"` WHERE username=?");
+            statement = connection.prepareStatement("SELECT * FROM `"+ table +"` WHERE username=?");
             statement.setString(1, name);
 
             rs = statement.executeQuery();
 
-            //if this username exists and the password is correct
+            //if this username exists and the password is correct. To check if password is correct, we take the salt that corresponds
+            //to the given username, and we hash the given password with that salt. If the result hash is equal to the database hash,
+            //login is successful.
             if(rs.next() && hashPassword(pass, rs.getString("salt")).equals(rs.getString("hashedpassword")))
             {
-                statement = connection.prepareStatement("SELECT * FROM `"+ table +"` WHERE username=?");
-                statement.setString(1,name);
-
-                rs = statement.executeQuery();
-                rs.next();
-
+                //We have to clear session attributes in case a user tries to login while another is already logged on
                 String previous_attribute;
 
                 while(attributes != null && attributes.hasMoreElements())
@@ -363,6 +376,7 @@ public class Users
                     user_session.removeAttribute(previous_attribute);
                 }
 
+                //In every user login case, we initialize the corresponding session attributes and we redirect him to the corresponding page
                 switch (type)
                 {
                     case "Patient":
@@ -396,7 +410,7 @@ public class Users
                         break;
                 }
 
-                attributes = user_session.getAttributeNames(); //store attributes in list
+                attributes = user_session.getAttributeNames(); //store attributes in Enumeration type object
             }
             else //wrong credentials
             {
@@ -404,10 +418,9 @@ public class Users
             }
 
             rs.close();
-            connection.close();
+            connection.close(); //close connection and result set
         }
-
-        catch(Exception e)
+        catch(Exception e) //in case of exception, print message to the console
         {
             System.out.println("An exception occured during database connection: "+e.toString());
         }
@@ -418,23 +431,33 @@ public class Users
      */
     public static void Logout(HttpServletResponse response, HttpServletRequest request) throws IOException
     {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession();  //get session object
 
         String attribute;
 
-        while (attributes.hasMoreElements())
+        while (attributes.hasMoreElements())   //remove all the attributes attached to the session object
         {
             attribute = (String) attributes.nextElement();
             session.removeAttribute(attribute);
         }
 
-        session.invalidate();
-        response.sendRedirect("login.jsp");
+        session.invalidate(); //invalidate session
+        response.sendRedirect("login.jsp");  //redirect to "login.jsp"
     }
 
     /**
+     * Cancels a scheduled appointment between a patient and a doctor, with the given parameters.
+     * Makes a connection with the database and sets patientAMKA=0 to the canceled appointment, in
+     * order to make it available for other patients. Note that cancelation fails, if a user tries
+     * to cancel an appointment that is scheduled less than 3 days after the day he tries to cancel it.
      *
-     * @param date
+     * @param date The date of the appointment to be canceled
+     * @param pAMKA The patient AMKA that specifies the patient of the appointment to be canceled
+     * @param dAMKA The doctor AMKA that specifies the doctor of the appointment to be canceled
+     * @param start The starting hour of the appointment
+     * @param request The HttpServletRequest object to get session attributes from
+     * @param response The HttpServletResponse object to redirect the user back on the cancelation page and print messages to the page
+     * @param datasource The Datasource object required to connect to the database
      */
     public static void cancelScheduledAppointment(String date, String pAMKA, String dAMKA, String start, HttpServletRequest request, HttpServletResponse response, DataSource datasource) throws IOException
     {
@@ -444,50 +467,58 @@ public class Users
 
         try
         {
-            appointment_date = df.parse(date); //appointment date
+            appointment_date = df.parse(date); //appointment date in dd-MM-yyyy format
 
             Calendar cal =  Calendar.getInstance();
             cal.setTime(now);
             cal.add(Calendar.DAY_OF_MONTH, 3);
-            Date nowplus3 = cal.getTime(); //appointment date + 3 days
+            Date nowplus3 = cal.getTime(); //current date + 3 days
 
             String nowplus3str = df.format(nowplus3);
-            nowplus3 = df.parse(nowplus3str); //convert (appointment date + 3 days) to the correct form(dd-MM-yyyy)
+            nowplus3 = df.parse(nowplus3str); //convert (current date + 3 days) to the correct form(dd-MM-yyyy)
 
-            if(nowplus3.after(appointment_date))
+            if(nowplus3.after(appointment_date)) //if (current date + 3 days) is after appointment date, cancelation cannot be done
             {
                 String redirect;
 
+                //if patientAMKA session attribute is not null, that means a patient is logged on, so we redirect him to "ScheduledAppointments.jsp"
                 if(request.getSession().getAttribute("patientAMKA") != null)
                     redirect = "ScheduledAppointments.jsp";
+                //otherwise, a doctor is logged on, so we redirect him to "doctor_view_appointments.jsp"
                 else
                     redirect = "doctor_view_appointments.jsp";
 
+                //show fail message and redirect
                 Fail(response, "You cannot cancel an appointment that is scheduled in less than 3 days from now", redirect);
                 return;
             }
 
+            //If we reach this point, that means that cancelation can be done.
+            //Connect to the database and set PATIENT_patientAMKA=0 on the desired appointment
+            //at appointment table, in order to make that appointment available for other patients
             connection = datasource.getConnection();
             statement = connection.prepareStatement("UPDATE appointment SET PATIENT_patientAMKA=0 WHERE date = ? AND PATIENT_patientAMKA = ? AND DOCTOR_doctorAMKA = ? AND startSlotTime=?");
-            date = changeDateFormat("dd-MM-yyyy","yyyy-MM-dd",date);
+            date = changeDateFormat("dd-MM-yyyy","yyyy-MM-dd",date); //In database, dates are being stored in yyyy-MM-dd format, so we have to convert the given date format first
             statement.setString(1, date);
             statement.setString(2, pAMKA);
             statement.setString(3, dAMKA);
-            statement.setString(4,start);
+            statement.setString(4, start);
             statement.execute();
             connection.close();
 
+            //if patientAMKA session attribute is not null, that means a patient is logged on, so we redirect him to "ScheduledAppointments.jsp"
             if(request.getSession().getAttribute("patientAMKA") != null)
                 response.sendRedirect("ScheduledAppointments.jsp");
+            //otherwise, a doctor is logged on, so we redirect him to "doctor_view_appointments.jsp"
             else
                 response.sendRedirect("doctor_view_appointments.jsp");
         }
-        catch(ParseException e)
+        catch(ParseException e) //Show parse exception
         {
             PrintWriter exc = response.getWriter();
             exc.println("Parse exception during date parsing: "+e.toString());
         }
-        catch(Exception e)
+        catch(Exception e)//Show other exception
         {
             PrintWriter showhtml = response.getWriter();
             showhtml.println(e.toString());
@@ -495,34 +526,51 @@ public class Users
     }
 
     /**
-     * Makes an html row in string format with the attributes that passed as parameters
+     * Returns an html row in string format with the attributes that passed as parameters
      *
+     * @param table_case an integer from 0 to 3, that specifies the output.
+     * More specifically:
+     * 0 corresponds to a patient's appointment history output
+     * 1 corresponds to a patient's scheduled appointments output(A Cancel button appears)
+     * 2 corresponds to a patient's search of available appointments output(A Book button appears)
+     * 3 corresponds to a doctor's scheduled appointments output(A Cancel button appears)
      * @param date appointment's date
      * @param startSlotTime appointment's startSlotTime
      * @param endSlotTime appointment's endSlotTime
      * @param user_AMKA a user's AMKA (Doctor's or Patient's)
+     * @param Doctor_specialty The doctor's specialty
+     * @param user_name The user's firstname
+     * @param user_surname The user's lastname
      * @return string format of html row
      */
     public static String createTableRow(int table_case, String date, String startSlotTime, String endSlotTime, String user_AMKA, String Doctor_specialty, String user_name, String user_surname)
     {
-        StringBuilder tablerow = new StringBuilder();
+        StringBuilder tablerow = new StringBuilder(); //string builder object to store the html output
 
         tablerow.append("<tr>");
+        //show the all-case-common column values
         tablerow.append("<td>" + date + "</td>");
         tablerow.append("<td>" + startSlotTime + "</td>");
         tablerow.append("<td>" + endSlotTime + "</td>");
         tablerow.append("<td>" + user_AMKA + "</td>");
         tablerow.append("<td>" + user_name + "</td>");
         tablerow.append("<td>" + user_surname + "</td>");
+
+        //if the logged on user is not a doctor, show the doctor's specialty on patient appointments
         if(table_case != 3)
             tablerow.append("<td>" + Doctor_specialty + "</td>");
+
+        //if we want to show the scheduled appointments, we have to include a cancel button.The button's function depends on the logged on user and on the appointment that it is next to
         if(table_case == 1 || table_case == 3)
             tablerow.append("<td><button style=\"width:60px;\" type=\"button\" onclick=\"" + (table_case == 1 ? "setvalue(7)" : "document.getElementById('doctor_action').value = 'cancel'") +"; cancelappointment('"+date+"','"+startSlotTime+"','"+user_AMKA+"');\">Cancel</button></td>");
+
+        //if a patient tries to book an appointment, we have to include a book button
         else if(table_case == 2)
             tablerow.append("<td><button type=\"button\" onclick=\"setvalue(8); bookappointment('"+date+"','"+startSlotTime+"','"+endSlotTime+"','"+user_AMKA+"');\">Book</button></td>");
+
         tablerow.append("</tr>");
 
-        return tablerow.toString();
+        return tablerow.toString(); //return the html string
     }
 
     /**
@@ -544,6 +592,13 @@ public class Users
         return date;
     }
 
+    /**
+     * Takes the password and the salt as parameter and returns the hashed salted password
+     *
+     * @param password The given password to be salted and hashed
+     * @param salt The salt to include in password
+     * @return The hashed salted password in Uppercase
+     */
     private static String hashPassword(String password, String salt)
     {
         // Hash the password.
@@ -552,7 +607,8 @@ public class Users
         try
         {
             messageDigest = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException ex)
+        }
+        catch (NoSuchAlgorithmException ex)
         {
             return "00000000000000000000000000000000";
         }
@@ -564,7 +620,14 @@ public class Users
         }
         return hashed.toUpperCase();
     }
-    
+
+    /**
+     *
+     * Returns a random 20byte string called "salt"
+     *
+     * @param response The response object to use and write the exception in order something goes wrong
+     * @return The salt in string format or an empty string if something goes wrong
+     */
     private static String createSalt(HttpServletResponse response)
     {
         PrintWriter writer = null;
@@ -575,23 +638,24 @@ public class Users
             SecureRandom random = new SecureRandom();
 
             byte bytes[]= new byte[20];
-            random.nextBytes(bytes);
+            random.nextBytes(bytes); //put 20 random bytes on bytes array
 
+            //Check if any byte is negative and if it is, make it positive
             for(int i = 0; i< bytes.length; i++)
             {
                 if(bytes[i] < 0)
                     bytes[i] = (byte) -bytes[i];
             }
 
-            return new String(bytes, "UTF-8");
+            return new String(bytes, "UTF-8"); //Translate the bytes of the array to a UTF-8 string and return it
 
         }
-        catch(UnsupportedEncodingException e)
+        catch(UnsupportedEncodingException e) //in UnsupportedEncodingException case, print the exception message on page
         {
             writer.println("UnsupportedEncodingException: "+e.toString());
             return "";
         }
-        catch (IOException e)
+        catch (IOException e) //in IOException case, print the exception message on console
         {
             System.out.println("IOException: "+e.toString());
             return "";
@@ -619,6 +683,11 @@ public class Users
         return age;
     }
 
+    /**
+     * Makes a connection with the database and with a nested query, it counts all the users stored on it
+     *
+     * @return The number of users registered or an error message if something goes wrong
+     */
     public static String getUsersCount()
     {
         try
