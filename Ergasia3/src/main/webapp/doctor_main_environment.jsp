@@ -9,13 +9,14 @@ cancel an appointment -->
 
     <head>
 
-      <%response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
+      <%//make page invalidate in every access and dont store it to cache in order to prevent access with back button after logout
+        response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
 
-        if(session.getAttribute("doctorusername") == null)
+        if(session.getAttribute("doctorusername") == null) //if doctor username attribute is null that means admin is no more logged on
         {
         request.setAttribute("message",1);
         RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-        rd.forward(request, response);
+        rd.forward(request, response); //forward the user back to login page and show "Session time out message"
         }%>
 
         <meta charset="utf-8">
@@ -196,6 +197,8 @@ cancel an appointment -->
                 <center>
 
                     <div class="container">
+
+                        <!--In every button click the form is submitted and the value of the pressed button is being passed in DoctorServlet-->
 
                         <button id="buttons" name="doctor_action" value="set availability"  type="submit">Set availability</button>
                         <button id="buttons" name="doctor_action" value="view appointments" type="submit">View scheduled appointments</button>

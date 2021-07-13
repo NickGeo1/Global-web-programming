@@ -9,13 +9,14 @@ scheduled in the past-->
 
     <head>
 
-       <%response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
+        <%//make page invalidate in every access and dont store it to cache in order to prevent access with back button after logout
+        response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
 
-        if(session.getAttribute("patientusername") == null)
+        if(session.getAttribute("patientusername") == null)  //if patient username attribute is null that means admin is no more logged on
         {
             request.setAttribute("message",1);
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.forward(request, response);
+            rd.forward(request, response); //forward the user back to login page and show "Session time out message"
         }%>
 
         <meta charset="utf-8">
@@ -224,8 +225,10 @@ scheduled in the past-->
 
             //Depending on the button clicked that describes the action,
             //an action value is being stored in the hidden html input
-            //tag (name="patient_action").At the end, we submit the
+            //tag (name="patient_action").We submit the
             //form and we are being redirected to the patient servlet.
+            //From there, we get the hidden input html tag value, and we
+            //act accordingly.
 
             function setAction(a)
             {

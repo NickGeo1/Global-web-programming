@@ -8,14 +8,15 @@ able to insert a new doctor to the system or delete one doctor from the system -
 
     <head>
 
-      <%response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
+        <%//make page invalidate in every access and dont store it to cache in order to prevent access with back button after logout
+            response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
 
-        if(session.getAttribute("adminusername") == null)
-        {
-            request.setAttribute("message",1);
-            RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.forward(request, response);
-        }%>
+            if(session.getAttribute("adminusername") == null) //if admin username attribute is null that means admin is no more logged on
+            {
+                request.setAttribute("message",1);
+                RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
+                rd.forward(request, response); //forward the user back to login page and show "Session time out message"
+            }%>
 
         <meta charset="utf-8">
         <title>Doctor appointments: dashboard</title>
@@ -195,6 +196,8 @@ able to insert a new doctor to the system or delete one doctor from the system -
                 <center>
 
                     <div class="container">
+
+                        <!--In every button click the form is submitted and the value of the pressed button is being passed in AdminServlet-->
 
                         <button id="buttons" name="admin_action" value="add_admin"     type="submit">Add new administrator</button>
                         <button id="buttons" name="admin_action" value="add_patient"   type="submit">Add new patient</button>

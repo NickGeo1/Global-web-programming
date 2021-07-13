@@ -5,13 +5,14 @@
 
     <head>
 
-       <%response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
+       <%//make page invalidate in every access and dont store it to cache in order to prevent access with back button after logout
+       response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
 
-        if(session.getAttribute("adminusername") == null)
+        if(session.getAttribute("adminusername") == null) //if admin username attribute is null that means admin is no more logged on
         {
             request.setAttribute("message",1);
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.forward(request, response);
+            rd.forward(request, response); //forward the user back to login page and show "Session time out message"
         }%>
 
         <meta charset="utf-8">

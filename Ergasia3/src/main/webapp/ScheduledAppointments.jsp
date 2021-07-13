@@ -8,16 +8,17 @@
 
     <head>
 
-        <%response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
+        <%//make page invalidate in every access and dont store it to cache in order to prevent access with back button after logout
+        response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
 
-        if(session.getAttribute("patientusername") == null)
+        if(session.getAttribute("patientusername") == null)  //if patient username attribute is null that means admin is no more logged on
         {
             request.setAttribute("message",1);
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.forward(request, response);
+            rd.forward(request, response); //forward the user back to login page and show "Session time out message"
         }%>
 
-        <title>Doctor appointments: scheduled appointments</title>
+        <title>Patient scheduled appointments</title>
         <link rel="stylesheet" href="CSS/styles.css">
         <meta charset="utf-8">
 
@@ -33,8 +34,8 @@
 
             <br>
 
-            <%= Users.getHTML() %>
-            <% Users.clearHTML(); %>
+            <%= Users.getHTML() //print the html results that showScheduledAppointments method stored on HTML variable %>
+            <% Users.clearHTML(); //clear HTML variable%>
 
             </table>
 
@@ -57,8 +58,10 @@
                 <input type="text" id="value" name="value" disabled="true" required>
                 <button type="submit" onclick="setvalue(3);">Search</button>
 
+                <!--Hidden html tag that stores the patient servlet action as it's value -->
                 <input type="hidden" name="patient_action" id="patient_action" value="3">
 
+                <!--Hidden html tags that stores the details of the desired to cancel appointment -->
                 <input type="hidden" name="datevalue" id="datevalue" value="">
                 <input type="hidden" name="start" id="start" value="">
                 <input type="hidden" name="doctorAMKA" id="doctorAMKA" value="">
@@ -74,7 +77,7 @@
         </div>
 
         <script>
-            function checkoption()
+            function checkoption() //this function disables the input html tag for doctor attribute if we choose to search all the appointments from select box
             {
                 var s = document.getElementById("showby");
                 var o = s.options[s.selectedIndex].value;
@@ -91,12 +94,14 @@
 
             }
 
-            function setvalue(v)
-            {
+            function setvalue(v) //this function is being used to set value on a hidden html tag after the submit button click.
+            {                    //patient servlet takes the value from the hidden html tag and performs the corresponding action
                 document.getElementById("patient_action").value = v;
             }
 
-            function cancelappointment(d,start,dAMKA)
+                                                       //this function is running after we press a "Cancel" button on the table that HTML variable returns
+                                                       //(see above). It takes the desirable to cancel appointment details as parameter, it passes them to
+            function cancelappointment(d,start,dAMKA) //hidden html input tags and then submits the form
             {
                 var choice = confirm("Are you sure that you want to cancel this appointment?");
 

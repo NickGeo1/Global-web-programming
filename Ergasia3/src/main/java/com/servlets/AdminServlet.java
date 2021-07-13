@@ -33,8 +33,8 @@ public class AdminServlet extends HttpServlet
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
-        ADMIN_SERVLET_ACTION = request.getParameter("admin_action");
-        String requestedURL = request.getHeader("referer");
+        ADMIN_SERVLET_ACTION = request.getParameter("admin_action"); //Get the action value from the pressed html button(see admin_main_environment.jsp)
+        String requestedURL = request.getHeader("referer"); //get the URL that sent you to this servlet
 
         //based on what an admin wants to do, we have a switch-case depending on his actions.
         //Most of these actions are triggered from a button. So depending from where that button was clicked, we trigger different actions.

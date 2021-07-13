@@ -10,13 +10,14 @@
 
     <head>
 
-       <%response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
+        <%//make page invalidate in every access and dont store it to cache in order to prevent access with back button after logout
+        response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
 
-        if(session.getAttribute("patientusername") == null)
+        if(session.getAttribute("patientusername") == null)  //if patient username attribute is null that means admin is no more logged on
         {
             request.setAttribute("message",1);
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.forward(request, response);
+            rd.forward(request, response); //forward the user back to login page and show "Session time out message"
         }%>
 
         <title>Doctor appointments: book appointment</title>
@@ -149,10 +150,10 @@
                 <label><b style="color:#012A6C">Hello, let's book your appointment!</b></label>
             </div>
 
-            <%  Date now = new Date();
+            <%  Date now = new Date(); //get the current date
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
-                String date_now = df.format(now);
+                String date_now = df.format(now); //format the current date to the required format for date html input tag
             %>
 
             <div class="container">
@@ -162,7 +163,7 @@
             <br>
 
             <center>
-
+                                                                                                                <!-- Set the current date as minimum starting date -->
                 <b style="color:#012A6C;">Starting date:  </b><input type="date" name="start" id="start" onchange="set_min_end_date();" required min=<%= date_now %>>
 
                 <br>
@@ -213,8 +214,10 @@
 
             <br>
 
+            <!--Hidden html tag that stores the patient servlet action as it's value -->
             <input type="hidden" name="patient_action" id="patient_action" value="2">
 
+            <!--Hidden html tags that stores the details of the desired to book appointment -->
             <input type="hidden" name="datevalue" id="datevalue" value="">
             <input type="hidden" name="startvalue" id="startvalue" value="">
             <input type="hidden" name="endvalue" id="endvalue" value="">
@@ -223,8 +226,8 @@
             <br>
 
             <center style="color:#012A6C">
-                <%= Users.getHTML() %>
-                <% Users.clearHTML(); %>
+                <%= Users.getHTML() //print the html results that searchAvailableAppointments method stored on HTML variable %>
+                <% Users.clearHTML(); //clear HTML variable%>
             </center>
 
             <br>
@@ -239,8 +242,8 @@
 
         <script>
 
-            function setvalue(v)
-            {
+            function setvalue(v) //this function is being used to set value on a hidden html tag after the submit button click.
+            {                    //patient servlet takes the value from the hidden html tag and performs the corresponding action
                 document.getElementById("patient_action").value = v;
             }
 
@@ -272,7 +275,7 @@
                 return start_date;
             }
 
-            function checkoption()
+            function checkoption() //this function manages the input tags depending on the select box value you choose
             {
                 var s = document.getElementById("searchby");
                 var o = s.options[s.selectedIndex].value;
@@ -301,8 +304,10 @@
 
             }
 
-            function bookappointment(date,start,end,dAMKA)
-            {
+            function bookappointment(date,start,end,dAMKA) //this function is running after we press a "Book" button on the table that HTML variable returns
+            {                                              //(see above). It takes the desirable to book appointment details as parameter, it passes them to
+                                                          //hidden html input tags and then submits the form
+
                 var choice = confirm("Are you sure that you want to book this appointmnt?");
 
                 if(choice)

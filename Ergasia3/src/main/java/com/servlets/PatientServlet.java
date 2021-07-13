@@ -4,9 +4,7 @@ import com.classes.Patient;
 import com.classes.Users;
 
 import java.io.*;
-import java.text.ParseException;
 import javax.naming.InitialContext;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -41,47 +39,57 @@ public class PatientServlet extends HttpServlet
         //Get the action value from the hidden html input tag(see patient_main_environment.jsp)
         PATIENT_SERVLET_ACTION = Integer.parseInt(request.getParameter("patient_action"));
 
-        String requestedURL = request.getHeader("referer");
+        String requestedURL = request.getHeader("referer"); //get the URL that sent you to this servlet
+
         //Depending on the action value, execute the corresponding method
 
         switch(PATIENT_SERVLET_ACTION)
         {
-            case 1:         //appointment history
+            //appointment history
+            case 1:
+                //if the patient is on his main page and clicks the button to view appointment history, we redirect him to the appointmenthistory page.
+                //similarly for all other cases, we examine the same factors before taking action.
                 if (requestedURL.endsWith("patient_main_environment.jsp"))
                     response.sendRedirect("appointmenthistory.jsp");
                 else
+                    //else, patient is already to appointmenthistory page, so we call the corresponding method with the parameters he entered on form
                     Patient.showAppointmentHistory(request.getParameter("showby"), request.getParameter("value"), response, request, datasource);
                 break;
 
-            case 2:         //Search available appointment
+            //Search available appointment
+            case 2:
                 String value_param = "";
 
-                //dates are being passed in yyyy-MM-dd format from the form
                 if (requestedURL.endsWith("patient_main_environment.jsp"))
                 {
                     response.sendRedirect("AvailableDoctorAppointments.jsp");
                     return;
                 }
-                else if (request.getParameter("searchby").equals("Full name"))
+                //if patient clicks the search button on AvailableDoctorAppointments page, we have to check if he wants to search appointments by doctor full name
+                else if (request.getParameter("searchby").equals("Full name")) //if he wants, we have to join firstname and lastname together
                     value_param = request.getParameter("value") + " " + request.getParameter("value2");
-                else
+                else //else we get the unique attribute of any other category
                     value_param = request.getParameter("value");
 
+                //dates are being passed in yyyy-MM-dd format from the form(refering to start date and end date)
                 Patient.searchAvailableAppointments(request.getParameter("start"), request.getParameter("end"), request.getParameter("searchby"), value_param, response, datasource);
                 break;
 
-            case 3:         //Scheduled appointments
+            //Scheduled appointments(similar to case 1)
+            case 3:
                 if(requestedURL.endsWith("patient_main_environment.jsp"))
                     response.sendRedirect("ScheduledAppointments.jsp");
                 else
                     Patient.showScheduledAppointments(request.getParameter("showby"), request.getParameter("value"), response, request, datasource);
                 break;
 
-            case 4:         //logout
+            //logout
+            case 4:
                 Patient.Logout(response, request);
                 break;
 
-            case 5:         //register
+            //register
+            case 5:
                 //getting the age as it is from the form and try to cast it to integer
                 int age = 0;
                 try
@@ -109,18 +117,14 @@ public class PatientServlet extends HttpServlet
                 break;
 
             //login
-
             case 6:
-                if (!request.getParameter("category").equals("Patient"))
-                {
-                    Users.Fail(response, "Wrong Users Category!", "login.jsp");
-                    return;
-                }
-
                 Users.Login("Patient",request,response,datasource);
                 break;
 
             //cancel appointment
+
+            //We get the desirable date value, the start time, the patient and doctor amka of the appointment we want to delete,
+            //based to the cancel button clicked and we remove the corresponding record from the database
             case 7:
                 String date = request.getParameter("datevalue");
                 String pAMKA = (String) request.getSession().getAttribute("patientAMKA");
@@ -130,6 +134,9 @@ public class PatientServlet extends HttpServlet
                 break;
 
             //book appointment
+
+            //We get the desirable date value, the start time, the end time and the doctor amka of the appointment we want to book,
+            //based to the book button clicked and we update the corresponding appointment record from database.
             case 8:
                 String date2 = request.getParameter("datevalue");
                 String start2 = request.getParameter("startvalue");

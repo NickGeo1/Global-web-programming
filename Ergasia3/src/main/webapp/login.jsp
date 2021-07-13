@@ -6,16 +6,18 @@
 
     <head>
 
-        <%  String msg;
-            if(request.getAttribute("message") != null)
+        <%
+            //if any user session has been timed out, we are being redirected to this page with a message attribute
+            String msg;
+            if(request.getAttribute("message") != null) //if user has been redirected
             {
                 msg = "<p>Session time out</p>";
             }
-            else
+            else //else user has not been redirected
                 msg = "";
         %>
 
-        <h1><%= msg %></h1>
+        <h1><%= msg %></h1> <!-- Show the above initialized message -->
 
         <title>Doctor appointments: login</title>
         <meta charset="utf-8">
@@ -201,25 +203,24 @@
     <script>
         const form = document.getElementById("login");
 
+        //functions that run after every radio button click.Depending on the radio button selected, the form action changes
+        //in order for the user to be redirected to the corresponding servlet
         function AdminAction()
         {
             if (document.getElementById("Admin").checked)
                 form.action = "admin";
-            //form.setAttribute("action", "admin");
         }
 
         function PatientAction()
         {
             if (document.getElementById("Patient").checked)
                 form.action = "patient";
-            //form.setAttribute("action", "patient");
         }
 
         function DoctorAction()
         {
             if (document.getElementById("Doctor").checked)
                 form.action = "doctor";
-            //form.setAttribute("action", "doctor");
         }
     </script>
 

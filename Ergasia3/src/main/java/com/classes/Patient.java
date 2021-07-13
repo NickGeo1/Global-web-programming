@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 
 
@@ -34,6 +35,127 @@ public class Patient extends Users
 
     /**
      *
+     * Returns a ResultSet object that contains the results of a patient's desired appointments.
+     * Using the class's global Connection object, makes a connection with database, then, initializes
+     * the query depending on the parameters, creates the statement and then the result set.
+     *
+     * @param showby     The doctor attribute to search appointments by
+     * @param value      The actual value of the above attribute
+     * @param category   The category of the appointment(history or scheduled)
+     * @param session    Session object required to get patient's session attributes
+     * @return The ResultSet object that contains the results of a patient's desired appointments
+     * @throws SQLException
+     * @throws ParseException
+     */
+    private static ResultSet createResultSet(String showby, String value, String category, HttpSession session) throws SQLException, ParseException
+    {
+        //Query that selects all the required information of the appointments(using < operator for history appointments and > for scheduled).
+        String query = "SELECT date,startSlotTime,endSlotTime,DOCTOR_doctorAMKA,specialty,name,surname " +
+                "FROM appointment JOIN doctor ON DOCTOR_doctorAMKA = doctorAMKA " +
+                "WHERE PATIENT_patientAMKA = ? AND (date "+(category.equals("history") ? "<":">") +" cast(now() as date) " +
+                "OR date = cast(now() as date) AND "+(category.equals("history") ? "endSlotTime <":"startSlotTime >") +" cast(now() as time))";
+
+        switch (showby)    //depending on the showby value we add one more constraint on the query.
+        {
+            case "Doctor AMKA":
+
+                if (!value.matches("[0-9]{11}"))
+                    throw new ParseException("Invalid AMKA", 0); //in case of invalid AMKA format, we throw a parse exception
+
+                query += " AND DOCTOR_doctorAMKA = ?"; //Add doctor AMKA constraint
+                break;
+
+            case "Date":
+                //in case we want to search by date, we have to change its format because the format is different in the database
+                value = changeDateFormat("dd-MM-yyyy", "yyyy-MM-dd", value);
+
+                query += " AND date = ?"; //Add date constraint
+                break;
+
+            case "Specialty":
+
+                query += " AND specialty = ?"; //Add doctor specialty constraint
+                break;
+        }
+
+        //A prepared statement object, on which we are going to store our sql statement
+        PreparedStatement statement = connection.prepareStatement(query);
+
+        //set the first query parameter equal to the patient's AMKA
+        statement.setString(1, session.getAttribute("patientAMKA").toString());
+
+        //if we dont want to show all the history appointments, we have to add the doctor attribute value parameter to query
+        if (!showby.equals("Show all"))
+            statement.setString(2, value);
+
+        //Returning the result set that contains the results.
+        return statement.executeQuery();
+    }
+
+    /**
+     * Returns an html table in StringBuilder format that contains the patient's desired appointment results.
+     * We inject each row result from rs, into each table row
+     *
+     * @param table_case The specified case for each table row(see create createTableRow method)
+     * @param rs The result set object that contains the sql statement results
+     * @return The html table of the results in StringBuilder format
+     * @throws SQLException
+     * @throws ParseException
+     */
+    private static StringBuilder createHtmlTable(int table_case, ResultSet rs) throws SQLException, ParseException
+    {
+        //In this html variable, we append each row of the html table we want to return
+
+        StringBuilder html = new StringBuilder(  //append the table headers first
+                "<table>"
+                        + "<tr>"
+                        + "<th>Date</th>"
+                        + "<th>Start time</th>"
+                        + "<th>End time</th>"
+                        + "<th>Doctor AMKA</th>"
+                        + "<th>Doctor name</th>"
+                        + "<th>Doctor surname</th>"
+                        + "<th>Doctor specialty</th>"
+                        + "</tr>");
+
+        String date;
+        String startSlotTime;
+        String endSlotTime;
+        String DOCTOR_doctorAMKA;
+        String Doctor_specialty;
+        String Doctor_name;
+        String Doctor_surname;
+        String htmlRow;
+
+        //For each result set row, store the column values into variables and append on html variable the html row
+        //created from these variables
+        do
+        {
+            date = rs.getString("date");
+
+            //change the date to the correct format before storing it into the variable(database holds date in yyyy-MM-dd format)
+            date = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", date);
+            startSlotTime = rs.getString("startSlotTime");
+            endSlotTime = rs.getString("endSlotTime");
+            DOCTOR_doctorAMKA = rs.getString("DOCTOR_doctorAMKA");
+            Doctor_specialty = rs.getString("specialty");
+            Doctor_name = rs.getString("name");
+            Doctor_surname = rs.getString("surname");
+
+            //Get table row for appointment
+            htmlRow = createTableRow(table_case, date, startSlotTime, endSlotTime, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
+            //append on html variable the above row
+            html.append(htmlRow);
+
+        } while (rs.next());
+
+        html.append("</table>");
+
+        return html; //return the created html table
+    }
+
+    /**
+     *
      * Searching for available appointments between a given time interval, specified(or not) by a doctor attribute and the attribute value
      *
      * Makes a html table which contains, on each row, the details about the doctor who is available on a specific date and time,
@@ -50,7 +172,8 @@ public class Patient extends Users
      * @param datasource A Datasource to inject SQL statements into.
      * @throws IOException
      */
-    public static void searchAvailableAppointments(String start_date, String end_date, String searchby, String value, HttpServletResponse response, DataSource datasource) throws IOException {
+    public static void searchAvailableAppointments(String start_date, String end_date, String searchby, String value, HttpServletResponse response, DataSource datasource) throws IOException
+    {
 
         StringBuilder html = new StringBuilder(""); //a string builder object to store the html content we want to show on "AvailableDoctorAppointments.jsp"
 
@@ -119,51 +242,8 @@ public class Patient extends Users
 
             rs = statement.executeQuery(); //execute query
 
-            if (rs.next()) //in case there is at least one record, append on html variable the table headers
-            {
-                html.append(
-                            "<table>"
-                            + "<tr>"
-                            + "<th>Date</th>"
-                            + "<th>Start time</th>"
-                            + "<th>End time</th>"
-                            + "<th>Doctor AMKA</th>"
-                            + "<th>Doctor name</th>"
-                            + "<th>Doctor surname</th>"
-                            + "<th>Doctor specialty</th>"
-                            + "</tr>");
-
-                String date;
-                String startSlotTime;
-                String endSlotTime;
-                String DOCTOR_doctorAMKA;
-                String Doctor_specialty;
-                String Doctor_name;
-                String Doctor_surname;
-                String htmlRow;
-
-                do  //add the result's rows on html variable
-                {
-                    date = rs.getString("date");
-
-                    //change the date to the correct format before storing it into the variable(database holds date in yyyy-MM-dd format)
-                    date = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", date);
-                    startSlotTime = rs.getString("startSlotTime");
-                    endSlotTime = rs.getString("endSlotTime");
-                    DOCTOR_doctorAMKA = rs.getString("DOCTOR_doctorAMKA");
-                    Doctor_specialty = rs.getString("specialty");
-                    Doctor_name = rs.getString("name");
-                    Doctor_surname = rs.getString("surname");
-
-                    //Get table row for available appointment
-                    htmlRow = createTableRow(2, date, startSlotTime, endSlotTime, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
-                    //append on html variable the above row
-                    html.append(htmlRow);
-
-                } while (rs.next());
-
-                html.append("</table>");
-            }
+            if (rs.next()) //in case there is at least one record, store on html variable the table result for available appointments
+                html = createHtmlTable(2, rs);
             else if (!rs.next() && searchby.equals("Show all")) //if there is not any results on "Show all category"
             {
                 //change from database date format to dd-MM-yyyy format in order to show the fail message to user
@@ -198,7 +278,7 @@ public class Patient extends Users
         }
         finally //in any case, set the HTML value equal to html value. HTML is being shown in "AvailableDoctorAppointments.jsp"
         {
-            setHTML(html);
+            setHTML(html); //Set HTML equal to html. HTML content is being shown at "AvailableDoctorAppointments.jsp"
             response.sendRedirect("AvailableDoctorAppointments.jsp"); //redirect the user back
         }
     }
@@ -283,95 +363,13 @@ public class Patient extends Users
         try
         {
             connection = datasource.getConnection();    //connection object for database connection
-            statement = null;       //A prepared statement object, on which we are going to store our sql statement
 
-            //Query that selects all the required information of the history appointments
-            String query = "SELECT date,startSlotTime,endSlotTime,DOCTOR_doctorAMKA,specialty,name,surname " +
-                    "FROM appointment JOIN doctor ON DOCTOR_doctorAMKA = doctorAMKA " +
-                    "WHERE PATIENT_patientAMKA = ? AND (date < cast(now() as date) OR date = cast(now() as date) AND endSlotTime < cast(now() as time))";
+            rs = createResultSet(showby,value,"history", session); //return on rs the patient's search results
 
-            switch (showby)    //depending on the showby value we add one more constraint on the query.
+            if (rs.next()) //in case there is at least one record, store on html variable the table result for history appointments
             {
-                case "Doctor AMKA":
-
-                    if (!value.matches("[0-9]{11}"))
-                        throw new ParseException("Invalid AMKA", 0); //in case of invalid AMKA format, we throw a parse exception
-
-                    query += " AND DOCTOR_doctorAMKA = ?"; //Add doctor AMKA constraint
-                    break;
-
-                case "Date":
-                    //in case we want to search by date, we have to change its format because the format is different in the database
-                    value = changeDateFormat("dd-MM-yyyy", "yyyy-MM-dd", value);
-
-                    query += " AND date = ?"; //Add date constraint
-                    break;
-
-                case "Specialty":
-
-                    query += " AND specialty = ?"; //Add doctor specialty constraint
-                    break;
-            }
-
-            //set the first query parameter equal to the patient's AMKA
-            statement = connection.prepareStatement(query);
-            statement.setString(1, session.getAttribute("patientAMKA").toString());
-
-            //if we dont want to show all the history appointments, we have to add the doctor attribute value parameter to query
-            if (!showby.equals("Show all"))
-                statement.setString(2, value);
-
-            //after executing the correct statement we check the results.
-            rs = statement.executeQuery();
-
-            if (rs.next()) //in case there is at least one record on result set
-            {
-                StringBuilder html = new StringBuilder(""); //a string builder object to store the html content we want to show on "appointmenthistory.jsp"
-
-                //append on html variable the table headers
-                html.append("<table>");
-                html.append("<tr>");
-                html.append("<th>Date</th>");
-                html.append("<th>Start time</th>");
-                html.append("<th>End time</th>");
-                html.append("<th>Doctor AMKA</th>");
-                html.append("<th>Doctor name</th>");
-                html.append("<th>Doctor surname</th>");
-                html.append("<th>Doctor specialty</th>");
-                html.append("</tr>");
-
-                String date;
-                String startSlotTime;
-                String endSlotTime;
-                String DOCTOR_doctorAMKA;
-                String Doctor_specialty;
-                String Doctor_name;
-                String Doctor_surname;
-                String htmlRow;
-
-                do  //append the result's rows on the html variable
-                {
-                    date = rs.getString("date");
-
-                    //change the date to the correct format before storing it into the variable
-                    date = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", date);
-                    startSlotTime = rs.getString("startSlotTime");
-                    endSlotTime = rs.getString("endSlotTime");
-                    DOCTOR_doctorAMKA = rs.getString("DOCTOR_doctorAMKA");
-                    Doctor_specialty = rs.getString("specialty");
-                    Doctor_name = rs.getString("name");
-                    Doctor_surname = rs.getString("surname");
-
-                    //Get table row for history appointment
-                    htmlRow = createTableRow(0, date, startSlotTime, endSlotTime, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
-                    //append to html variable the above row
-                    html.append(htmlRow);
-
-                } while (rs.next());
-
-                html.append("</table>");
-                //set HTML value equal to html value.(HTML content appears in "appointmenthistory.jsp")
-                setHTML(html);
+                StringBuilder html = createHtmlTable(0, rs); //a string builder object to store the html content we want to show on "appointmenthistory.jsp"
+                setHTML(html); //Set HTML content equal to html content. HTML content appears on "appointmenthistory.jsp"
                 response.sendRedirect("appointmenthistory.jsp"); //redirect patient back
             }
             else if (!rs.next() && showby.equals("Show all")) //if there is not any record on the results and the option
@@ -429,93 +427,11 @@ public class Patient extends Users
         {
             connection = datasource.getConnection();    //connection object for database connection
 
-            //Query that selects all the required information of the scheduled appointments
-            String query = "SELECT date,startSlotTime,endSlotTime,DOCTOR_doctorAMKA,specialty,name,surname " +
-                    "FROM appointment JOIN doctor ON DOCTOR_doctorAMKA = doctorAMKA " +
-                    "WHERE PATIENT_patientAMKA = ? AND (date > cast(now() as date) OR date = cast(now() as date) AND startSlotTime > cast(now() as time))";
+            rs = createResultSet(showby,value,"scheduled",session); //return on rs the patient's search results
 
-            switch (showby)     //depending on the showby value we add one more constraint on the query.
+            if (rs.next()) //in case there is at least one record, store on html variable the table result for scheduled appointments
             {
-                case "Doctor AMKA": //showby = Doctor AMKA
-
-                    if (!value.matches("[0-9]{11}"))
-                        throw new ParseException("Invalid AMKA", 0); //in case of invalid AMKA format, we throw a parse exception
-
-                    query += " AND DOCTOR_doctorAMKA = ?"; //add Doctor AMKA constraint
-                    break;
-
-                case "Date": //showby = Date
-                    //in case we want to search by date, we have to change its format because the format is different in the database
-                    value = changeDateFormat("dd-MM-yyyy", "yyyy-MM-dd", value);
-
-                    query += " AND date = ?"; //add date constraint
-                    break;
-
-                case "Specialty": //showby = Specialty
-
-                    query += " AND specialty = ?"; //add doctor specialty constraint
-                    break;
-            }
-
-            //set the first query parameter equal to the patient's AMKA
-            statement = connection.prepareStatement(query);
-            statement.setString(1, session.getAttribute("patientAMKA").toString());
-
-            //if we dont want to show all the history appointments, we have to add the doctor attribute value parameter to query
-            if (!showby.equals("Show all"))
-                statement.setString(2, value);
-
-            //after executing the correct statement we check the results.
-            rs = statement.executeQuery();
-
-            if (rs.next()) //in case there is at least one record, make the table headers
-            {
-                StringBuilder html = new StringBuilder(""); //a string builder object to store the html content we want to show on "ScheduledAppointments.jsp"
-
-                //append table headers on html variable
-                html.append(
-                            "<table>"
-                            + "<tr>"
-                            + "<th>Date</th>"
-                            + "<th>Start time</th>"
-                            + "<th>End time</th>"
-                            + "<th>Doctor AMKA</th>"
-                            + "<th>Doctor name</th>"
-                            + "<th>Doctor surname</th>"
-                            + "<th>Doctor specialty</th>"
-                            + "</tr>");
-
-                String date;
-                String startSlotTime;
-                String endSlotTime;
-                String DOCTOR_doctorAMKA;
-                String Doctor_specialty;
-                String Doctor_name;
-                String Doctor_surname;
-                String htmlRow;
-
-                do  //append the result's rows on the html variable
-                {
-                    date = rs.getString("date");
-
-                    //change the date to the correct format before storing it into the variable
-                    date = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", date);
-                    startSlotTime = rs.getString("startSlotTime");
-                    endSlotTime = rs.getString("endSlotTime");
-                    DOCTOR_doctorAMKA = rs.getString("DOCTOR_doctorAMKA");
-                    Doctor_specialty = rs.getString("specialty");
-                    Doctor_name = rs.getString("name");
-                    Doctor_surname = rs.getString("surname");
-
-                    //Get the scheduled appointment row
-                    htmlRow = createTableRow(1, date, startSlotTime, endSlotTime, DOCTOR_doctorAMKA, Doctor_specialty, Doctor_name, Doctor_surname);
-
-                    //Append the result on html variable
-                    html.append(htmlRow);
-
-                } while (rs.next());
-
-                html.append("</table>");
+                StringBuilder html = createHtmlTable(1, rs); //a string builder object to store the html content we want to show on "ScheduledAppointments.jsp"
                 setHTML(html); //Set HTML equal to html. HTML content is being shown at "ScheduledAppointments.jsp"
                 response.sendRedirect("ScheduledAppointments.jsp"); //redirect back
             }

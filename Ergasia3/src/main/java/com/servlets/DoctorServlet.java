@@ -35,9 +35,10 @@ public class DoctorServlet extends HttpServlet
 
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        DOCTOR_SERVLET_ACTION = request.getParameter("doctor_action");
-        String requestedURL = request.getHeader("referer");
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException
+    {
+        DOCTOR_SERVLET_ACTION = request.getParameter("doctor_action"); //Get the action value from the pressed html button(see doctor_main_environment.jsp)
+        String requestedURL = request.getHeader("referer"); //get the URL that sent you to this servlet
 
         switch (DOCTOR_SERVLET_ACTION)
         {
@@ -104,10 +105,11 @@ public class DoctorServlet extends HttpServlet
                 }
 
                 break;
+
             //cancel scheduled appointment
             case "cancel":
-                //We get the desirable date value, the start time, the patient and doctor amka of the appointment we want to delete
-                //and we remove the corresponding record from the database
+                //We get the desirable date value, the start time, the patient and doctor amka of the appointment we want to delete,
+                //based from the cancel button clicked and we remove the corresponding record from the database
                 String date = request.getParameter("datevalue");
                 String pAMKA = request.getParameter("patientAMKA");
                 String start = request.getParameter("start");

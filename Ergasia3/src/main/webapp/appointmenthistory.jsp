@@ -8,13 +8,14 @@
 
     <head>
 
-      <%response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
+      <%//make page invalidate in every access and dont store it to cache in order to prevent access with back button after logout
+        response.setHeader("Cache-Control","no-cache, no-store, must-invalidate");
 
-        if(session.getAttribute("patientusername") == null)
+        if(session.getAttribute("patientusername") == null)  //if patient username attribute is null that means admin is no more logged on
         {
             request.setAttribute("message",1);
             RequestDispatcher rd = request.getRequestDispatcher("login.jsp");
-            rd.forward(request, response);
+            rd.forward(request, response); //forward the user back to login page and show "Session time out message"
         }%>
 
         <title>Doctor appointments: view history</title>
@@ -31,8 +32,8 @@
 
             <br>
 
-            <%= Users.getHTML() %>
-            <% Users.clearHTML(); %>
+            <%= Users.getHTML() //print the html results that showAppointmentHistory method stored on HTML variable %>
+            <% Users.clearHTML(); //clear HTML variable%>
 
             <br>
             <br>
@@ -65,7 +66,7 @@
 
         <script>
 
-            function checkoption()
+            function checkoption() //this function disables the input html tag for doctor attribute if we choose to search all the appointments from select box
             {
                 var s = document.getElementById("showby");
                 var o = s.options[s.selectedIndex].value;

@@ -62,16 +62,17 @@
         <br>
 
         <%
+            //Depending on the page that calls success.jsp we get the corresponding message.
             String text;
 
-            if(request.getAttribute("redirect").equals("register.jsp"))
+            if(request.getAttribute("redirect").equals("register.jsp")) //if redirect page is register.jsp, that means a patient has just been self registered
                 text="You have successfully registered to the application, patient. Welcome!";
-            else
+            else //else, we get the action attribute from the sender page in order to show the correct message
                 text="Successfully " + request.getAttribute("action") + ".";
         %>
 
         <div class="navbar">
-            <p><pre>  <%= text %></pre></p>
+            <p><pre>  <%= text %></pre></p> <!-- show message -->
         </div>
 
     </body>

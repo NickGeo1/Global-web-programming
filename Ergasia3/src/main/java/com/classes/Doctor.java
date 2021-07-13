@@ -81,6 +81,7 @@ public class Doctor extends Users
     /**
      *
      * This method returns the html table on doctor_view_appointments.jsp that contains database results of the corresponding doctor's search
+     * of scheduled appointments
      *
      * @param showby The value that specifies by what we are going to search the scheduled appointments (by Month or by Week)
      * @param value The value of the week(ex. 2021-W23 means 23th week of year 2021) or the month(ex 2021-6) we are going to search scheduled appointments by
