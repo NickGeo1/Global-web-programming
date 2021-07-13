@@ -34,7 +34,7 @@
 
             <br>
 
-            <%= Users.getHTML() //print the html results that showScheduledAppointments method stored on HTML variable %>
+            <%= Users.getHTML() %> <!-- print the html results that showScheduledAppointments method stored on HTML variable -->
             <% Users.clearHTML(); //clear HTML variable%>
 
             </table>

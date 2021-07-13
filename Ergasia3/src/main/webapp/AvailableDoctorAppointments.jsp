@@ -226,7 +226,7 @@
             <br>
 
             <center style="color:#012A6C">
-                <%= Users.getHTML() //print the html results that searchAvailableAppointments method stored on HTML variable %>
+                <%= Users.getHTML() %> <!-- //print the html results that searchAvailableAppointments method stored on HTML variable -->
                 <% Users.clearHTML(); //clear HTML variable%>
             </center>
 

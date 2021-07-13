@@ -183,7 +183,9 @@ public class Patient extends Users
 
             //This is our default query, in case we want to search all the available appointments
             //Query selects all the required data from appointment and doctor tables, from records that
-            //have patientAMKA = 0(available) and date between the date interval the patient gave
+            //have patientAMKA = 0(available) and date between the date interval the patient gave.
+            //Note that dates are being passed in yyyy-MM-dd format so we dont have to change their format
+            //in order to search them in database
             String query = "SELECT date,startSlotTime,endSlotTime,DOCTOR_doctorAMKA,specialty,name,surname " +
                     "FROM appointment JOIN doctor ON DOCTOR_doctorAMKA = doctorAMKA " +
                     "WHERE PATIENT_patientAMKA = 0 AND date BETWEEN ? AND ?";
@@ -379,9 +381,6 @@ public class Patient extends Users
             else  //In this case, there is not any record on the results but the option wasn't 'Show all'.
             {     //That means there is not any results JUST for the restrictions we had set
 
-                if (showby.equals("Date")) //if showby value was "Date", change date format to inform the user
-                    value = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", value);
-
                 Fail(response, "No results found for " + showby + " " + value, "appointmenthistory.jsp");
             }
 
@@ -441,10 +440,6 @@ public class Patient extends Users
             }
             else  //In this case, there is not any record on the results but the option wasn't 'Show all'.
             {     //That means there is not any results JUST for the restrictions we had set
-
-                //convert date to dd-MM-yyyy format in order to inform the user
-                if (showby.equals("Date"))
-                    value = changeDateFormat("yyyy-MM-dd", "dd-MM-yyyy", value);
 
                 Fail(response, "No results found for " + showby + " " + value, "ScheduledAppointments.jsp");
             }

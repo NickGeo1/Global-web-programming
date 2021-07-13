@@ -208,7 +208,7 @@
 
         <br>
 
-        <p>Total Users registered: <%= Users.getUsersCount()  //Get the users count from database %></p>
+        <p>Total Users registered: <%= Users.getUsersCount()%></p> <!-- Get the users count from database -->
 
         <script>
 
