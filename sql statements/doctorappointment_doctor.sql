@@ -46,7 +46,7 @@ CREATE TABLE `doctor` (
 
 LOCK TABLES `doctor` WRITE;
 /*!40000 ALTER TABLE `doctor` DISABLE KEYS */;
-INSERT INTO `doctor` VALUES ('10000000001','doctor1','8229BAA4AB645E4C9A22C8911707AFF4','Nikolaos','Georgiadis','Pathologist','admin1','lrG{!]y_1U>z�//',28),('10000000002','doctor2','62D1C52BD24F0C822226E391B446CAF6','DocName2','DocSurname2','Pathologist','admin1','\"}s2r)q[g-n4a_n,',31),('10000000003','doctor3','3724E413397626BC5DB80C2915C95526','DocName3','DocSurname3','Pathologist','admin1','7u([7EZ^+r!L2%Ru+',51),('20000000001','doctor4','DD265685BCA1EE769474C77D12807A56','DocName4','DocSurname4','Pathologist',NULL,'SUg8NH%s3E8(d:',51);
+INSERT INTO `doctor` VALUES ('01119100203','gregdaniels','9934E473603E1BDDC2CE7EF03092A3F7','Greogory','Daniels','Pathologist','admin4','W,6<8f+@7K=6\'mo_',30),('04046903279','stpapad','8DCDAE8DA6AE7A1E23639E401FC27458','Stelios','Papadopoulos','Orthopedist','admin4','z\0E@xyg*0k�@G',52),('05026554433','m_rigos','B3C2C83BFE9C0ED0E7B0CE6A02C987F7','Menios','Rigos','Orthopedist','admin4','m\\,L5Jo[<H4Z-@)7Z',56),('19086208822','dr_k','70733061BEE9D12E6AF14DEEB126C3A5','Marios','Kalopoulos','Ophthalmologist','admin4','\"~7zRH\r�\0_\06*!	[z',59),('19099309918','doctor1','8229BAA4AB645E4C9A22C8911707AFF4','Kermie','Kegley','Pathologist','admin1','lrG{!]y_1U>z�//',28),('31128121619','manos_mp','DF9C3A9D5F15182F0F7D1C9A92C90F54','Emmanouil','Mpouzoukis','Orthopedist','admin4','gcDeuAst,b1%71w#H\"',40);
 /*!40000 ALTER TABLE `doctor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -59,4 +59,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-07-09 17:53:15
+-- Dump completed on 2021-07-14  3:16:39
