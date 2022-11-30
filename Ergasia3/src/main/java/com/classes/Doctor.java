@@ -48,11 +48,12 @@ public class Doctor extends Users
         try
         {
             connection = datasource.getConnection();
-            statement  = connection.prepareStatement("SELECT date FROM appointment WHERE ? BETWEEN startSlotTime AND endSlotTime OR" +
+            statement  = connection.prepareStatement("SELECT date FROM appointment WHERE ? BETWEEN startSlotTime AND endSlotTime AND date=? OR" +
                                                                                             "? BETWEEN startSlotTime AND endSlotTime AND date=?");
             statement.setString(1, localDate.toLocalTime().toString());
-            statement.setString(2, localDate.toLocalTime().plusMinutes(30).toString());
-            statement.setString(3, localDate.toLocalDate().toString());
+            statement.setString(2, localDate.toLocalDate().toString());
+            statement.setString(3, localDate.toLocalTime().plusMinutes(30).toString());
+            statement.setString(4, localDate.toLocalDate().toString());
             ResultSet rs = statement.executeQuery();
 
             if (rs.next())
