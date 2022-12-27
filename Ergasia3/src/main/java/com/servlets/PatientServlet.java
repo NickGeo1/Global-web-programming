@@ -51,9 +51,26 @@ public class PatientServlet extends HttpServlet
                 //similarly for all other cases, we examine the same factors before taking action.
                 if (requestedURL.endsWith("patient_main_environment.jsp"))
                     response.sendRedirect("appointmenthistory.jsp");
+
+                //else, patient is already to appointmenthistory page, so we call the corresponding method with the parameters he entered on form
                 else
-                    //else, patient is already to appointmenthistory page, so we call the corresponding method with the parameters he entered on form
-                    Patient.showAppointmentHistory(request.getParameter("showby"), request.getParameter("value"), response, request, datasource);
+                {
+                    String value;
+
+                    //if patient wants to search history appointments by doctor specialty, get the input value of
+                    //HTML tag, with name = "value2"
+                    if(request.getParameter("showby").equals("Specialty"))
+                        value = request.getParameter("value2");
+
+                    //else patient wants to search history appointments by something else (including show all)
+                    //so we retrieve input value of HTML tag, with name = "value1"
+                    else
+                        value = request.getParameter("value1");
+
+                    Patient.showAppointmentHistory(request.getParameter("showby"), value, response, request, datasource);
+
+                }
+
                 break;
 
             //Search available appointment
@@ -80,7 +97,21 @@ public class PatientServlet extends HttpServlet
                 if(requestedURL.endsWith("patient_main_environment.jsp"))
                     response.sendRedirect("ScheduledAppointments.jsp");
                 else
-                    Patient.showScheduledAppointments(request.getParameter("showby"), request.getParameter("value"), response, request, datasource);
+                {
+                    String value;
+
+                    //if patient wants to search history appointments by doctor specialty, get the input value of
+                    //HTML tag, with name = "value2"
+                    if(request.getParameter("showby").equals("Specialty"))
+                        value = request.getParameter("value2");
+
+                    //else patient wants to search history appointments by something else (including show all)
+                    //so we retrieve input value of HTML tag, with name = "value1"
+                    else
+                        value = request.getParameter("value1");
+
+                    Patient.showScheduledAppointments(request.getParameter("showby"), value, response, request, datasource);
+                }
                 break;
 
             //logout

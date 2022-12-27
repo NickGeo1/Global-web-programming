@@ -107,9 +107,9 @@ public class Users
     {
         //Checks for all the fields. We use Users.Fail() to provide a plain-text HTML page to print any errors.
 
-        if (this.getUsername().isBlank())
+        if (!this.getUsername().matches("[A-Za-z0-9]{1,12}"))
         {
-            Fail(response, "Invalid Username! A username cannot be blank.",register_page);
+            Fail(response, "Invalid Username! The username length must be between 1 and 12 characters. Only alphabetic and numeric characters are allowed",register_page);
             return;
         }
 
@@ -121,13 +121,13 @@ public class Users
 
         else if (!this.getFirstname().matches("[A-Z][a-z]+"))
         {
-            Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.",register_page);
+            Fail(response, "Invalid Firstname! All first/last names must start with one capital letter with succeeding lowercase letters. No other characters, other than letters, are allowed.",register_page);
             return;
         }
 
         else if (!this.getSurname().matches("[A-Z][a-z]+"))
         {
-            Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with a succeeding lowercase letter. No other characters, other than letters, are allowed.",register_page);
+            Fail(response, "Invalid Lastname! All first/last names must start with one capital letter with succeeding lowercase letters. No other characters, other than letters, are allowed.",register_page);
             return;
         }
 
@@ -347,6 +347,13 @@ public class Users
         String name = request.getParameter("username");
         String pass = request.getParameter("password");  //get the username and password the user entered in login form
         String table; //variable that specifies the table we are going to search records from, depending on the user who tries to login
+
+        //Check username format server side during login, before taking any action
+        if (!name.matches("[A-Za-z0-9]{1,12}"))
+        {
+            response.sendRedirect("fail.html");
+            return;
+        }
 
         try
         {
@@ -585,6 +592,7 @@ public class Users
     public static String changeDateFormat(String oldformat, String newformat, String date) throws ParseException
     {
         SimpleDateFormat df = new SimpleDateFormat(oldformat);
+        df.setLenient(false); //Added this to avoid parsing dates like: 32-12-2001 which converts to 01-01-2002
         Date d = df.parse(date);
         df.applyPattern(newformat);
         date = df.format(d);

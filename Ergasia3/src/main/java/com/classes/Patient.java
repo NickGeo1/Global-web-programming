@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
+import java.io.Console;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -11,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -55,7 +58,9 @@ public class Patient extends Users
                 "WHERE PATIENT_patientAMKA = ? AND (date "+(category.equals("history") ? "<":">") +" cast(now() as date) " +
                 "OR date = cast(now() as date) AND "+(category.equals("history") ? "endSlotTime <":"startSlotTime >") +" cast(now() as time))";
 
-        switch (showby)    //depending on the showby value we add one more constraint on the query.
+        //depending on the showby value we add one more constraint on the query.
+        //If the given value is in wrong format do not execute query
+        switch (showby)
         {
             case "Doctor AMKA":
 
@@ -65,15 +70,23 @@ public class Patient extends Users
                 query += " AND DOCTOR_doctorAMKA = ?"; //Add doctor AMKA constraint
                 break;
 
-            case "Date":
+            case "Date (dd-MM-yyyy)":
                 //in case we want to search by date, we have to change its format because the format is different in the database
-                value = changeDateFormat("dd-MM-yyyy", "yyyy-MM-dd", value);
+
+                //checks if user gave date in the form: 1-2 digits - 1-2 digits - 1-4 digits
+                if(!value.matches("[0-3]?[0-9]-[0-1]?[0-9]-[1-9][0-9]{0,3}"))
+                    throw new ParseException("Invalid date", 0); //in case of invalid date format, we throw a parse exception
+
+                //During date format change, we are doing further checking for the given format
+                //because dates like: 39-19-2001 have to be rejected
+                value = changeDateFormat("dd-MM-yyyy", "yyyy-MM-dd", value); //in case of invalid date format, we throw a parse exception
+                System.out.println(value);
 
                 query += " AND date = ?"; //Add date constraint
                 break;
 
+            //fixed values are being taken for specialty from html page, so we dont have to check format here
             case "Specialty":
-
                 query += " AND specialty = ?"; //Add doctor specialty constraint
                 break;
         }
@@ -366,7 +379,7 @@ public class Patient extends Users
         {
             connection = datasource.getConnection();    //connection object for database connection
 
-            rs = createResultSet(showby,value,"history", session); //return on rs the patient's search results
+            rs = createResultSet(showby,value,"history", session); //return on rs the patient's search results(check input formats first)
 
             if (rs.next()) //in case there is at least one record, store on html variable the table result for history appointments
             {

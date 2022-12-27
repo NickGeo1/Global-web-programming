@@ -41,14 +41,27 @@ public class Admin extends Users
     {
         String ElementToDelete;
 
-        switch (Table)
+        if ("admin".equals(Table))
         {
-            case "admin":
-                ElementToDelete = "username";
-                break;
-            default:
-                ElementToDelete = Table + "AMKA";
-                break;
+            ElementToDelete = "username";
+
+            //check if given username is in correct format before taking any action
+            if (!ValueOfElement.matches("[A-Za-z0-9]{1,12}"))
+            {
+                Users.Fail(response, "There is no such username.", delete_page);
+                return;
+            }
+        }
+        else
+        {
+            ElementToDelete = Table + "AMKA";
+
+            //check if given AMKA is in correct format before taking any action
+            if (!ValueOfElement.matches("[0-9]{11}"))
+            {
+                Users.Fail(response, "There is no such AMKA.", delete_page);
+                return;
+            }
         }
 
         try
@@ -65,7 +78,8 @@ public class Admin extends Users
             //if it doesn't exist, we show a fail page to the user.
             if (!rs.next())
             {
-                Users.Fail(response, "There is no such " + ElementToDelete + ".", delete_page);
+                String value = ElementToDelete.equals("username") ? "username" : "AMKA";
+                Users.Fail(response, "There is no such " + value + ".", delete_page);
                 rs.close();
                 connection.close();
                 return;

@@ -199,7 +199,7 @@
             </div>
 
             <div class="container" style="background-color:#f1f1f1">
-                <button type="submit">Register</button>
+                <button type="submit" onclick="remove_err()">Register</button>
                 <button type="reset" class="cancelbtn">Reset</button>
                 <span class="psw">Already have an account? <a href="login.jsp">login</a></span>
             </div>
@@ -211,6 +211,12 @@
         <p>Total Users registered: <%= Users.getUsersCount()%></p> <!-- Get the users count from database -->
 
         <script>
+
+            //in case form still has empty input values, hide previous error (if any)
+            function remove_err()
+            {
+                document.getElementById("error_message").style.display = "none";
+            }
 
             // this function is used for form's validation on client's side
             function validation()
@@ -228,13 +234,15 @@
 
                 // use a new variable for storing the errors during validation
                 error_message.style.padding = "10px";
+                error_message.style.display = "block"
 
                 // validation check begins
 
                 // check first name
                 if (!/^[A-Z][a-z]+$/.test(first_name))
                 {
-                    text = "First name includes at least two letters and should begin with a capital letter!";
+                    text = "First name must contain only letters(at least two) and should begin with a capital letter. " +
+                            "No more capital letters are allowed.";
                     error_message.innerHTML = text;
                     return false;
                 }
@@ -242,15 +250,16 @@
                 // check last name
                 if (!/^[A-Z][a-z]+$/.test(last_name))
                 {
-                    text = "Last name includes at least two letters and should begin with a capital letter!";
+                    text = "Last name must contain only letters(at least two) and should begin with a capital letter. " +
+                            "No more capital letters are allowed.";
                     error_message.innerHTML = text;
                     return false;
                 }
 
                 // check username
-                if (!/\S/.test(username))
+                if (!/^[A-Za-z0-9]{1,12}$/.test(username))
                 {
-                    text = "Username should not consist of only space characters!";
+                    text = "Username length must be between 1 and 12 characters. Only alphabetic and numeric characters are allowed";
                     error_message.innerHTML = text;
                     return false;
                 }
@@ -279,6 +288,7 @@
                     return false;
                 }
 
+                error_message.style.display = "none"
                 return true; // everything is fine, no errors occurred
             }
 

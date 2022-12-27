@@ -54,13 +54,22 @@ public class AdminServlet extends HttpServlet
                 //but if the admin is already in the add admin page, it means that they have data to add. So it's safe to get the data and append them to the databse.
                 else if (requestedURL.endsWith("add_new_admin.jsp"))
                 {
-                    String username  = request.getParameter("username");
-                    String password  = request.getParameter("password");
-                    String firstname = request.getParameter("firstname");
-                    String surname   = request.getParameter("surname");
-                    Integer age      = Integer.parseInt(request.getParameter("age"));
+                    try
+                    {
+                        String username  = request.getParameter("username");
+                        String password  = request.getParameter("password");
+                        String firstname = request.getParameter("firstname");
+                        String surname   = request.getParameter("surname");
+                        Integer age      = Integer.parseInt(request.getParameter("age"));
 
-                    Admin.add_admin(request, response, datasource, username, password, firstname, surname, age);
+                        Admin.add_admin(request, response, datasource, username, password, firstname, surname, age);
+                    }
+
+                    catch (NumberFormatException e)
+                    {
+                        Users.Fail(response,"Invalid Age! A registered age must be a number.","add_new_admin.jsp");
+                        return;
+                    }
                 }
 
                 break;
@@ -73,14 +82,23 @@ public class AdminServlet extends HttpServlet
 
                 else if (requestedURL.endsWith("add_new_patient.jsp"))
                 {
-                    String username   = request.getParameter("username");
-                    String password   = request.getParameter("password");
-                    String firstname  = request.getParameter("firstname");
-                    String surname    = request.getParameter("surname");
-                    Integer age       = Integer.parseInt(request.getParameter("age"));
-                    String AMKA       = request.getParameter("AMKA");
+                    try
+                    {
+                        String username   = request.getParameter("username");
+                        String password   = request.getParameter("password");
+                        String firstname  = request.getParameter("firstname");
+                        String surname    = request.getParameter("surname");
+                        Integer age       = Integer.parseInt(request.getParameter("age"));
+                        String AMKA       = request.getParameter("AMKA");
 
-                    Admin.add_patient(request, response, datasource, username, password, firstname, surname, age, AMKA);
+                        Admin.add_patient(request, response, datasource, username, password, firstname, surname, age, AMKA);
+                    }
+
+                    catch (NumberFormatException e)
+                    {
+                        Users.Fail(response,"Invalid Age! A registered age must be a number.","add_new_patient.jsp");
+                        return;
+                    }
                 }
 
                 break;
@@ -91,15 +109,23 @@ public class AdminServlet extends HttpServlet
 
                 else if (requestedURL.endsWith("add_new_doctor.jsp"))
                 {
-                    String username   = request.getParameter("username");
-                    String password   = request.getParameter("password");
-                    String firstname  = request.getParameter("firstname");
-                    String surname    = request.getParameter("surname");
-                    Integer age       = Integer.parseInt(request.getParameter("age"));
-                    String speciality = request.getParameter("speciality");
-                    String AMKA       = request.getParameter("AMKA");
+                    try
+                    {
+                        String username   = request.getParameter("username");
+                        String password   = request.getParameter("password");
+                        String firstname  = request.getParameter("firstname");
+                        String surname    = request.getParameter("surname");
+                        Integer age       = Integer.parseInt(request.getParameter("age"));
+                        String speciality = request.getParameter("speciality");
+                        String AMKA       = request.getParameter("AMKA");
 
-                    Admin.add_doctor(request, response, datasource, username, password, firstname, surname, age, speciality, AMKA);
+                        Admin.add_doctor(request, response, datasource, username, password, firstname, surname, age, speciality, AMKA);
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        Users.Fail(response,"Invalid Age! A registered age must be a number.","add_new_doctor.jsp");
+                        return;
+                    }
                 }
 
                 break;

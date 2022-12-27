@@ -43,14 +43,19 @@
                 <select name="showby" id="showby" onclick="checkoption();">
                     <option selected value="Show all">Show all</option>
                     <option value="Doctor AMKA">Doctor AMKA</option>
-                    <option value="Date">Date</option>
+                    <option value="Date (dd-MM-yyyy)">Date (dd-MM-yyyy)</option>
                     <option value="Specialty">Specialty</option>
                 </select>
             </div>
 
             <div class="container">
-                <label for="value"><b style="color:#012A6C">Insert the doctor's AMKA/appointment date/speciality:  </b></label>
-                <input type="text" id="value" name="value" required disabled="true">
+                <label hidden id="lbl" for="value1"><b style="color:#012A6C">Insert the doctor's AMKA/appointment date/speciality:  </b></label>
+                <input type="text" id="value1" name="value1" style = "display: none">
+                <select name="value2" id="value2" style = "display: none">
+                    <option selected value="Ophthalmologist">Ophthalmologist</option>
+                    <option value="Pathologist">Pathologist</option>
+                    <option value="Orthopedist">Orthopedist</option>
+                </select>
                 <button type="submit">Search</button>
                 <input type="hidden" name="patient_action" value="1">
             </div>
@@ -73,12 +78,38 @@
 
                 if(o == "Show all")
                 {
-                    document.getElementById("value").disabled = true;
-                    document.getElementById("value").value = "";
+                    document.getElementById("value1").style.display = "none"; //both controls hidden
+                    document.getElementById("value1").required = false;
+                    document.getElementById("value1").value = "";
+
+                    document.getElementById("value2").style.display = "none";
+                    document.getElementById("value2").required = false;
+                    document.getElementById("value2").value = "Ophthalmologist";
+
+                    document.getElementById("lbl").hidden = true; //hide label
+                }
+                else if(o == "Specialty")
+                {
+                    document.getElementById("value1").style.display = "none"; //hide input text
+                    document.getElementById("value1").required = false;
+                    document.getElementById("value1").value = "";
+
+                    document.getElementById("value2").style.display = "inline"; //show menu
+                    document.getElementById("value2").required = true;
+
+                    document.getElementById("lbl").hidden = false; //show label
                 }
                 else
                 {
-                    document.getElementById("value").disabled = false;
+                    document.getElementById("value1").style.display = "inline"; //show input text
+                    document.getElementById("value1").required = true;
+                    document.getElementById("value1").value = "";
+
+                    document.getElementById("value2").style.display = "none"; //hide menu
+                    document.getElementById("value2").required = false;
+                    document.getElementById("value2").value = "Ophthalmologist";
+
+                    document.getElementById("lbl").hidden = false; //show label
                 }
 
             }
