@@ -85,7 +85,9 @@ public class PatientServlet extends HttpServlet
                 //if patient clicks the search button on AvailableDoctorAppointments page, we have to check if he wants to search appointments by doctor full name
                 else if (request.getParameter("searchby").equals("Full name")) //if he wants, we have to join firstname and lastname together
                     value_param = request.getParameter("value") + " " + request.getParameter("value2");
-                else //else we get the unique attribute of any other category
+                else if (request.getParameter("searchby").equals("Specialty")) //In case of specialty search, get the specialty value
+                    value_param = request.getParameter("value3");
+                else //If showby is "Show all", value = "" else showby is DoctorAMKA so value is the AMKA
                     value_param = request.getParameter("value");
 
                 //dates are being passed in yyyy-MM-dd format from the form(refering to start date and end date)

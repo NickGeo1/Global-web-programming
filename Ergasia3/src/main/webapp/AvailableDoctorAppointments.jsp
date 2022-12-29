@@ -180,7 +180,7 @@
             </div>
 
             <center>
-                <select name="searchby" id="searchby" onclick="checkoption();">
+                <select name="searchby" id="searchby" onchange="checkoption();">
                     <option selected value="Show all">Show all</option>
                     <option value="Doctor AMKA">Doctor AMKA</option>
                     <option value="Specialty">Specialty</option>
@@ -191,7 +191,7 @@
             <br>
 
             <div class="container">
-                <label><b>3) Please insert the value of the category you want to search appointments by:</b></label>
+                <label id="b3"><b></b></label>
             </div>
 
             <br>
@@ -199,7 +199,12 @@
             <center>
 
                 <b style="color:#012A6C;"  id="firstname"></b>
-                <input type="text" id="value" name="value" disabled="true" required>
+                <input type="text" id="value" name="value" style="display: none">
+                <select name="value3" id="value3" style = "display: none">
+                    <option selected value="Ophthalmologist">Ophthalmologist</option>
+                    <option value="Pathologist">Pathologist</option>
+                    <option value="Orthopedist">Orthopedist</option>
+                </select>
 
                 <br>
 
@@ -282,24 +287,68 @@
 
                 if(o == "Show all")
                 {
-                    document.getElementById("value").value = document.getElementById("value2").value = document.getElementById("lastname").innerHTML = document.getElementById("firstname").innerHTML = "";
-                    document.getElementById("value").disabled = true;
+                    document.getElementById("lastname").innerHTML = document.getElementById("firstname").innerHTML = "";
+
+                    document.getElementById("value").style.display = "none";
+                    document.getElementById("value").required = false;
+
                     document.getElementById("value2").hidden = true;
                     document.getElementById("value2").required = false;
+
+                    document.getElementById("value3").style.display = "none";
+                    document.getElementById("value3").required = false;
+
+                    document.getElementById("b3").innerHTML = "";
                 }
                 else if(o == "Full name")
                 {
                     document.getElementById("firstname").innerHTML = "Firstname: ";
-                    document.getElementById("value2").hidden = document.getElementById("value").disabled = false;
-                    document.getElementById("value2").required = true;
                     document.getElementById("lastname").innerHTML = "Lastname: ";
+
+                    document.getElementById("value").style.display = "inline";
+                    document.getElementById("value").required = true;
+                    document.getElementById("value").value = ""
+
+                    document.getElementById("value2").hidden = false;
+                    document.getElementById("value2").required = true;
+                    document.getElementById("value2").value = ""
+
+                    document.getElementById("value3").style.display = "none";
+                    document.getElementById("value3").required = false;
+
+                    document.getElementById("b3").innerHTML = "<b>3) Please insert the full name of the doctor you want to search appointments by:</b>";
                 }
-                else
+                else if(o == "Specialty")
                 {
-                    document.getElementById("value").value = document.getElementById("value2").value = document.getElementById("lastname").innerHTML = document.getElementById("firstname").innerHTML = "";
-                    document.getElementById("value").disabled = false;
+                    document.getElementById("lastname").innerHTML = document.getElementById("firstname").innerHTML = "";
+
+                    document.getElementById("value").style.display = "none";
+                    document.getElementById("value").required = false;
+
                     document.getElementById("value2").hidden = true;
                     document.getElementById("value2").required = false;
+
+                    document.getElementById("value3").style.display = "inline";
+                    document.getElementById("value3").required = true;
+                    document.getElementById("value3").value = "Ophthalmologist"
+
+                    document.getElementById("b3").innerHTML = "<b>3) Please choose the specialty you want to search appointments by:</b>";
+                }
+
+                else
+                {
+                    document.getElementById("value").value = document.getElementById("lastname").innerHTML = document.getElementById("firstname").innerHTML = "";
+
+                    document.getElementById("value").style.display = "inline";
+                    document.getElementById("value").required = true;
+
+                    document.getElementById("value2").hidden = true;
+                    document.getElementById("value2").required = false;
+
+                    document.getElementById("value3").style.display = "none";
+                    document.getElementById("value3").required = false;
+
+                    document.getElementById("b3").innerHTML = "<b>3) Please insert the doctor's AMKA you want to search appointments by:</b>";
                 }
 
             }

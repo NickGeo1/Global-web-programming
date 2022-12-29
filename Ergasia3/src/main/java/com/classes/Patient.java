@@ -210,7 +210,7 @@ public class Patient extends Users
                     //if AMKA has invalid format, set the corresponding message on HTML object, close connection and return
                     if (!value.matches("[0-9]{11}"))
                     {
-                        html.append("Invalid AMKA format");
+                        html.append("An AMKA must be 11 non negative integers");
                         setHTML(html);
                         connection.close();
                         return;
@@ -229,6 +229,15 @@ public class Patient extends Users
                     //in this case, value contains the first name and the last name splitted by space
                     //we store the firstname and the last name seperately on names array
                     String[] names = value.split(" ");
+
+                    //Check given username format. If its invalid, do not proceed
+                    if(!names[0].matches("[A-Z][a-z]+") || !names[1].matches("[A-Z][a-z]+"))
+                    {
+                        html.append("Invalid Full name! All first/last names must start with one capital letter with succeeding lowercase letters. No other characters, other than letters, are allowed.");
+                        setHTML(html);
+                        connection.close();
+                        return;
+                    }
 
                     //add to query the corresponding name and surname constraint
                     query += " AND (name = ? OR surname=?)";
